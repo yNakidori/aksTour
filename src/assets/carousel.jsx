@@ -47,15 +47,15 @@ const TravelCarousel = () => {
   ];
 
   return (
-    <div className="w-full mx-auto max-w-full px-4">
+    <div className="w-full mx-0">
       <Slider {...settings}>
         {images.map((img, index) => (
           <div key={index}>
             <img
               src={img.src}
               alt={`Slide ${index + 1}`}
-              style={{ height: "550px" }}
-              className="w-full object-cover rounded-lg"
+              style={{ height: "85vh" }}
+              className="w-full object-cover"
             />
           </div>
         ))}
