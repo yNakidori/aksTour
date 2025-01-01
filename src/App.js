@@ -2,6 +2,8 @@ import "./App.css";
 import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
 import CardsBar from "./assets/homepage/cardsBar";
+import Vacation from "./assets/homepage/vacation";
+import Gastro from "./assets/homepage/gastro";
 import Footer from "./assets/footer";
 
 function App() {
@@ -13,10 +15,10 @@ function App() {
         <CardsBar />
       </div>
       <div className="container mx-auto">
-        <CardsBar />
+        <Vacation />
       </div>
       <div className="container mx-auto">
-        <CardsBar />
+        <Gastro />
       </div>
       <div className="container mx-auto">
         <CardsBar />

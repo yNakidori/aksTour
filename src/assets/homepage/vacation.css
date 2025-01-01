@@ -1,0 +1,37 @@
+.masonry-grid {
+  display: flex;
+  margin-left: -16px; /* Espaçamento entre colunas */
+  width: auto;
+}
+
+.masonry-grid_column {
+  padding-left: 16px; /* Espaçamento entre colunas */
+  background-clip: padding-box;
+}
+
+.masonry-grid_column > div {
+  margin-bottom: 16px; /* Espaçamento entre os itens */
+}
+
+.masonry-grid img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.masonry-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fade-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-item.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}

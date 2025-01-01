@@ -13,6 +13,22 @@ import m1 from "../../assets/images/cards/monserrate/m1.png";
 import m2 from "../../assets/images/cards/monserrate/m2.png";
 import m3 from "../../assets/images/cards/monserrate/m3.png";
 import m4 from "../../assets/images/cards/monserrate/m4.png";
+import p1 from "../../assets/images/cards/chile/p1.png";
+import p2 from "../../assets/images/cards/chile/p2.png";
+import p3 from "../../assets/images/cards/chile/p3.png";
+import p4 from "../../assets/images/cards/chile/p4.png";
+import c1 from "../../assets/images/cards/canada/c1.png";
+import c2 from "../../assets/images/cards/canada/c2.png";
+import c3 from "../../assets/images/cards/canada/c3.png";
+import c4 from "../../assets/images/cards/canada/c4.png";
+import g1 from "../../assets/images/cards/grecia/g1.png";
+import g2 from "../../assets/images/cards/grecia/g2.png";
+import g3 from "../../assets/images/cards/grecia/g3.png";
+import g4 from "../../assets/images/cards/grecia/g4.png";
+import o1 from "../../assets/images/cards/otrobanda/o1.png";
+import o2 from "../../assets/images/cards/otrobanda/o2.png";
+import o3 from "../../assets/images/cards/otrobanda/o3.png";
+import o4 from "../../assets/images/cards/otrobanda/o4.png";
 
 const CardsBar = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -40,7 +56,7 @@ const CardsBar = () => {
       location: "Magallanes, Chile",
       description:
         "O Parque Nacional Torres del Paine é um paraíso para os amantes da natureza e da aventura. Com suas imponentes montanhas, lagos azul-turquesa e glaciares imaculados, este parque é um dos tesouros mais preciosos da Patagônia chilena. Cada trilha revela paisagens de tirar o fôlego, proporcionando uma experiência única em contato com o selvagem.",
-      images: [chile, canada],
+      images: [p1, p2, p3, p4],
     },
     {
       image: canada,
@@ -48,7 +64,7 @@ const CardsBar = () => {
       location: "Banff, Canada",
       description:
         "O Lago Moraine, situado no coração das Montanhas Rochosas canadenses, é um espetáculo natural que parece ter saído de um cartão postal. Suas águas cristalinas, cercadas por picos cobertos de neve, refletem um azul vibrante graças aos minerais das rochas. Ideal para trilhas, caiaque ou simplesmente contemplar a beleza incomparável.",
-      images: [canada, grecia],
+      images: [c1, c2, c3, c4],
     },
     {
       image: grecia,
@@ -56,7 +72,7 @@ const CardsBar = () => {
       location: "Santorini, Grécia",
       description:
         "Com suas casas brancas que brilham sob o sol mediterrâneo e cúpulas azuis que contrastam com o mar cristalino, Santorini é um dos destinos mais românticos do mundo. Conhecida por seus pores do sol mágicos e sua rica história, esta ilha grega é o cenário perfeito para criar memórias inesquecíveis.",
-      images: [grecia, caribe],
+      images: [g1, g2, g3, g4],
     },
     {
       image: caribe,
@@ -64,7 +80,7 @@ const CardsBar = () => {
       location: "Willemstad, Curaçao",
       description:
         "Otrobanda, uma das regiões mais vibrantes de Willemstad, em Curaçao, é um destino repleto de cores, cultura e história. Suas ruas estreitas e arquitetura colonial contam histórias de um passado rico, enquanto o charme caribenho moderno conquista os visitantes. Um lugar perfeito para quem busca um mergulho na autenticidade e na beleza tropical.",
-      images: [caribe, colombia],
+      images: [o1, o2, o3, o4],
     },
   ];
 
@@ -125,7 +141,7 @@ const CardsBar = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                backgroundColor: "rgba(0, 0, 0, 0.85)",
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
                 borderRadius: "12px",
                 color: "white",
                 overflow: "hidden",
