@@ -17,6 +17,8 @@ import pastel from "../images/pastel.png";
 import waffle from "../images/waffle.png";
 import coqauvin from "../images/coqauvin.png";
 import spaghetti from "../images/spaghetti.png";
+import cochinita from "../images/cochinita.png";
+import padthai from "../images/padthai.png";
 
 const FoodCard = ({ title, subheader, image, description }) => {
   return (
@@ -82,6 +84,20 @@ const RecipeList = () => {
       image: spaghetti,
       description:
         "Um prato tradicional italiano de macarrão com molho feito de vongole (moluscos), alho, azeite e vinho branco. Uma especialidade da região costeira da Itália.",
+    },
+    {
+      title: "Cochinita Pibil",
+      subheader: "México",
+      image: cochinita,
+      description:
+        "Um prato tradicional mexicano originário da Península de Yucatán. É feito de carne de porco marinada em suco de laranja-azeda e pasta de achiote, depois cozida lentamente em folhas de bananeira. É comumente servido com tortillas e cebolas roxas em conserva.",
+    },
+    {
+      title: "Pad Thai",
+      subheader: "Tailândia",
+      image: padthai,
+      description:
+        "Um dos pratos mais famosos da Tailândia, o Pad Thai é feito de macarrão de arroz salteado com camarão ou frango, tofu, ovos, amendoim, brotos de feijão e temperos como tamarindo e limão. É uma explosão de sabores doces, ácidos e picantes.",
     },
   ];
 
