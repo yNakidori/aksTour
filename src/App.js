@@ -8,6 +8,7 @@ import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
+import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
 
 function App() {
@@ -40,6 +41,21 @@ function App() {
       </div>
       <div className="fixed bottom-5 right-5 z-50">
         <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
+      <div className="text-center mt-10 mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Clique aqui e saiba tudo sobre as nossas oportunidades!
+        </h1>
+        <div className="h-1 w-16 bg-cyan-500 mx-auto mt-2 mb-6"></div>
+      </div>
+      <div className="items-center justify-center flex mb-8">
+        <ReactiveButton
+          idleText="Quero conhecer!"
+          color="primary"
+          size="large"
+          rounded
+          shadow
+        />
       </div>
       <Footer />
     </div>
