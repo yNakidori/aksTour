@@ -5,6 +5,7 @@ import CardsBar from "./assets/homepage/cardsBar";
 import Vacation from "./assets/homepage/vacation";
 import Gastro from "./assets/homepage/gastro";
 import Companys from "./assets/homepage/companys";
+import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
 import Lottie from "react-lottie";
@@ -33,6 +34,9 @@ function App() {
       </div>
       <div className="container mx-auto">
         <Companys />
+      </div>
+      <div className="container mx-auto">
+        <Clients />
       </div>
       <div className="fixed bottom-5 right-5 z-50">
         <Lottie options={defaultOptions} height={100} width={100} />
