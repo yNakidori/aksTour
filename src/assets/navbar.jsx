@@ -16,8 +16,12 @@ const Navbar = () => {
           <li className="text-orange-400 hover:underline">
             <Link to="/destinys">Destinos</Link>
           </li>
-          <li className="text-orange-400 hover:underline">Serviços</li>
-          <li className="text-orange-400 hover:underline">Contato</li>
+          <li className="text-orange-400 hover:underline">
+            <Link to="/services">Serviços</Link>
+          </li>
+          <li className="text-orange-400 hover:underline">
+            <Link to="/contact">Contato</Link>
+          </li>
           <li className="text-orange-400 hover:underline">Social</li>
         </ul>
       </div>

@@ -3,6 +3,12 @@ import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import PlacesCard from "./assets/destinys/placesCard";
 import destiny from "./assets/images/destiny.png";
+import FaqCard from "./assets/destinys/faqCard";
+import orlando from "./assets/images/orlando.png";
+import buenosaires from "./assets/images/buenosaires.png";
+import lisboa from "./assets/images/lisboa.png";
+import cancun from "./assets/images/cancun.png";
+import paris from "./assets/images/paris.png";
 import Whats from "./assets/whats";
 import Lottie from "react-lottie";
 
@@ -15,71 +21,55 @@ const Destinys = () => {
       preservAspectRatio: "xMidYMid slice",
     },
   };
+
   const places = [
     {
-      imageUrl:
-        "https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318",
-      imageAlt: "Beautiful landscape of Yosemite",
-      title: "Yosemite National Park",
-      subtitle: "California",
-      views: "6.3k",
-      timeAgo: "1 hour ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=318",
-      imageAlt: "Stunning view of Grand Canyon",
-      title: "Grand Canyon",
-      subtitle: "Arizona",
-      views: "12k",
-      timeAgo: "2 hours ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1547592180-0b6652b3ebc6?auto=format&fit=crop&w=318",
-      imageAlt: "Breathtaking view of Lake Tahoe",
-      title: "Lake Tahoe",
-      subtitle: "Nevada",
-      views: "8.5k",
-      timeAgo: "3 hours ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=318",
-      imageAlt: "Beautiful view of Zion National Park",
-      title: "Zion National Park",
-      subtitle: "Utah",
-      views: "9k",
-      timeAgo: "5 hours ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=318",
-      imageAlt: "Glacier National Park scenery",
-      title: "Glacier National Park",
-      subtitle: "Montana",
-      views: "7k",
-      timeAgo: "6 hours ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=318",
-      imageAlt: "Rocky Mountain National Park landscape",
-      title: "Rocky Mountain",
-      subtitle: "Colorado",
-      views: "10k",
-      timeAgo: "7 hours ago",
-    },
-    {
-      imageUrl:
-        "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=318",
-      imageAlt: "Banff National Park",
-      title: "Banff National Park",
-      subtitle: "Canada",
+      imageUrl: orlando,
+      imageAlt: "Orlando, Estados Unidos",
+      title: "Orlando",
+      subtitle: "EUA",
       views: "15k",
-      timeAgo: "8 hours ago",
+      timeAgo: "1 hora atrás",
+    },
+    {
+      imageUrl: buenosaires,
+      imageAlt: "Buenos Aires, Argentina",
+      title: "Buenos Aires",
+      subtitle: "Argentina",
+      views: "10k",
+      timeAgo: "2 horas atrás",
+    },
+    {
+      imageUrl: lisboa,
+      imageAlt: "Lisboa, Portugal",
+      title: "Lisboa",
+      subtitle: "Portugal",
+      views: "12k",
+      timeAgo: "3 horas atrás",
+    },
+    {
+      imageUrl: cancun,
+      imageAlt: "Cancún, México",
+      title: "Cancún",
+      subtitle: "México",
+      views: "8k",
+      timeAgo: "4 horas atrás",
+    },
+    {
+      imageUrl: paris,
+      imageAlt: "Paris, França",
+      title: "Paris",
+      subtitle: "França",
+      views: "18k",
+      timeAgo: "5 horas atrás",
     },
   ];
+
+  const visaInfo = {
+    title: "Informações sobre Vistos",
+    description:
+      "Confira os requisitos de visto para os destinos mais procurados:\n\n- **EUA (Orlando):** Necessário visto de turismo B2.\n- **Argentina (Buenos Aires):** Brasileiros não precisam de visto para estadias de até 90 dias.\n- **Portugal (Lisboa):** Brasileiros não precisam de visto para estadias de até 90 dias.\n- **México (Cancún):** Brasileiros não precisam de visto, mas precisam de autorização eletrônica (SAE).\n- **França (Paris):** Brasileiros não precisam de visto para estadias de até 90 dias no Espaço Schengen.",
+  };
 
   return (
     <div>
@@ -89,9 +79,9 @@ const Destinys = () => {
       <div
         style={{
           backgroundImage: `
-          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-          url(${destiny})
-        `,
+      linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+      url(${destiny})
+    `,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -99,27 +89,26 @@ const Destinys = () => {
           display: "flex",
           flexDirection: "column",
           color: "#fff",
-          position: "relative",
+          padding: "2rem 0",
         }}
       >
         <div>
           <div className="text-center mt-10 mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
-              Conheças os destinos mais procurados do momento!
+            <h1 className="text-3xl font-bold text-zinc-50">
+              Conheça os destinos mais procurados do momento!
             </h1>
             <div className="h-1 w-16 bg-cyan-500 mx-auto mt-2 mb-6"></div>
           </div>
         </div>
+
         <div
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
             width: "90%",
+            margin: "0 auto",
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
             gap: "1rem",
+            paddingTop: "2rem",
             zIndex: 1,
           }}
         >
@@ -135,8 +124,32 @@ const Destinys = () => {
             />
           ))}
         </div>
+
+        {/* Visa Information Card */}
+        <div
+          style={{
+            backgroundColor: "#1e293b",
+            color: "#fff",
+            padding: "2rem",
+            margin: "2rem auto",
+            borderRadius: "8px",
+            width: "90%",
+          }}
+        >
+          <h2 className="text-2xl font-bold mb-4 text-cyan-400">
+            {visaInfo.title}
+          </h2>
+          <p className="text-sm text-zinc-300 whitespace-pre-wrap">
+            {visaInfo.description}
+          </p>
+        </div>
+
         <div style={{ flex: 1 }} />
+        <div className="mt-8 mb-4 items-center justify-center flex">
+          <FaqCard />
+        </div>
       </div>
+
       <div className="fixed bottom-5 right-5 z-50">
         <Lottie options={defaultOptions} height={100} width={100} />
       </div>
