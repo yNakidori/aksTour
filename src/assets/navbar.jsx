@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white p-4">
+    <nav className="bg-cyan-900 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div>
           <h1 className="text-blue-600 text-2xl font-poppins">AKS</h1>
-          <p className="text-blue-500 text-2xl mt-1 font-poppins">TUR</p>
         </div>
         <ul className="flex space-x-4">
           <li className="text-orange-400 hover:underline">

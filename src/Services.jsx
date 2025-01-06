@@ -32,7 +32,7 @@ const services = [
 
 const Services = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-sky-900">
+    <div className="min-h-screen flex flex-col bg-sky-600">
       <Navbar />
       <div className="flex-grow">
         {/* Título da seção */}
