@@ -15,6 +15,8 @@ import ModeCommentOutlined from "@mui/icons-material/ModeCommentOutlined";
 import SendOutlined from "@mui/icons-material/SendOutlined";
 import Face from "@mui/icons-material/Face";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import logo from "../images/aksLogo.jpg";
+import photo from "../images/photoTheme.jpg";
 
 export default function InstagramPost() {
   return (
@@ -44,12 +46,12 @@ export default function InstagramPost() {
           }}
         >
           <Avatar
-            size="sm"
-            src="/static/logo.png"
+            size="md"
+            src={logo}
             sx={{ p: 0.5, border: "2px solid", borderColor: "background.body" }}
           />
         </Box>
-        <Typography sx={{ fontWeight: "lg" }}>MUI</Typography>
+        <Typography sx={{ fontWeight: "lg" }}>AKSTUR VIAGENS</Typography>
         <IconButton
           variant="plain"
           color="neutral"
@@ -61,7 +63,7 @@ export default function InstagramPost() {
       </CardContent>
       <CardOverflow>
         <AspectRatio>
-          <img src="/static/images/cards/yosemite.jpeg" alt="" loading="lazy" />
+          <img src={photo} alt="" loading="lazy" />
         </AspectRatio>
       </CardOverflow>
       <CardContent
@@ -111,7 +113,7 @@ export default function InstagramPost() {
           textColor="text.primary"
           sx={{ fontSize: "sm", fontWeight: "lg" }}
         >
-          8.1M Likes
+          8.1M Curtidas
         </Link>
         <Typography sx={{ fontSize: "sm" }}>
           <Link
@@ -120,9 +122,13 @@ export default function InstagramPost() {
             textColor="text.primary"
             sx={{ fontWeight: "lg" }}
           >
-            MUI
+            _akstur
           </Link>{" "}
-          The React component library you always wanted
+          🌍🔥 Vai ver o mundo! ✈️✨ A aventura está lá fora, esperando por
+          você! Chegou a hora de largar a rotina, abrir as asas e descobrir o
+          que o mundo tem de melhor. Viver novas culturas, se surpreender com
+          paisagens de tirar o fôlego e criar histórias que só você vai poder
+          contar!
         </Typography>
         <Link
           component="button"
@@ -137,7 +143,7 @@ export default function InstagramPost() {
           underline="none"
           sx={{ fontSize: "10px", color: "text.tertiary", my: 0.5 }}
         >
-          2 DAYS AGO
+          2 dias atrás
         </Link>
       </CardContent>
       <CardContent orientation="horizontal" sx={{ gap: 1 }}>
@@ -147,11 +153,11 @@ export default function InstagramPost() {
         <Input
           variant="plain"
           size="sm"
-          placeholder="Add a comment…"
+          placeholder="Adicione um comentario…"
           sx={{ flex: 1, px: 0, "--Input-focusedThickness": "0px" }}
         />
         <Link disabled underline="none" role="button">
-          Post
+          Publicar
         </Link>
       </CardContent>
     </Card>
