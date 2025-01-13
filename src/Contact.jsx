@@ -44,7 +44,16 @@ const Contact = () => {
           </div>
 
           {/* Formulário à direita */}
-          <div className="flex-1 bg-white p-8 shadow-2xl rounded-2xl max-w-4xl mx-auto">
+          <div
+            className="flex-1 p-8 shadow-2xl rounded-2xl max-w-4xl mx-auto"
+            style={{
+              backgroundColor: "rgba(18, 230, 243, 0.06)",
+              borderRadius: "16px",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+            }}
+          >
             <Box
               component="form"
               sx={{

@@ -31,6 +31,13 @@ export default function InstagramPost() {
         <Box
           sx={{
             position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 60,
+            height: 60,
+            borderRadius: "50%",
+            overflow: "hidden",
             "&::before": {
               content: '""',
               position: "absolute",
@@ -42,13 +49,19 @@ export default function InstagramPost() {
               borderRadius: "50%",
               background:
                 "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
+              zIndex: -1, // Move o gradiente para o plano de fundo
             },
           }}
         >
-          <Avatar
-            size="md"
+          <img
             src={logo}
-            sx={{ p: 0.5, border: "2px solid", borderColor: "background.body" }}
+            alt="logo"
+            width="90%"
+            height="90%"
+            style={{
+              borderRadius: "80%",
+              objectFit: "cover",
+            }}
           />
         </Box>
         <Typography sx={{ fontWeight: "lg" }}>AKSTUR VIAGENS</Typography>

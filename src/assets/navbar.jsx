@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/images/aksLogo.jpg";
 
 const Navbar = () => {
   return (
     <nav className="p-4" style={{ backgroundColor: "#102a43" }}>
       <div className="container mx-auto flex justify-between items-center">
         <div>
-          <h1 className="text-blue-600 text-2xl font-poppins">AKS</h1>
+          <img src={logo} alt="logo" width="55" className="rounded-full" />
         </div>
         <ul className="flex space-x-4">
           <li className="text-orange-400 hover:underline">

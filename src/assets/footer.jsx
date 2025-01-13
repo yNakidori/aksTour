@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "../assets/images/aksLogo.jpg";
 
 const Footer = () => {
   const [showModal, setShowModal] = useState(null);
@@ -10,11 +11,7 @@ const Footer = () => {
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-            <a href="https://flowbite.com/" className="flex items-center">
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-blue-400">
-                AKS
-              </span>
-            </a>
+            <img src={logo} alt="logo" width="80" className="rounded-full" />
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3 lg:grid-cols-4">
             <div>
