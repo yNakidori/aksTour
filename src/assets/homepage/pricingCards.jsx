@@ -1,50 +1,39 @@
-import React from "react";
-import paris from "../../assets/images/pricecards/priceparis.jpg";
-import tokyo from "../../assets/images/pricecards/pricetokyo.jpg";
-import newyork from "../../assets/images/pricecards/newyorkprice.jpg";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/firbase";
 
 const PricingCards = () => {
-  const cardData = [
-    {
-      image: paris,
-      place: "Paris, France",
-      price: "R$499",
-      features: [
-        "3 Nights Stay",
-        "Breakfast Included",
-        "City Tour",
-        "Free Wi-Fi",
-      ],
-    },
-    {
-      image: tokyo,
-      place: "Tokyo, Japan",
-      price: "R$899",
-      features: [
-        "5 Nights Stay",
-        "All Meals",
-        "Guided Tours",
-        "Airport Pickup",
-      ],
-    },
-    {
-      image: newyork,
-      place: "New York, USA",
-      price: "R$699",
-      features: [
-        "4 Nights Stay",
-        "Broadway Show",
-        "Dinner Cruise",
-        "Free Wi-Fi",
-      ],
-    },
-  ];
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "pricingCards"));
+        const cardData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCards(cardData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCards();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center">Carregando...</p>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {cardData.map((card, index) => (
+      {cards.map((card) => (
         <div
-          key={index}
+          key={card.id}
           className="border border-gray-300 shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
         >
           <img
@@ -56,7 +45,7 @@ const PricingCards = () => {
             <h3 className="text-xl font-bold text-gray-800">{card.place}</h3>
             <p className="text-gray-500 text-lg mb-4">{card.price}</p>
             <ul className="mb-4 space-y-2">
-              {card.features.map((feature, i) => (
+              {card.features?.map((feature, i) => (
                 <li key={i} className="text-gray-700 flex items-center">
                   <span className="w-2 h-2 bg-green-500 rounded-full inline-block mr-2"></span>
                   {feature}

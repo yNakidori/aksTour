@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/images/aksLogo.jpg";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [showModal, setShowModal] = useState(null);
@@ -42,13 +43,18 @@ const Footer = () => {
                     Políticas de Privacidade
                   </button>
                 </li>
-                <li>
+                <li className="mb-4">
                   <button
                     className="hover:underline"
                     onClick={() => setShowModal("terms")}
                   >
                     Termos de Uso
                   </button>
+                </li>
+                <li>
+                  <Link to="/login" className="hover:underline">
+                    <button className="hover: underline">Admin</button>
+                  </Link>
                 </li>
               </ul>
             </div>
