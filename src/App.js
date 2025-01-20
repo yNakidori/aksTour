@@ -29,10 +29,10 @@ function App() {
         <CardsBar />
       </div>
       <div className="container mx-auto">
-        <Vacation />
+        <Featured />
       </div>
       <div className="container mx-auto">
-        <Featured />
+        <Vacation />
       </div>
       <div className="container mx-auto">
         <Gastro />

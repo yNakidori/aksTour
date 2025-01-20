@@ -1,4 +1,5 @@
 import React from "react";
+import Featured from "./assets/homepage/featured";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import CompareServices from "./assets/compareServices";
@@ -58,6 +59,11 @@ const Services = () => {
               <p className="text-gray-600">{service.description}</p>
             </div>
           ))}
+        </div>
+
+        {/* Cards de serviços */}
+        <div className="bg-orange-200 py-12">
+          <Featured />
         </div>
 
         {/* Comparação de Serviços */}
