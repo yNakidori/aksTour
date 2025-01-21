@@ -10,10 +10,13 @@ const PricingCards = () => {
     const fetchCards = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "pricingCards"));
-        const cardData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const cardData = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((card) => card.active); // Filtrar apenas os cards com active = true
+
         setCards(cardData);
         setLoading(false);
       } catch (error) {
@@ -27,6 +30,10 @@ const PricingCards = () => {
 
   if (loading) {
     return <p className="text-center">Carregando...</p>;
+  }
+
+  if (cards.length === 0) {
+    return <p className="text-center">Nenhuma oferta disponível no momento.</p>;
   }
 
   return (

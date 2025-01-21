@@ -57,6 +57,7 @@ const CreateCard = () => {
         place: formData.place,
         price: formData.price,
         features: formData.features,
+        isFeatured: false,
       });
 
       setSuccess("Card criado com sucesso!");
