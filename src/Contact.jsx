@@ -1,26 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import InstagramPost from "./assets/contact/instagramPost";
 import { Box, Button, Input, Textarea, Typography, Grid } from "@mui/joy";
 
 const Contact = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      firstName,
+      lastName,
+      email,
+      message,
+    };
+
+    try {
+      const response = await fetch("/src/api/sendEmail.jsx", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Mensagem enviada com sucesso!");
+        // Limpar os campos após enviar
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        alert("Falha ao enviar a mensagem.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar a mensagem:", error);
+      alert("Falha ao enviar a mensagem.");
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <div className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-r from-blue-400 via-purple-300 to-yellow-200">
-        {/* Seção Principal */}
         <div className="max-w-7xl w-full flex flex-wrap p-8 gap-8">
-          {/* Texto à esquerda */}
           <div
             className="flex-1 p-6 shadow-lg rounded-lg"
-            style={{
-              backgroundColor: "rgba(18, 230, 243, 0.06)",
-              borderRadius: "16px",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            }}
+            style={{ backgroundColor: "rgba(18, 230, 243, 0.06)" }}
           >
             <div className="flex-1">
               <Typography variant="h3" fontWeight="bold" mb={2}>
@@ -28,8 +59,7 @@ const Contact = () => {
               </Typography>
               <Typography variant="body1" color="text.secondary" mb={4}>
                 Estamos aqui para ajudar! Preencha o formulário ou entre em
-                contato por e-mail ou telefone. Nosso atendimento funciona de
-                segunda a sexta, das 9h às 17h.
+                contato por e-mail ou telefone.
               </Typography>
               <Typography variant="body1" mb={1}>
                 <strong>Email:</strong> hello@exemplo.com
@@ -43,150 +73,71 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Formulário à direita */}
           <div
             className="flex-1 p-8 shadow-2xl rounded-2xl max-w-4xl mx-auto"
-            style={{
-              backgroundColor: "rgba(18, 230, 243, 0.06)",
-              borderRadius: "16px",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            }}
+            style={{ backgroundColor: "rgba(18, 230, 243, 0.06)" }}
           >
             <Box
               component="form"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-              }}
+              onSubmit={handleSubmit}
+              sx={{ display: "flex", flexDirection: "column", gap: 4 }}
             >
               <Typography
                 variant="h4"
                 className="text-center font-bold text-gray-800 mb-6"
-                sx={{
-                  fontSize: "1.75rem",
-                  color: "#262626",
-                  fontFamily: "'Arial', sans-serif",
-                }}
               >
                 Formulário de Contato
               </Typography>
 
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
-                  <Typography
-                    variant="body1"
-                    className="mb-2"
-                    sx={{ fontWeight: 600, color: "#8e8e8e" }}
-                  >
+                  <Typography variant="body1" className="mb-2">
                     Primeiro Nome
                   </Typography>
                   <Input
                     placeholder="Seu primeiro nome"
                     fullWidth
-                    sx={{
-                      border: "1px solid #dbdbdb",
-                      borderRadius: "10px",
-                      padding: "12px 16px",
-                      background: "#fafafa",
-                      transition: "all 0.3s",
-                      "&:focus-within": {
-                        borderColor: "#3b82f6",
-                      },
-                    }}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </Grid>
-
                 <Grid item xs={12} sm={6}>
-                  <Typography
-                    variant="body1"
-                    className="mb-2"
-                    sx={{ fontWeight: 600, color: "#8e8e8e" }}
-                  >
+                  <Typography variant="body1" className="mb-2">
                     Sobrenome
                   </Typography>
                   <Input
                     placeholder="Seu sobrenome"
                     fullWidth
-                    sx={{
-                      border: "1px solid #dbdbdb",
-                      borderRadius: "10px",
-                      padding: "12px 16px",
-                      background: "#fafafa",
-                      transition: "all 0.3s",
-                      "&:focus-within": {
-                        borderColor: "#3b82f6",
-                      },
-                    }}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </Grid>
               </Grid>
 
-              <Typography
-                variant="body1"
-                className="mb-2"
-                sx={{ fontWeight: 600, color: "#8e8e8e" }}
-              >
+              <Typography variant="body1" className="mb-2">
                 Email
               </Typography>
               <Input
                 type="email"
                 placeholder="seuemail@exemplo.com"
                 fullWidth
-                sx={{
-                  border: "1px solid #dbdbdb",
-                  borderRadius: "10px",
-                  padding: "12px 16px",
-                  background: "#fafafa",
-                  transition: "all 0.3s",
-                  "&:focus-within": {
-                    borderColor: "#3b82f6",
-                  },
-                }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
-              <Typography
-                variant="body1"
-                className="mb-2"
-                sx={{ fontWeight: 600, color: "#8e8e8e" }}
-              >
+              <Typography variant="body1" className="mb-2">
                 Mensagem
               </Typography>
               <Textarea
                 placeholder="Escreva sua mensagem aqui"
                 rows={5}
                 fullWidth
-                sx={{
-                  border: "1px solid #dbdbdb",
-                  borderRadius: "10px",
-                  padding: "12px 16px",
-                  background: "#fafafa",
-                  transition: "all 0.3s",
-                  "&:focus-within": {
-                    borderColor: "#3b82f6",
-                  },
-                }}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
 
               <Box className="flex justify-center mt-6">
-                <Button
-                  variant="solid"
-                  size="large"
-                  sx={{
-                    backgroundColor: "#0095f6",
-                    color: "#fff",
-                    padding: "14px 28px",
-                    borderRadius: "30px",
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    fontSize: "1rem",
-                    "&:hover": {
-                      backgroundColor: "#007bb5",
-                    },
-                  }}
-                >
+                <Button variant="solid" size="large" type="submit">
                   Enviar Mensagem
                 </Button>
               </Box>

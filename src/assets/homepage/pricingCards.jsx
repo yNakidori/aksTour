@@ -49,8 +49,9 @@ const PricingCards = () => {
             className="w-full h-48 object-cover"
           />
           <div className="p-6">
+            <h2 className="text-xl font-bold text-gray-800">{card.contry}</h2>
             <h3 className="text-xl font-bold text-gray-800">{card.place}</h3>
-            <p className="text-gray-500 text-lg mb-4">{card.price}</p>
+            <p className="text-gray-500 text-lg mb-4">R${card.price},00</p>
             <ul className="mb-4 space-y-2">
               {card.features?.map((feature, i) => (
                 <li key={i} className="text-gray-700 flex items-center">

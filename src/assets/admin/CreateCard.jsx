@@ -7,18 +7,19 @@ const CreateCard = () => {
   const [formData, setFormData] = useState({
     image: null,
     imageUrl: "",
+    country: "",
     place: "",
     price: "",
     features: [],
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [featureOptions] = useState([
-    "3 Nights Stay",
-    "Breakfast Included",
-    "City Tour",
-    "Free Wi-Fi",
-    "Dinner Cruise",
-    "Guided Tours",
+    "3 Noites",
+    "Café da manhã incluso",
+    "Tour Local",
+    "Wi-Fi Livre",
+    "Jantar incluso",
+    "Transfer do aeroporto ao hotel",
   ]);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -54,6 +55,7 @@ const CreateCard = () => {
 
       await addDoc(collection(db, "pricingCards"), {
         image: formData.imageUrl,
+        contry: formData.country,
         place: formData.place,
         price: formData.price,
         features: formData.features,
@@ -64,6 +66,7 @@ const CreateCard = () => {
       setFormData({
         image: null,
         imageUrl: "",
+        country: "",
         place: "",
         price: "",
         features: [],
@@ -107,6 +110,26 @@ const CreateCard = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-semibold mb-2"
+            htmlFor="country"
+          >
+            País
+          </label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            value={formData.country}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, country: e.target.value }))
+            }
+            className="w-full p-2 border border-gray-300 rounded-lg"
+            placeholder="Local (ex: França)"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-semibold mb-2"
             htmlFor="place"
           >
             Local
@@ -120,7 +143,7 @@ const CreateCard = () => {
               setFormData((prev) => ({ ...prev, place: e.target.value }))
             }
             className="w-full p-2 border border-gray-300 rounded-lg"
-            placeholder="Local (ex: Paris, France)"
+            placeholder="Local (ex: Paris)"
             required
           />
         </div>

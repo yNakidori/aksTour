@@ -75,7 +75,6 @@ const Admin = () => {
     <div>
       <Navbar />
       <div className="min-h-screen p-6 bg-orange-100">
-        <h1 className="text-3xl font-bold mb-6 text-center">Gerenciar Cards</h1>
         <div className="mb-6">
           <CreateCard />
         </div>
