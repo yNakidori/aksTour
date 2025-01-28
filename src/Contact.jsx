@@ -1,148 +1,138 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import InstagramPost from "./assets/contact/instagramPost";
-import { Box, Button, Input, Textarea, Typography, Grid } from "@mui/joy";
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Card,
+  CardContent,
+} from "@mui/material";
+import Swal from "sweetalert2";
 
 const Contact = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = {
-      firstName,
-      lastName,
-      email,
-      message,
-    };
+    formData.append("access_key", "f9b4cdf4-0581-4f62-bc77-4a8a1692e09c");
 
-    try {
-      const response = await fetch("/src/api/sendEmail.jsx", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: json,
+    }).then((res) => res.json());
+
+    if (res.success) {
+      Swal.fire({
+        title: "Sucesso!",
+        text: "Sua mensagem foi enviada com sucesso.",
+        icon: "success",
       });
-
-      if (response.ok) {
-        alert("Mensagem enviada com sucesso!");
-        // Limpar os campos após enviar
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setMessage("");
-      } else {
-        alert("Falha ao enviar a mensagem.");
-      }
-    } catch (error) {
-      console.error("Erro ao enviar a mensagem:", error);
-      alert("Falha ao enviar a mensagem.");
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-r from-blue-400 via-purple-300 to-yellow-200 flex flex-col">
       <Navbar />
-      <div className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-r from-blue-400 via-purple-300 to-yellow-200">
-        <div className="max-w-7xl w-full flex flex-wrap p-8 gap-8">
-          <div
-            className="flex-1 p-6 shadow-lg rounded-lg"
-            style={{ backgroundColor: "rgba(18, 230, 243, 0.06)" }}
-          >
-            <div className="flex-1">
-              <Typography variant="h3" fontWeight="bold" mb={2}>
+      <div className="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl flex flex-col md:flex-row gap-8">
+          {/* Informações de Contato */}
+          <Card className="flex-1 shadow-lg bg-white/80 rounded-lg">
+            <CardContent className="p-6">
+              <Typography
+                variant="h4"
+                component="h1"
+                fontWeight="bold"
+                className="mb-4"
+              >
                 Tem uma pergunta?
               </Typography>
-              <Typography variant="body1" color="text.secondary" mb={4}>
+              <Typography variant="body1" className="mb-4 text-gray-600">
                 Estamos aqui para ajudar! Preencha o formulário ou entre em
                 contato por e-mail ou telefone.
               </Typography>
-              <Typography variant="body1" mb={1}>
-                <strong>Email:</strong> hello@exemplo.com
+              <Typography variant="body1" className="mb-2">
+                <strong>Email:</strong> contato@akstur.com.br
               </Typography>
-              <Typography variant="body1" mb={1}>
+              <Typography variant="body1" className="mb-2">
                 <strong>Telefone:</strong> 1234-567-890
               </Typography>
-              <Typography variant="body1" mb={4}>
+              <Typography variant="body1">
                 <strong>Instagram:</strong> <InstagramPost />
               </Typography>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div
-            className="flex-1 p-8 shadow-2xl rounded-2xl max-w-4xl mx-auto"
-            style={{ backgroundColor: "rgba(18, 230, 243, 0.06)" }}
-          >
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{ display: "flex", flexDirection: "column", gap: 4 }}
-            >
-              <Typography
-                variant="h4"
-                className="text-center font-bold text-gray-800 mb-6"
-              >
-                Formulário de Contato
-              </Typography>
+          {/* Formulário */}
+          <Card className="flex-1 shadow-xl bg-white/90 rounded-2xl">
+            <CardContent className="p-8">
+              <form onSubmit={onSubmit} className="space-y-6">
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  fontWeight="bold"
+                  className="mb-6"
+                >
+                  Envie sua mensagem
+                </Typography>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body1" className="mb-2">
-                    Primeiro Nome
-                  </Typography>
-                  <Input
-                    placeholder="Seu primeiro nome"
-                    fullWidth
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body1" className="mb-2">
-                    Sobrenome
-                  </Typography>
-                  <Input
-                    placeholder="Seu sobrenome"
-                    fullWidth
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
+                {/* Nome */}
+                <TextField
+                  label="Nome Completo"
+                  name="name"
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Informe o seu nome"
+                  required
+                  className="bg-white"
+                />
 
-              <Typography variant="body1" className="mb-2">
-                Email
-              </Typography>
-              <Input
-                type="email"
-                placeholder="seuemail@exemplo.com"
-                fullWidth
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+                {/* Email */}
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Informe o seu email"
+                  required
+                  className="bg-white"
+                />
 
-              <Typography variant="body1" className="mb-2">
-                Mensagem
-              </Typography>
-              <Textarea
-                placeholder="Escreva sua mensagem aqui"
-                rows={5}
-                fullWidth
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
+                {/* Mensagem */}
+                <TextField
+                  label="Mensagem"
+                  name="message"
+                  multiline
+                  rows={4}
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Digite a sua mensagem"
+                  required
+                  className="bg-white"
+                />
 
-              <Box className="flex justify-center mt-6">
-                <Button variant="solid" size="large" type="submit">
-                  Enviar Mensagem
+                {/* Botão de Enviar */}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 transition-all"
+                >
+                  Enviar
                 </Button>
-              </Box>
-            </Box>
-          </div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
       <Footer />
