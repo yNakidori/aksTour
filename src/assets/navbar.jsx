@@ -22,7 +22,9 @@ const Navbar = () => {
           <li className="text-orange-400 hover:underline">
             <Link to="/contact">Contato</Link>
           </li>
-          <li className="text-orange-400 hover:underline">Social</li>
+          <li className="text-orange-400 hover:underline">
+            <Link to="/social">Social</Link>
+          </li>
         </ul>
       </div>
     </nav>

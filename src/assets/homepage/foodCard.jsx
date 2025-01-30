@@ -22,7 +22,18 @@ import padthai from "../images/padthai.png";
 
 const FoodCard = ({ title, subheader, image, description }) => {
   return (
-    <Card sx={{ maxWidth: 345, width: "100%" }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        width: "100%",
+        boxShadow: "0px 4px 20px rgba(255, 105, 180, 0.4)", // Sombra inicial rosa
+        transition: "all 0.3s ease-in-out",
+        "&:hover": {
+          boxShadow: "0px 6px 25px rgba(255, 105, 180, 0.8)", // Sombra mais intensa no hover
+          transform: "scale(1.03)", // Efeito de leve crescimento
+        },
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

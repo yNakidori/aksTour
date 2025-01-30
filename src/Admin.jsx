@@ -10,6 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "./firebase/firbase";
+import Swal from "sweetalert2";
 
 const Admin = () => {
   const [cards, setCards] = useState([]);
@@ -40,7 +41,11 @@ const Admin = () => {
       : [...selectedCards, cardId];
 
     if (newSelection.length > 3) {
-      alert("Você só pode selecionar até 3 opções");
+      Swal.fire({
+        icon: "info",
+        title: "Oops...",
+        text: "Você só pode selecionar até 3 cards para a Página Inicial.",
+      });
       return;
     }
 
@@ -52,10 +57,14 @@ const Admin = () => {
   };
 
   const handleDeleteCard = async (cardId) => {
-    const confirmDelete = window.confirm(
-      "Tem certeza de que deseja deletar este card?"
-    );
-    if (confirmDelete) {
+    const confirmDelete = await Swal.fire({
+      icon: "warning",
+      title: "Realmente deseja deletar este card?",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      cancelButtonText: "Cancelar",
+    });
+    if (confirmDelete.isConfirmed) {
       try {
         // Remove o documento do Firestore
         await deleteDoc(doc(db, "pricingCards", cardId));
@@ -64,9 +73,17 @@ const Admin = () => {
         setSelectedCards((prevSelected) =>
           prevSelected.filter((id) => id !== cardId)
         );
-        alert("Card deletado com sucesso!");
+        Swal.fire({
+          icon: "success",
+          title: "Card deletado com sucesso!",
+        });
       } catch (error) {
         console.error("Erro ao deletar card:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao deletar card",
+          text: error.message,
+        });
       }
     }
   };

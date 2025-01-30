@@ -8,6 +8,7 @@ import Services from "./Services";
 import Contact from "./Contact";
 import SignIn from "./auth/signin";
 import LogIn from "./auth/login";
+import Social from "./Social";
 import Admin from "./Admin";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -22,6 +23,7 @@ root.render(
         <Route path="/signin" element={<SignIn />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/social" element={<Social />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

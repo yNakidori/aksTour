@@ -6,7 +6,6 @@ import {
   Typography,
   TextField,
   Button,
-  Box,
   Card,
   CardContent,
 } from "@mui/material";
@@ -16,7 +15,6 @@ const Contact = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-
     formData.append("access_key", "f9b4cdf4-0581-4f62-bc77-4a8a1692e09c");
 
     const object = Object.fromEntries(formData);
@@ -41,30 +39,29 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-400 via-purple-300 to-yellow-200 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-blue-200 to-purple-300">
       <Navbar />
-      <div className="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-7xl flex flex-col md:flex-row gap-8">
-          {/* Informações de Contato */}
-          <Card className="flex-1 shadow-lg bg-white/80 rounded-lg">
-            <CardContent className="p-6">
+      <div className="flex flex-col items-center justify-center py-16 px-6">
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Card de Informações */}
+          <Card className="shadow-lg bg-white/90 rounded-2xl">
+            <CardContent className="p-8">
               <Typography
                 variant="h4"
-                component="h1"
                 fontWeight="bold"
-                className="mb-4"
+                className="mb-6 text-gray-800"
               >
-                Tem uma pergunta?
+                Entre em contato
               </Typography>
               <Typography variant="body1" className="mb-4 text-gray-600">
-                Estamos aqui para ajudar! Preencha o formulário ou entre em
-                contato por e-mail ou telefone.
+                Estamos aqui para ajudar! Preencha o formulário ou nos envie uma
+                mensagem.
               </Typography>
               <Typography variant="body1" className="mb-2">
                 <strong>Email:</strong> contato@akstur.com.br
               </Typography>
               <Typography variant="body1" className="mb-2">
-                <strong>Telefone:</strong> 1234-567-890
+                <strong>Telefone:</strong> (12) 3456-7890
               </Typography>
               <Typography variant="body1">
                 <strong>Instagram:</strong> <InstagramPost />
@@ -73,42 +70,36 @@ const Contact = () => {
           </Card>
 
           {/* Formulário */}
-          <Card className="flex-1 shadow-xl bg-white/90 rounded-2xl">
-            <CardContent className="p-8">
+          <Card className="shadow-xl bg-white rounded-2xl">
+            <CardContent className="p-10">
               <form onSubmit={onSubmit} className="space-y-6">
                 <Typography
                   variant="h5"
-                  component="h2"
                   fontWeight="bold"
-                  className="mb-6"
+                  className="mb-6 text-gray-800"
                 >
                   Envie sua mensagem
                 </Typography>
 
-                {/* Nome */}
                 <TextField
                   label="Nome Completo"
                   name="name"
                   fullWidth
                   variant="outlined"
-                  placeholder="Informe o seu nome"
                   required
-                  className="bg-white"
+                  className="bg-gray-100 rounded-md"
                 />
 
-                {/* Email */}
                 <TextField
                   label="Email"
                   name="email"
                   type="email"
                   fullWidth
                   variant="outlined"
-                  placeholder="Informe o seu email"
                   required
-                  className="bg-white"
+                  className="bg-gray-100 rounded-md"
                 />
 
-                {/* Mensagem */}
                 <TextField
                   label="Mensagem"
                   name="message"
@@ -116,17 +107,14 @@ const Contact = () => {
                   rows={4}
                   fullWidth
                   variant="outlined"
-                  placeholder="Digite a sua mensagem"
                   required
-                  className="bg-white"
+                  className="bg-gray-100 rounded-md"
                 />
 
-                {/* Botão de Enviar */}
                 <Button
                   type="submit"
                   variant="contained"
-                  color="primary"
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 transition-all"
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 transition-all text-white font-semibold rounded-md shadow-md"
                 >
                   Enviar
                 </Button>
