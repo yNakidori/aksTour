@@ -11,6 +11,7 @@ import Footer from "./assets/footer";
 import Whats from "./assets/whats";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
+import { FlightsForm } from "./assets/flights/FlightsForm/FlightForm";
 
 function App() {
   const defaultOptions = {
@@ -25,6 +26,9 @@ function App() {
     <div className=" ">
       <Navbar />
       <TravelCarousel />
+      <div className="container mx-auto">
+        <FlightsForm />
+      </div>
       <div className="container mx-auto">
         <CardsBar />
       </div>
