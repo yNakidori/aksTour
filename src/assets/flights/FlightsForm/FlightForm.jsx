@@ -67,9 +67,9 @@ export const FlightsForm = () => {
       </div>
       <form
         onSubmit={getFlights}
-        className="flex flex-wrap items-center gap-4 p-4 w-full max-w-5xl bg-white rounded-lg shadow-md"
+        className="flex flex-wrap items-center gap-4 p-4 w-full max-w-6xl bg-orange-300 rounded-lg shadow-md"
       >
-        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-auto">
+        <div className="flex items-center border border-x-blue-950 bg-blue-300 rounded-full px-3 py-2 w-full sm:w-auto">
           <FaPlaneDeparture className="text-gray-500 mr-2" />
           <CustomSelect
             name="originLocation"
@@ -80,7 +80,7 @@ export const FlightsForm = () => {
           />
         </div>
 
-        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-auto">
+        <div className="flex items-center border border-x-blue-950 bg-blue-300 rounded-full px-3 py-2 w-full sm:w-auto">
           <FaPlaneArrival className="text-gray-500 mr-2" />
           <CustomSelect
             name="destinationLocation"
@@ -91,11 +91,11 @@ export const FlightsForm = () => {
           />
         </div>
 
-        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-auto">
+        <div className="flex items-center border border-x-blue-950 bg-blue-300 rounded-full px-3 py-2 w-full sm:w-auto">
           <Datepicker name="departureDate" />
         </div>
 
-        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-auto">
+        <div className="flex items-center border border-x-blue-950 bg-blue-300 rounded-full px-3 py-2 w-full sm:w-auto">
           <FaUser className="text-gray-500 mr-2" />
           <CustomSelect
             name="adults"
@@ -108,7 +108,7 @@ export const FlightsForm = () => {
 
         <button
           type="submit"
-          className="w-full sm:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="w-full sm:w-auto bg-blue-300 text-gray px-6 py-2 rounded-full hover:bg-blue-700 transition"
         >
           Buscar
         </button>
