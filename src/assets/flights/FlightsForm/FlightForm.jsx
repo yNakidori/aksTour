@@ -5,6 +5,7 @@ import { CustomSelect } from "../FormElements/ReactSelect";
 import qs from "qs";
 import { useState } from "react";
 import { FaPlaneDeparture, FaPlaneArrival, FaUser } from "react-icons/fa";
+import airports from "../airports";
 
 axios.defaults.baseURL = "https://test.api.amadeus.com";
 axios.defaults.headers.post["Content-Type"] =
@@ -72,7 +73,10 @@ export const FlightsForm = () => {
           <FaPlaneDeparture className="text-gray-500 mr-2" />
           <CustomSelect
             name="originLocation"
-            options={[{ value: "ATL", label: "Atlanta (ATL)" }]}
+            options={airports.map((airport) => ({
+              value: airport.value,
+              label: airport.label,
+            }))}
           />
         </div>
 
@@ -80,7 +84,10 @@ export const FlightsForm = () => {
           <FaPlaneArrival className="text-gray-500 mr-2" />
           <CustomSelect
             name="destinationLocation"
-            options={[{ value: "ICN", label: "Incheon (ICN)" }]}
+            options={airports.map((airports) => ({
+              value: airports.value,
+              label: airports.label,
+            }))}
           />
         </div>
 
