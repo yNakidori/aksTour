@@ -17,7 +17,7 @@ const Clients = () => {
       destination: "Paris",
       location: "França",
       image:
-        "https://images.unsplash.com/photo-1543340713-8c394e1d0b72?auto=format&fit=crop&w=360",
+        "https://images.pexels.com/photos/26806630/pexels-photo-26806630.jpeg",
       review:
         "Paris foi uma experiência inesquecível! A Torre Eiffel e os museus são de tirar o fôlego. A agência fez tudo acontecer de forma perfeita!",
     },
@@ -26,7 +26,7 @@ const Clients = () => {
       destination: "Machu Picchu",
       location: "Peru",
       image:
-        "https://images.unsplash.com/photo-1564802170487-df7b3b8cb6af?auto=format&fit=crop&w=360",
+        "https://images.pexels.com/photos/2927260/pexels-photo-2927260.jpeg",
       review:
         "Explorar Machu Picchu foi um sonho realizado! A organização impecável da agência tornou tudo muito mais fácil e agradável.",
     },
