@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Destinys from "./Destinys";
+import Events from "./Events";
 import Services from "./Services";
 import Contact from "./Contact";
 import SignIn from "./auth/signin";
@@ -18,6 +19,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/destinys" element={<Destinys />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />

@@ -40,7 +40,7 @@ const TravelCarousel = () => {
   };
 
   const images = [
-    { src: CT1, alt: "Image 1" },
+    //{ src: CT1, alt: "Image 1" },
     { src: CT2, alt: "Image 2" },
     { src: CT3, alt: "Image 3" },
     { src: CT4, alt: "Image 4" },

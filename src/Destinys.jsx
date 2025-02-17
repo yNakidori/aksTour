@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import PlacesCard from "./assets/destinys/placesCard";
+import AiCard from "./assets/destinys/iaCard";
 import destiny from "./assets/images/destiny.png";
 import FaqCard from "./assets/destinys/faqCard";
 import orlando from "./assets/images/orlando.png";
@@ -149,6 +150,8 @@ const Destinys = () => {
           <FaqCard />
         </div>
       </div>
+
+      <AiCard />
 
       <div className="fixed bottom-5 right-5 z-50">
         <Lottie options={defaultOptions} height={100} width={100} />

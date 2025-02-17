@@ -61,7 +61,7 @@ const Contact = () => {
                 <strong>Email:</strong> contato@akstur.com.br
               </Typography>
               <Typography variant="body1" className="mb-2">
-                <strong>Telefone:</strong> (12) 3456-7890
+                <strong>Telefone:</strong> (11) 95770-0305
               </Typography>
               <Typography variant="body1">
                 <strong>Instagram:</strong> <InstagramPost />
