@@ -22,6 +22,7 @@
     "react-icons": "^5.4.0",
     "react-lottie": "^1.2.10",
     "react-masonry-css": "^1.0.16",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.10.0",

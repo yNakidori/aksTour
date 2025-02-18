@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+import e1 from "./assets/images/events/e1.png";
+import e2 from "./assets/images/events/e2.png";
+import e3 from "./assets/images/events/e3.png";
 
 const API_KEY = "";
 
@@ -29,16 +34,25 @@ const Events = () => {
   return (
     <div>
       <div className="min-h-screen bg-gray-100">
-        {/* Banner */}
-        <div
-          className="relative h-64 bg-cover bg-center flex items-center justify-center text-white text-3xl font-bold"
-          style={{
-            backgroundImage:
-              "url('https://source.unsplash.com/1600x400/?travel')",
-          }}
+        {/* Carrossel de Imagens */}
+        <Carousel
+          showArrows={true}
+          autoPlay={true}
+          infiniteLoop={true}
+          showThumbs={false}
+          showStatus={false}
+          interval={3000}
         >
-          Eventos Disponíveis 🎟️
-        </div>
+          <div>
+            <img src={e1} alt="Banner 1" />
+          </div>
+          <div>
+            <img src={e2} alt="Banner 2" />
+          </div>
+          <div>
+            <img src={e3} alt="Banner 3" />
+          </div>
+        </Carousel>
 
         {/* Campo de busca */}
         <div className="max-w-4xl mx-auto mt-6 px-4">
