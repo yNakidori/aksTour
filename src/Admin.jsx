@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "./assets/footer";
 import Navbar from "./assets/navbar";
 import CreateCard from "./assets/admin/CreateCard";
+import NationalCard from "./assets/destinys/nationalCard";
 import {
   collection,
   getDocs,
@@ -12,9 +13,13 @@ import {
 import { db } from "./firebase/firbase";
 import Swal from "sweetalert2";
 
+const API_KEY = "ZhQzWiPCEQ7WZBr8VoPrwy6QRdNP7pvuRXydUyZd4w5kRBC6MnkVmb8f";
+const QUERY = "turismo"; // Termo de busca para imagens relacionadas
+
 const Admin = () => {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState("");
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -24,18 +29,34 @@ const Admin = () => {
         ...doc.data(),
       }));
       setCards(fetchedCards);
+      setSelectedCards(
+        fetchedCards.filter((card) => card.active).map((card) => card.id)
+      );
+    };
 
-      const activeCards = fetchedCards.filter((card) => card.active);
-      setSelectedCards(activeCards.map((card) => card.id));
+    const fetchBackgroundImage = async () => {
+      try {
+        const response = await fetch(
+          `https://api.pexels.com/v1/search?query=${QUERY}&per_page=1`,
+          {
+            headers: { Authorization: API_KEY },
+          }
+        );
+        const data = await response.json();
+        if (data.photos.length > 0) {
+          setBackgroundImage(data.photos[0].src.landscape);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar imagem do Pexels:", error);
+      }
     };
 
     fetchCards();
+    fetchBackgroundImage();
   }, []);
 
   const handleSelectCard = async (cardId) => {
     const isSelected = selectedCards.includes(cardId);
-
-    // Atualiza o estado local
     const newSelection = isSelected
       ? selectedCards.filter((id) => id !== cardId)
       : [...selectedCards, cardId];
@@ -50,10 +71,7 @@ const Admin = () => {
     }
 
     setSelectedCards(newSelection);
-
-    // Atualiza o documento no Firestore
-    const cardRef = doc(db, "pricingCards", cardId);
-    await updateDoc(cardRef, { active: !isSelected });
+    await updateDoc(doc(db, "pricingCards", cardId), { active: !isSelected });
   };
 
   const handleDeleteCard = async (cardId) => {
@@ -64,19 +82,15 @@ const Admin = () => {
       confirmButtonText: "Sim",
       cancelButtonText: "Cancelar",
     });
+
     if (confirmDelete.isConfirmed) {
       try {
-        // Remove o documento do Firestore
         await deleteDoc(doc(db, "pricingCards", cardId));
-        // Atualiza a lista localmente
         setCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
         setSelectedCards((prevSelected) =>
           prevSelected.filter((id) => id !== cardId)
         );
-        Swal.fire({
-          icon: "success",
-          title: "Card deletado com sucesso!",
-        });
+        Swal.fire({ icon: "success", title: "Card deletado com sucesso!" });
       } catch (error) {
         console.error("Erro ao deletar card:", error);
         Swal.fire({
@@ -90,9 +104,16 @@ const Admin = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="min-h-screen p-6 bg-orange-100">
-        <div className="mb-6">
+      <div
+        className="min-h-screen p-6 bg-orange-100"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Navbar />
+        <div className="mb-6 mt-20">
           <CreateCard />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -139,6 +160,16 @@ const Admin = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
+          <div className="p-6">
+            <NationalCard />
+          </div>
+        </div>
+        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
+          <div className="p-6">
+            <NationalCard />
+          </div>
         </div>
       </div>
       <Footer />

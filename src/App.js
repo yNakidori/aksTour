@@ -22,6 +22,14 @@ function App() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  const whatsappNumber = "5511957700305";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá!`;
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappLink, "_blank");
+  };
+
   return (
     <div className=" ">
       <Navbar />
@@ -47,7 +55,10 @@ function App() {
       <div className="container mx-auto">
         <Clients />
       </div>
-      <div className="fixed bottom-5 right-5 z-50">
+      <div
+        className="fixed bottom-5 right-5 z-50"
+        onClick={handleWhatsAppClick}
+      >
         <Lottie options={defaultOptions} height={100} width={100} />
       </div>
       <div className="text-center mt-10 mb-6">
@@ -63,6 +74,7 @@ function App() {
           size="large"
           rounded
           shadow
+          onClick={handleWhatsAppClick}
         />
       </div>
       <Footer />

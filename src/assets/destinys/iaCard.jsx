@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const API_KEY = "";
-
 const IaCard = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [destination, setDestination] = useState([]);
+  const [destination, setDestination] = useState(null);
 
   const handleSearch = async () => {
     if (!input.trim()) return;
@@ -27,10 +25,10 @@ const IaCard = () => {
             },
             {
               role: "user",
-              content: `Sugira um destino de viagem baseado nesta preferência: ${input}. Dê o nome do local, uma breve descrição e o país onde fica.`,
+              content: `Sugira um destino de viagem baseado nesta preferência: ${input}. Dê o nome do local, uma breve descrição, o país onde fica e uma estimativa de valor para visitar o local.`,
             },
           ],
-          max_tokens: 100,
+          max_tokens: 150,
         },
         {
           headers: {
@@ -41,12 +39,13 @@ const IaCard = () => {
       );
 
       const responseText = response.data.choices[0].message.content;
-      const [name, description, country] = responseText.split("\n");
+      const [name, description, country, price] = responseText.split("\n");
 
       setDestination({
         name: name.replace("Nome: ", ""),
         description: description.replace("Descrição: ", ""),
         country: country.replace("País: ", ""),
+        price: price.replace("Estimativa de valor: ", ""),
       });
     } catch (error) {
       console.error("Erro ao buscar destino:", error);
@@ -56,7 +55,7 @@ const IaCard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-cyan-100 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">
         Ajuda para Escolher um Destino 🌍
       </h1>
@@ -88,6 +87,7 @@ const IaCard = () => {
           <h2 className="text-xl font-semibold">{destination.name}</h2>
           <p className="text-gray-600">{destination.description}</p>
           <p className="text-gray-500 italic mt-2">📍 {destination.country}</p>
+          <p className="text-gray-700 font-bold mt-2">💰 {destination.price}</p>
         </div>
       )}
     </div>

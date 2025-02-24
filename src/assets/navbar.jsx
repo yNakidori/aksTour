@@ -11,11 +11,11 @@ const Navbar = () => {
         <img src={logo} alt="logo" width="55" className="rounded-full" />
       </div>
       <ul className="flex space-x-4">
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/">Home</Link>
         </li>
         <Menu as="div" className="relative inline-block text-left">
-          <MenuButton className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 flex items-center">
+          <MenuButton className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 flex items-center font-poppins">
             Destinos <ChevronDownIcon className="w-5 h-5 ml-2" />
           </MenuButton>
           <MenuItems className="absolute mt-2 w-40 bg-orange-100 shadow-lg rounded-md py-1 transition-transform transform scale-95 opacity-0 origin-top-left focus:scale-100 focus:opacity-100">
@@ -23,7 +23,9 @@ const Navbar = () => {
               {({ active }) => (
                 <Link
                   to="/destinys"
-                  className={`block px-4 py-2 ${active ? "bg-gray-100" : ""}`}
+                  className={`font-poppins block px-4 py-2 ${
+                    active ? "bg-gray-100" : ""
+                  }`}
                 >
                   Explore
                 </Link>
@@ -33,7 +35,9 @@ const Navbar = () => {
               {({ active }) => (
                 <Link
                   to="/destinys/nacionais"
-                  className={`block px-4 py-2 ${active ? "bg-gray-100" : ""}`}
+                  className={`font-poppins block px-4 py-2 ${
+                    active ? "bg-gray-100" : ""
+                  }`}
                 >
                   Nacionais
                 </Link>
@@ -43,7 +47,9 @@ const Navbar = () => {
               {({ active }) => (
                 <Link
                   to="/destinys/internacionais"
-                  className={`block px-4 py-2 ${active ? "bg-gray-100" : ""}`}
+                  className={`font-poppins block px-4 py-2 ${
+                    active ? "bg-gray-100" : ""
+                  }`}
                 >
                   Internacionais
                 </Link>
@@ -51,22 +57,22 @@ const Navbar = () => {
             </MenuItem>
           </MenuItems>
         </Menu>
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/events">Eventos</Link>
         </li>
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/cruzers">Cruzeiros</Link>
         </li>
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/caravans">Caravanas</Link>
         </li>
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/services">Serviços</Link>
         </li>
-        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900">
+        <li className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 font-poppins">
           <Link to="/contact">Contato</Link>
         </li>
-        <li className="text-sky-600 hover:text-sky-700">
+        <li className="text-sky-600 hover:text-sky-700 font-poppins">
           <Link to="/social">Social</Link>
         </li>
       </ul>
