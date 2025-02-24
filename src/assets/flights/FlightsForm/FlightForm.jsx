@@ -72,9 +72,9 @@ export const FlightsForm = () => {
       </div>
       <form
         onSubmit={getFlights}
-        className="flex flex-wrap items-center gap-4 p-6 w-full max-w-6xl bg-white rounded-lg shadow-md"
+        className="flex flex-wrap items-center gap-4 p-6 w-full max-w-6xl bg-orange-50 border rounded-lg shadow-md"
       >
-        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-100">
+        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-50">
           <FaPlaneDeparture className="text-gray-500 mr-2" />
           <CustomSelect
             name="originLocation"
@@ -85,7 +85,7 @@ export const FlightsForm = () => {
           />
         </div>
 
-        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-100">
+        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-50">
           <FaPlaneArrival className="text-gray-500 mr-2" />
           <CustomSelect
             name="destinationLocation"
@@ -96,11 +96,11 @@ export const FlightsForm = () => {
           />
         </div>
 
-        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-100">
+        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-50">
           <Datepicker name="departureDate" />
         </div>
 
-        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-100">
+        <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-50">
           <FaUser className="text-gray-500 mr-2" />
           <CustomSelect
             name="adults"

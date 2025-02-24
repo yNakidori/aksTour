@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import Destinys from "./Destinys";
+import LocalDestinys from "./LocalDestinys";
+import InternationalDestinys from "./InternationalDestinys";
 import Events from "./Events";
 import Services from "./Services";
 import Contact from "./Contact";
@@ -19,6 +21,11 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/destinys" element={<Destinys />} />
+        <Route path="/destinys/nacionais" element={<LocalDestinys />} />
+        <Route
+          path="/destinys/internacionais"
+          element={<InternationalDestinys />}
+        />
         <Route path="/events" element={<Events />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
