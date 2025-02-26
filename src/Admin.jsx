@@ -183,9 +183,15 @@ const Admin = () => {
       </div>
       <Footer />
       {showCreateNationalOffer && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={() => setShowCreateNationalOffer(false)}
+        >
           <div className="fixed inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg shadow-lg p-6 z-10 max-w-md mx-auto">
+          <div
+            className="bg-white rounded-lg shadow-lg p-6 z-10 max-w-md mx-auto relative"
+            onClick={(e) => e.stopPropagation()} // Impede que o clique dentro do formulário feche o modal
+          >
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               onClick={() => setShowCreateNationalOffer(false)}

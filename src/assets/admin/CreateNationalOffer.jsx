@@ -21,7 +21,7 @@ const CreateNationalOffer = () => {
     const file = e.target.files[0];
     setFormData((prev) => ({ ...prev, Image: file }));
     if (file) {
-      const storageRef = ref(storage, `pricingCards/${file.name}`);
+      const storageRef = ref(storage, `nationalOffers/${file.name}`);
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
       setFormData((prev) => ({ ...prev, imageUrl: url }));
