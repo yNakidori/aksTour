@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "./assets/footer";
 import Navbar from "./assets/navbar";
 import CreateCard from "./assets/admin/CreateCard";
+import CreateNationalOffer from "./assets/admin/CreateNationalOffer";
 import NationalCard from "./assets/destinys/nationalCard";
 import {
   collection,
@@ -11,15 +12,18 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "./firebase/firbase";
+import { FolderPlusIcon } from "@heroicons/react/20/solid";
 import Swal from "sweetalert2";
 
 const API_KEY = "ZhQzWiPCEQ7WZBr8VoPrwy6QRdNP7pvuRXydUyZd4w5kRBC6MnkVmb8f";
-const QUERY = "turismo"; // Termo de busca para imagens relacionadas
+const QUERY = "turismo";
 
 const Admin = () => {
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [nationalOffers, setNationalOffers] = useState([]);
+  const [showCreateNationalOffer, setShowCreateNationalOffer] = useState(false);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -163,7 +167,12 @@ const Admin = () => {
         </div>
         <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
           <div className="p-6">
-            <NationalCard />
+            <FolderPlusIcon
+              style={{ height: "5vh", marginBottom: "3vh", cursor: "pointer" }}
+              onClick={() =>
+                setShowCreateNationalOffer(!showCreateNationalOffer)
+              }
+            />
           </div>
         </div>
         <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
@@ -173,6 +182,20 @@ const Admin = () => {
         </div>
       </div>
       <Footer />
+      {showCreateNationalOffer && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black opacity-50"></div>
+          <div className="bg-white rounded-lg shadow-lg p-6 z-10 max-w-md mx-auto">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowCreateNationalOffer(false)}
+            >
+              &times;
+            </button>
+            <CreateNationalOffer />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
