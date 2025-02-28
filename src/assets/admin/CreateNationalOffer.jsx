@@ -59,7 +59,7 @@ const CreateNationalOffer = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Criar Oferta Nacional</h2>
+      <h2 className="text-2xl font-bold mb-6">Destino Nacional</h2>
       {success && <p className="text-green-500 mb-4">{success}</p>}
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">

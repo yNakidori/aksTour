@@ -173,11 +173,11 @@ const Admin = () => {
                 setShowCreateNationalOffer(!showCreateNationalOffer)
               }
             />
-          </div>
-        </div>
-        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
-          <div className="p-6">
-            <NationalCard />
+            <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
+              <div className="p-6">
+                <NationalCard />
+              </div>
+            </div>
           </div>
         </div>
       </div>
