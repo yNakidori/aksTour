@@ -175,7 +175,7 @@ const Admin = () => {
             />
             <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
               <div className="p-6">
-                <NationalCard />
+                <NationalCard isAdmin={true} />
               </div>
             </div>
           </div>
