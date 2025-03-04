@@ -3,7 +3,9 @@ import Footer from "./assets/footer";
 import Navbar from "./assets/navbar";
 import CreateCard from "./assets/admin/CreateCard";
 import CreateNationalOffer from "./assets/admin/CreateNationalOffer";
+import CreateInternationalOffer from "./assets/admin/CreateInternationalOffer";
 import NationalCard from "./assets/destinys/nationalCard";
+import InternationalCard from "./assets/destinys/internationalCard";
 import {
   collection,
   getDocs,
@@ -23,7 +25,10 @@ const Admin = () => {
   const [selectedCards, setSelectedCards] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState("");
   const [nationalOffers, setNationalOffers] = useState([]);
+  const [internationalOffers, setInternationalOffers] = useState([]);
   const [showCreateNationalOffer, setShowCreateNationalOffer] = useState(false);
+  const [showCreateInternationalOffer, setShowCreateInternationalOffer] =
+    useState(false);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -106,6 +111,13 @@ const Admin = () => {
     }
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setShowCreateNationalOffer(false);
+      setShowCreateInternationalOffer(false);
+    }
+  };
+
   return (
     <div>
       <div
@@ -165,6 +177,7 @@ const Admin = () => {
             </div>
           ))}
         </div>
+
         <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
           <div className="p-6">
             <FolderPlusIcon
@@ -173,9 +186,27 @@ const Admin = () => {
                 setShowCreateNationalOffer(!showCreateNationalOffer)
               }
             />
+            <p>Ofertas Nacionais</p>
             <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
               <div className="p-6">
                 <NationalCard isAdmin={true} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
+          <div className="p-6">
+            <FolderPlusIcon
+              style={{ height: "5vh", marginBottom: "3vh", cursor: "pointer" }}
+              onClick={() =>
+                setShowCreateInternationalOffer(!showCreateInternationalOffer)
+              }
+            />
+            <p>Ofertas Internacionais</p>
+            <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
+              <div className="p-6">
+                <InternationalCard isAdmin={true} />
               </div>
             </div>
           </div>
@@ -185,7 +216,7 @@ const Admin = () => {
       {showCreateNationalOffer && (
         <div
           className="fixed inset-0 flex items-center justify-center z-50"
-          onClick={() => setShowCreateNationalOffer(false)}
+          onClick={handleOverlayClick}
         >
           <div className="fixed inset-0 bg-black opacity-50"></div>
           <div
@@ -199,6 +230,26 @@ const Admin = () => {
               &times;
             </button>
             <CreateNationalOffer />
+          </div>
+        </div>
+      )}
+      {showCreateInternationalOffer && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={handleOverlayClick}
+        >
+          <div className="fixed inset-0 bg-black opacity-50"></div>
+          <div
+            className="bg-white rounded-lg shadow-lg p-6 z-10 max-w-md mx-auto relative"
+            onClick={(e) => e.stopPropagation()} // Impede que o clique dentro do formulário feche o modal
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowCreateInternationalOffer(false)}
+            >
+              &times;
+            </button>
+            <CreateInternationalOffer />
           </div>
         </div>
       )}

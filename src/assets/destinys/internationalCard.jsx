@@ -3,8 +3,7 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 
-const NationalCard = ({ isAdmin = false }) => {
-  // Recebe a prop isAdmin
+const InternationalCard = (isAdmin = false) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const containerRef = useRef(null);
@@ -12,7 +11,9 @@ const NationalCard = ({ isAdmin = false }) => {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "nationalOffers"));
+        const querySnapshot = await getDocs(
+          collection(db, "internationalOffers")
+        );
         const cardData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -32,7 +33,7 @@ const NationalCard = ({ isAdmin = false }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Tem certeza que deseja excluir este pacote?")) {
       try {
-        await deleteDoc(doc(db, "nationalOffers", id));
+        await deleteDoc(doc(db, "internationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
       } catch (error) {
         console.error("Erro ao excluir:", error);
@@ -124,4 +125,4 @@ const NationalCard = ({ isAdmin = false }) => {
   );
 };
 
-export default NationalCard;
+export default InternationalCard;

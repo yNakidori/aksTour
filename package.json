@@ -16,6 +16,7 @@
     "cra-template": "1.2.0",
     "dotenv": "^16.4.7",
     "firebase": "^11.2.0",
+    "lucide-react": "^0.477.0",
     "openai": "^4.85.1",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.7",
