@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import lencois from "./assets/images/lencois.png";
+import rio from "./assets/images/rio.jpg";
 import NationalCard from "./assets/destinys/nationalCard";
 import CustomNationalCard from "./assets/destinys/customNationalCard";
 import Services from "./assets/destinys/services";
@@ -12,7 +13,7 @@ const LocalDestinys = () => {
       <Navbar />
       <div
         className="relative min-h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${lencois})` }}
+        style={{ backgroundImage: `url(${rio})` }}
       >
         <div className="container mx-auto px-6 relative z-10 flex items-start gap-8">
           {/* Texto à esquerda */}

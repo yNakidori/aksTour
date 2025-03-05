@@ -145,13 +145,13 @@ const Destinys = () => {
           </p>
         </div>
 
+        <AiCard />
+
         <div style={{ flex: 1 }} />
         <div className="mt-8 mb-4 items-center justify-center flex">
           <FaqCard />
         </div>
       </div>
-
-      <AiCard />
 
       <div className="fixed bottom-5 right-5 z-50">
         <Lottie options={defaultOptions} height={100} width={100} />
