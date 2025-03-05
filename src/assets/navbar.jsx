@@ -18,7 +18,7 @@ const Navbar = () => {
           <MenuButton className="text-sky-600 hover:text-sky-700 border-r pr-4 border-gray-900 flex items-center font-poppins">
             Destinos <ChevronDownIcon className="w-5 h-5 ml-2" />
           </MenuButton>
-          <MenuItems className="absolute mt-2 w-40 bg-orange-100 shadow-lg rounded-md py-1 transition-transform transform scale-95 opacity-0 origin-top-left focus:scale-100 focus:opacity-100">
+          <MenuItems className="absolute mt-2 w-40 bg-sky-100 shadow-lg rounded-md py-1 transition-transform transform scale-95 opacity-0 origin-top-left focus:scale-100 focus:opacity-100">
             <MenuItem>
               {({ active }) => (
                 <Link
