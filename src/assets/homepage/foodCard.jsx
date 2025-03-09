@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import Slider from "react-slick";
 import {
   Card,
   CardHeader,
@@ -112,18 +113,47 @@ const RecipeList = () => {
     },
   ];
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
-    <>
+    <Slider {...settings}>
       {recipes.map((recipe, index) => (
-        <FoodCard
-          key={index}
-          title={recipe.title}
-          subheader={recipe.subheader}
-          image={recipe.image}
-          description={recipe.description}
-        />
+        <div key={index} className="px-2">
+          {" "}
+          {/* Adiciona espaçamento entre os itens */}
+          <FoodCard
+            title={recipe.title}
+            subheader={recipe.subheader}
+            image={recipe.image}
+            description={recipe.description}
+          />
+        </div>
       ))}
-    </>
+    </Slider>
   );
 };
 

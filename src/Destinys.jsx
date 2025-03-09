@@ -94,7 +94,7 @@ const Destinys = () => {
         }}
       >
         <div>
-          <div className="text-center mt-10 mb-6">
+          <div className="text-center mt-24 mb-6">
             <h1 className="text-3xl font-bold text-zinc-50">
               Conheça os destinos mais procurados do momento!
             </h1>

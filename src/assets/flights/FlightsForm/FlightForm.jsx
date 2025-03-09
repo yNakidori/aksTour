@@ -72,7 +72,7 @@ export const FlightsForm = () => {
       </div>
       <form
         onSubmit={getFlights}
-        className="flex flex-wrap items-center gap-4 p-6 w-full max-w-6xl bg-orange-50 border rounded-lg shadow-md"
+        className="flex flex-wrap items-center gap-4 p-6 w-full max-w-6xl bg-cyan-50 border rounded-lg shadow-md"
       >
         <div className="flex items-center border rounded-2xl px-3 py-2 w-full sm:w-auto bg-gray-50">
           <FaPlaneDeparture className="text-gray-500 mr-2" />
