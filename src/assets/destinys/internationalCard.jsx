@@ -3,7 +3,7 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 
-const InternationalCard = (isAdmin = false) => {
+const InternationalCard = ({ isAdmin = false }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const containerRef = useRef(null);

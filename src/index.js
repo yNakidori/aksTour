@@ -7,6 +7,7 @@ import Destinys from "./Destinys";
 import LocalDestinys from "./LocalDestinys";
 import InternationalDestinys from "./InternationalDestinys";
 import Events from "./Events";
+import Cruise from "./Cruise";
 import Services from "./Services";
 import Contact from "./Contact";
 import SignIn from "./auth/signin";
@@ -27,6 +28,7 @@ root.render(
           element={<InternationalDestinys />}
         />
         <Route path="/events" element={<Events />} />
+        <Route path="/cruise" element={<Cruise />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signin" element={<SignIn />} />
