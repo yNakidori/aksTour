@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import cruise from "./assets/images/cruise/cruzeiro.mp4";
+import CruiseCard from "./assets/cruise/CruiseCard";
 
 const Cruise = () => {
   return (
@@ -17,6 +18,7 @@ const Cruise = () => {
             muted
           />
         </div>
+        <CruiseCard />
       </div>
       <Footer />
     </>
