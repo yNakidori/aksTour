@@ -26,12 +26,12 @@ const Cruise = () => {
             <CruiseCard />
           </div>
 
-          {/* Texto centralizado à direita */}
-          <div className="text-right text-white max-w-lg">
-            <h1 className="text-4xl mr-20 md:text-5xl font-semibold">
+          {/* Texto centralizado à direita com fundo semi-transparente */}
+          <div className="font-poppins relative bg-black/50 backdrop-blur-sm p-6 rounded-lg text-right text-gray-100 max-w-lg mr-20 shadow-lg">
+            <h1 className="text-4xl md:text-5xl font-semibold">
               Explore Nossos Cruzeiros
             </h1>
-            <p className="mt-4 mr-20 text-lg">
+            <p className="font-poppins mt-4 text-lg">
               Descubra as melhores opções de cruzeiros para sua próxima viagem.
             </p>
           </div>
