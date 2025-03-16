@@ -21,19 +21,19 @@ const Cruise = () => {
 
         {/* Container Flexbox para organizar os elementos */}
         <div className="relative z-10 flex items-center justify-between px-8 py-12 h-screen">
-          {/* Texto centralizado à esquerda */}
-          <div className="text-left text-white max-w-lg">
-            <h1 className="text-4xl ml-20 md:text-5xl font-semibold">
-              Explore Nossos Cruzeiros
-            </h1>
-            <p className="mt-4 ml-20 text-lg">
-              Descubra as melhores opções de cruzeiros para sua próxima viagem.
-            </p>
+          {/* Carrossel dentro de uma div semi-transparente à esquerda */}
+          <div className="bg-white/2 backdrop-blur-sm p-6 rounded-lg ml-12 shadow-lg w-1/2">
+            <CruiseCard />
           </div>
 
-          {/* Carrossel dentro de uma div semi-transparente à direita */}
-          <div className="bg-white/5 backdrop-blur-lg p-6 rounded-lg mr-12 shadow-lg w-1/2">
-            <CruiseCard />
+          {/* Texto centralizado à direita */}
+          <div className="text-right text-white max-w-lg">
+            <h1 className="text-4xl mr-20 md:text-5xl font-semibold">
+              Explore Nossos Cruzeiros
+            </h1>
+            <p className="mt-4 mr-20 text-lg">
+              Descubra as melhores opções de cruzeiros para sua próxima viagem.
+            </p>
           </div>
         </div>
       </div>
