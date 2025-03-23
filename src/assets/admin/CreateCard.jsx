@@ -11,15 +11,41 @@ const CreateCard = () => {
     place: "",
     price: "",
     features: [],
+    customFields: {
+      days: "",
+      people: "",
+      luggage: "",
+      nights: "",
+    },
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [featureOptions] = useState([
-    "3 Noites",
-    "Café da manhã incluso",
-    "Tour Local",
-    "Wi-Fi Livre",
-    "Jantar incluso",
-    "Transfer do aeroporto ao hotel",
+    "Café da manhã",
+    "Aéreo",
+    "Wi-Fi",
+    "Transferer do aeroporto ao hotel",
+    "Pensão completa",
+    "Ida e volta",
+    "Carro Econômico / Carro Médio",
+    "Rodoviário",
+    "Guia de Turismo Local",
+    "Seguro viagem",
+    "Finais de semana",
+    "Kit lanche",
+    "Passeios para todas as idades",
+    "Van executiva",
+    "Passeio de barco",
+    "Compras",
+    "City tour",
+    "Degustação",
+    "01 noite de hospedagem",
+    "Passeio de Balão",
+    "Festa das Flores",
+    "Música",
+    "Off Road",
+    "Passeio ecológico",
+    "Refeições inclusas conforme roteiro",
+    "Caminhada em Trilhas",
   ]);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -40,9 +66,18 @@ const CreateCard = () => {
       const features = prev.features.includes(feature)
         ? prev.features.filter((f) => f !== feature)
         : [...prev.features, feature];
-      if (features.length > 3) return prev; // Limita a seleção a 3 opções
       return { ...prev, features };
     });
+  };
+
+  const handleCustomFieldChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      customFields: {
+        ...prev.customFields,
+        [field]: value,
+      },
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -55,10 +90,11 @@ const CreateCard = () => {
 
       await addDoc(collection(db, "pricingCards"), {
         image: formData.imageUrl,
-        contry: formData.country,
+        country: formData.country,
         place: formData.place,
         price: formData.price,
         features: formData.features,
+        customFields: formData.customFields,
         isFeatured: false,
       });
 
@@ -70,6 +106,12 @@ const CreateCard = () => {
         place: "",
         price: "",
         features: [],
+        customFields: {
+          days: "",
+          people: "",
+          luggage: "",
+          nights: "",
+        },
       });
     } catch (err) {
       setError(err.message || "Erro ao criar o card.");
@@ -84,108 +126,81 @@ const CreateCard = () => {
       {success && <p className="text-green-600 mb-4">{success}</p>}
       {error && <p className="text-red-600 mb-4">{error}</p>}
       <form onSubmit={handleSubmit}>
+        {/* Upload de imagem */}
         <div className="mb-4">
-          <label
-            className="block text-gray-700 font-semibold mb-2"
-            htmlFor="image"
-          >
+          <label className="block text-gray-700 font-bold mb-2">
             Upload de Imagem
           </label>
           <input
             type="file"
-            id="image"
-            accept="image/*"
             onChange={handleImageUpload}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            required
+            className="w-full border rounded-lg p-2"
           />
-          {formData.imageUrl && (
-            <img
-              src={formData.imageUrl}
-              alt="Preview"
-              className="mt-4 h-32 w-32 object-cover mx-auto"
-            />
-          )}
         </div>
+
+        {/* Campos personalizados */}
         <div className="mb-4">
-          <label
-            className="block text-gray-700 font-semibold mb-2"
-            htmlFor="country"
-          >
-            País
+          <label className="block text-gray-700 font-bold mb-2">
+            Quantidade de Dias
           </label>
           <input
-            type="text"
-            id="country"
-            name="country"
-            value={formData.country}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, country: e.target.value }))
-            }
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            placeholder="Local (ex: França)"
-            required
+            type="number"
+            value={formData.customFields.days}
+            onChange={(e) => handleCustomFieldChange("days", e.target.value)}
+            className="w-full border rounded-lg p-2"
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 font-semibold mb-2"
-            htmlFor="place"
-          >
-            Local
+          <label className="block text-gray-700 font-bold mb-2">
+            Quantidade de Pessoas
           </label>
           <input
-            type="text"
-            id="place"
-            name="place"
-            value={formData.place}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, place: e.target.value }))
-            }
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            placeholder="Local (ex: Paris)"
-            required
+            type="number"
+            value={formData.customFields.people}
+            onChange={(e) => handleCustomFieldChange("people", e.target.value)}
+            className="w-full border rounded-lg p-2"
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 font-semibold mb-2"
-            htmlFor="price"
-          >
-            Preço
+          <label className="block text-gray-700 font-bold mb-2">
+            Quantidade de Malas
           </label>
           <input
-            type="text"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, price: e.target.value }))
-            }
-            className="w-full p-2 border border-gray-300 rounded-lg"
-            placeholder="Preço (ex: R$499)"
-            required
+            type="number"
+            value={formData.customFields.luggage}
+            onChange={(e) => handleCustomFieldChange("luggage", e.target.value)}
+            className="w-full border rounded-lg p-2"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">
-            Features
+          <label className="block text-gray-700 font-bold mb-2">
+            Quantidade de Noites
           </label>
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-          >
-            Selecionar Features
-          </button>
-          <ul className="mt-2 space-y-1">
-            {formData.features.map((feature, i) => (
-              <li key={i} className="text-green-600">
-                {feature}
-              </li>
-            ))}
-          </ul>
+          <input
+            type="number"
+            value={formData.customFields.nights}
+            onChange={(e) => handleCustomFieldChange("nights", e.target.value)}
+            className="w-full border rounded-lg p-2"
+          />
         </div>
+
+        {/* Botão para abrir o modal de features */}
+        <button
+          type="button"
+          onClick={() => setModalOpen(true)}
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          Selecionar Features
+        </button>
+        <ul className="mt-2 space-y-1">
+          {formData.features.map((feature, i) => (
+            <li key={i} className="text-green-600">
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        {/* Botão de submissão */}
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors duration-200"
@@ -194,11 +209,12 @@ const CreateCard = () => {
         </button>
       </form>
 
+      {/* Modal para selecionar features */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
-              Selecione até 3 Features
+              Selecione Features
             </h3>
             <ul className="space-y-2">
               {featureOptions.map((option, i) => (
