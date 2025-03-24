@@ -44,27 +44,27 @@ const eventSuggestions = [
   {
     id: 4,
     title: "Rock in Rio 2025",
-    image: rock, // Insira a imagem do evento
+    image: rock,
     description:
       "18 a 22 de setembro - Rio de Janeiro. O maior festival de música do Brasil!",
   },
   {
     id: 5,
     title: "São Paulo Fashion Week",
-    image: spfw, // Imagem do desfile
+    image: spfw,
     description: "Abril de 2025 - São Paulo. A maior semana de moda do país.",
   },
   {
     id: 6,
     title: "Festival de Cinema de Gramado",
-    image: gramado, // Imagem do evento
+    image: gramado,
     description:
       "De 15 a 23 de agosto - Gramado, RS. O mais tradicional festival de cinema do Brasil.",
   },
   {
     id: 7,
     title: "Bienal do Livro 2025",
-    image: bienal, // Imagem do evento literário
+    image: bienal,
     description:
       "Agosto de 2025 - Rio de Janeiro. O maior evento literário do Brasil.",
   },
@@ -72,7 +72,6 @@ const eventSuggestions = [
 
 const Events = () => {
   const [search, setSearch] = useState("");
-
   const filteredEvents = eventSuggestions.filter((event) =>
     event.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -80,12 +79,13 @@ const Events = () => {
   return (
     <div>
       <Navbar />
-      <div className="relative min-h-screen">
-        <div className="absolute top-0 left-0 w-full h-screen -z-10">
+      <div className="relative">
+        {/* Imagem de Capa */}
+        <div className="w-full h-screen">
           <Carousel
             showArrows={false}
-            autoPlay={true}
-            infiniteLoop={true}
+            autoPlay
+            infiniteLoop
             showThumbs={false}
             showStatus={false}
             interval={3000}
@@ -102,30 +102,24 @@ const Events = () => {
           </Carousel>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen bg-black/50 text-white p-6">
+        {/* Conteúdo abaixo da imagem de capa */}
+        <div className="relative flex flex-col items-center justify-center bg-black/50 text-white p-6">
           <h1 className="text-4xl font-bold mb-6 font-poppins">
-            Eventos imperdiveis
+            Eventos imperdíveis
           </h1>
-
-          <div className="max-w-4xl w-full mb-6">
-            {/* Barra de pesquisa removida */}
-          </div>
-
           <div className="w-full overflow-auto max-h-[400px]">
-            {" "}
-            {/* Aqui criamos a área rolável */}
             <div className="flex flex-wrap justify-center gap-6">
               {filteredEvents.map((event) => (
                 <Card
                   key={event.id}
                   sx={{
                     display: "flex",
-                    width: 380, // Mantivemos o mesmo tamanho dos cards
+                    width: 380,
                     backgroundColor: "#fff",
                     borderRadius: 2,
                     boxShadow: 3,
-                    position: "relative", // Para posicionamento absoluto do botão
-                    marginBottom: 3, // Adicionando um espaçamento entre os cards
+                    position: "relative",
+                    marginBottom: 3,
                   }}
                 >
                   <CardMedia
@@ -162,15 +156,9 @@ const Events = () => {
                         {event.description}
                       </Typography>
                     </CardContent>
-
-                    {/* Botão fixado no canto inferior direito */}
                     <Button
                       variant="outlined"
-                      sx={{
-                        position: "absolute",
-                        bottom: 8,
-                        right: 8,
-                      }}
+                      sx={{ position: "absolute", bottom: 8, right: 8 }}
                     >
                       <a href="">Ingressos</a>
                     </Button>
