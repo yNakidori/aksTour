@@ -41,7 +41,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-blue-200 to-purple-300">
       <Navbar />
-      <div className="flex flex-col items-center justify-center py-16 px-6">
+      <div className="flex mt-12 flex-col items-center justify-center py-16 px-6">
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Card de Informações */}
           <Card className="shadow-lg bg-white/90 rounded-2xl">
