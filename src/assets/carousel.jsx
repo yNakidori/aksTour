@@ -1,5 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
+import { ArrowDown } from "lucide-react";
 import CT5 from "../assets/images/caribe.jpg";
 import CT6 from "../assets/images/capadocia.jpg";
 import CT7 from "../assets/images/liberdade.jpg";
@@ -9,7 +10,7 @@ const TravelCarousel = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1100,
     autoplay: true,
     autoplaySpeed: 3000,
     slidesToShow: 1,
@@ -39,23 +40,45 @@ const TravelCarousel = () => {
     },
   ];
 
+  const scrollToNextSection = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="w-full h-screen relative">
       <Slider {...settings}>
         {slides.map((slide, index) => (
-          <div key={index} className="relative">
+          <div key={index} className="relative w-full">
             <img
               src={slide.src}
               alt={`Slide ${index + 1}`}
               className="w-full h-screen object-cover"
             />
-            <div className="mt-44 absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 p-6 text-white rounded-lg text-center max-w-6xl">
-              <h2 className="text-8xl font-bold mb-2">{slide.title}</h2>
-              <p className="text-lg">{slide.subtitle}</p>
+            {/* Fundo escuro */}
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="text-center text-white p-6 max-w-4xl">
+                <h2 className="text-6xl font-bold mb-2 typing-animation">
+                  {slide.title}
+                </h2>
+                <p className="text-2xl">{slide.subtitle}</p>
+              </div>
             </div>
           </div>
         ))}
       </Slider>
+
+      {/* Icone de seta para rolagem */}
+      <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
+        <div
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
+          onMouseOver={scrollToNextSection}
+        >
+          <ArrowDown className="text-white text-9xl" />
+        </div>
+      </div>
     </div>
   );
 };
