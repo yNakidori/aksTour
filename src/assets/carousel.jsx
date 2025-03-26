@@ -1,6 +1,5 @@
 import React from "react";
 import Slider from "react-slick";
-import CT4 from "../assets/images/CT4.jpg";
 import CT5 from "../assets/images/caribe.jpg";
 import CT6 from "../assets/images/capadocia.jpg";
 import CT7 from "../assets/images/liberdade.jpg";
@@ -15,49 +14,45 @@ const TravelCarousel = () => {
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
 
-  const images = [
-    //{ src: CT1, alt: "Image 1" },
-    { src: CT5, alt: "Image 2" },
-    { src: CT6, alt: "Image 3" },
-    { src: CT7, alt: "Image 4" },
-    { src: CT8, alt: "Image 5" },
+  const slides = [
+    {
+      src: CT5,
+      title: "Descubra Novos Destinos",
+      subtitle: "Viajar é colecionar momentos inesquecíveis.",
+    },
+    {
+      src: CT6,
+      title: "Aventuras Inesquecíveis",
+      subtitle: "O mundo é um livro e quem não viaja lê apenas uma página.",
+    },
+    {
+      src: CT7,
+      title: "Saia da Rotina",
+      subtitle: "A vida começa fora da sua zona de conforto.",
+    },
+    {
+      src: CT8,
+      title: "Explore Novos Horizontes",
+      subtitle: "Descubra novos lugares e inspire-se com cada jornada.",
+    },
   ];
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen relative">
       <Slider {...settings}>
-        {images.map((img, index) => (
-          <div key={index}>
+        {slides.map((slide, index) => (
+          <div key={index} className="relative">
             <img
-              src={img.src}
+              src={slide.src}
               alt={`Slide ${index + 1}`}
               className="w-full h-screen object-cover"
             />
+            <div className="mt-44 absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 p-6 text-white rounded-lg text-center max-w-6xl">
+              <h2 className="text-8xl font-bold mb-2">{slide.title}</h2>
+              <p className="text-lg">{slide.subtitle}</p>
+            </div>
           </div>
         ))}
       </Slider>
