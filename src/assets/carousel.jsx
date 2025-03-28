@@ -72,6 +72,9 @@ const TravelCarousel = () => {
 
       {/* Icone de seta para rolagem */}
       <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
+        <p className="text-white justify-center items-center flex text-xl font-poppins">
+          Conheça nossos pacotes
+        </p>
         <div
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
           onMouseOver={scrollToNextSection}

@@ -4,14 +4,12 @@ import TravelCarousel from "./assets/carousel";
 import CardsBar from "./assets/homepage/cardsBar";
 import Vacation from "./assets/homepage/vacation";
 import Featured from "./assets/homepage/featured";
-import Gastro from "./assets/homepage/gastro";
 import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
-import { FlightsForm } from "./assets/flights/FlightsForm/FlightForm";
 
 function App() {
   const defaultOptions = {
@@ -34,9 +32,11 @@ function App() {
     <div className=" ">
       <Navbar />
       <TravelCarousel />
+      {/* 
       <div className="container mx-auto">
         <FlightsForm />
       </div>
+      */}
       <div className="container mx-auto">
         <CardsBar />
       </div>
