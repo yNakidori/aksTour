@@ -6,9 +6,12 @@ import destinations from "./destinationsData";
 
 const CardsBar = () => {
   const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null); // Estado para imagem ampliada
 
   const handleOpenModal = (card) => setSelectedCard(card);
   const handleCloseModal = () => setSelectedCard(null);
+  const handleOpenImage = (image) => setSelectedImage(image);
+  const handleCloseImage = () => setSelectedImage(null);
 
   return (
     <div className="text-center mt-14">
@@ -21,7 +24,7 @@ const CardsBar = () => {
           <motion.div
             key={i}
             whileHover={{ scale: 1.05 }}
-            className="cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-white max-w-xs"
+            className="cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-blue-200 max-w-xs border-4 border-transparent hover:border-yellow-300 transition-all duration-300"
             onClick={() => handleOpenModal(dest)}
           >
             <img
@@ -37,10 +40,10 @@ const CardsBar = () => {
         ))}
       </div>
 
-      {/* Modal Moderno */}
+      {/* Modal de Destino */}
       {selectedCard && (
         <Modal open={!!selectedCard} onClose={handleCloseModal}>
-          <Box className="bg-white p-6 rounded-lg max-w-4xl mx-auto mt-20 shadow-xl relative">
+          <Box className="bg-gray-200 p-6 rounded-lg max-w-7xl mx-auto mt-20 shadow-xl relative">
             {/* Botão Fechar */}
             <button
               onClick={handleCloseModal}
@@ -56,7 +59,8 @@ const CardsBar = () => {
                 <img
                   src={selectedCard.image}
                   alt={selectedCard.title}
-                  className="rounded-lg shadow-md w-full"
+                  className="rounded-lg shadow-md w-full cursor-pointer"
+                  onClick={() => handleOpenImage(selectedCard.image)} // Clique para abrir modal
                 />
                 <div className="flex gap-2 overflow-x-auto">
                   {selectedCard.images.map((img, idx) => (
@@ -65,6 +69,7 @@ const CardsBar = () => {
                       src={img}
                       alt={`Slide ${idx}`}
                       className="w-20 h-20 object-cover rounded-md cursor-pointer hover:scale-105 transition"
+                      onClick={() => handleOpenImage(img)} // Clique para abrir modal da miniatura
                     />
                   ))}
                 </div>
@@ -99,6 +104,28 @@ const CardsBar = () => {
                 </div>
               </div>
             </div>
+          </Box>
+        </Modal>
+      )}
+
+      {/* Modal para ampliar a imagem */}
+      {selectedImage && (
+        <Modal open={!!selectedImage} onClose={handleCloseImage}>
+          <Box className="bg-white p-4 rounded-lg max-w-5xl mx-auto mt-20 shadow-xl relative flex justify-center items-center">
+            {/* Botão Fechar */}
+            <button
+              onClick={handleCloseImage}
+              className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-2xl"
+            >
+              &times;
+            </button>
+
+            {/* Imagem ampliada */}
+            <img
+              src={selectedImage}
+              alt="Imagem Ampliada"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+            />
           </Box>
         </Modal>
       )}

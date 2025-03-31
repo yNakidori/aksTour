@@ -4,6 +4,21 @@ import canada from "../../assets/images/cards/canada.png";
 import grecia from "../../assets/images/cards/grecia.png";
 import caribe from "../../assets/images/cards/caribe.png";
 import disney from "../../assets/images/cards/disney/disney.png";
+import d1 from "../../assets/images/cards/disney/d1.png";
+import d2 from "../../assets/images/cards/disney/d2.png";
+import d3 from "../../assets/images/cards/disney/d3.png";
+import d4 from "../../assets/images/cards/disney/d4.png";
+import d5 from "../../assets/images/cards/disney/d5.png";
+import b1 from "../../assets/images/cards/bariloche/b1.png";
+import b2 from "../../assets/images/cards/bariloche/b2.png";
+import b3 from "../../assets/images/cards/bariloche/b3.png";
+import b4 from "../../assets/images/cards/bariloche/b4.png";
+import b5 from "../../assets/images/cards/bariloche/b5.png";
+import cp1 from "../../assets/images/cards/capadocia/cp1.png";
+import cp2 from "../../assets/images/cards/capadocia/cp2.png";
+import cp3 from "../../assets/images/cards/capadocia/cp3.png";
+import cp4 from "../../assets/images/cards/capadocia/cp4.png";
+import cp5 from "../../assets/images/cards/capadocia/cp5.png";
 import bariloche from "../../assets/images/cards/bariloche/bariloche.png";
 import capadocia from "../../assets/images/cards/capadocia/capadocia.png";
 
@@ -14,7 +29,7 @@ const destinations = [
     location: "Orlando, EUA",
     description:
       "O Walt Disney World Resort é um dos destinos turísticos mais icônicos do mundo, localizado em Orlando, Flórida...",
-    images: [disney],
+    images: [d1, d2, d3, d4, d5],
   },
   {
     image: bariloche,
@@ -22,7 +37,7 @@ const destinations = [
     location: "Argentina",
     description:
       "Bariloche, localizada na região dos Lagos Andinos, é um destino de montanha que encanta visitantes com sua beleza natural.",
-    images: [bariloche],
+    images: [b1, b2, b3, b4, b5],
   },
   {
     image: capadocia,
@@ -30,7 +45,7 @@ const destinations = [
     location: "Turquia",
     description:
       "A Capadócia é uma região mágica na Turquia, famosa por suas formações rochosas únicas e balões de ar quente.",
-    images: [capadocia],
+    images: [cp1, cp2, cp3, cp4, cp5],
   },
   {
     image: colombia,
