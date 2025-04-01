@@ -1,6 +1,3 @@
-import colombia from "../../assets/images/cards/colombia.png";
-import chile from "../../assets/images/cards/chile.png";
-import canada from "../../assets/images/cards/canada.png";
 import grecia from "../../assets/images/cards/grecia.png";
 import caribe from "../../assets/images/cards/caribe.png";
 import disney from "../../assets/images/cards/disney/disney.png";
@@ -19,6 +16,24 @@ import cp2 from "../../assets/images/cards/capadocia/cp2.png";
 import cp3 from "../../assets/images/cards/capadocia/cp3.png";
 import cp4 from "../../assets/images/cards/capadocia/cp4.png";
 import cp5 from "../../assets/images/cards/capadocia/cp5.png";
+import r1 from "../../assets/images/cards/roma/r1.png";
+import r2 from "../../assets/images/cards/roma/r2.png";
+import r3 from "../../assets/images/cards/roma/r3.png";
+import r4 from "../../assets/images/cards/roma/r4.png";
+import r5 from "../../assets/images/cards/roma/r5.png";
+import mp1 from "../../assets/images/cards/machupicchu/mp1.png";
+import mp2 from "../../assets/images/cards/machupicchu/mp2.png";
+import mp3 from "../../assets/images/cards/machupicchu/mp3.png";
+import mp4 from "../../assets/images/cards/machupicchu/mp4.png";
+import mp5 from "../../assets/images/cards/machupicchu/mp5.png";
+import br1 from "../../assets/images/cards/barcelona/br1.png";
+import br2 from "../../assets/images/cards/barcelona/br2.png";
+import br3 from "../../assets/images/cards/barcelona/br3.png";
+import br4 from "../../assets/images/cards/barcelona/br4.png";
+import br5 from "../../assets/images/cards/barcelona/br5.png";
+import machupicchu from "../../assets/images/cards/machupicchu/machupicchu.png";
+import barcelona from "../../assets/images/cards/barcelona/barcelona.png";
+import roma1 from "../../assets/images/cards/roma/roma1.png";
 import bariloche from "../../assets/images/cards/bariloche/bariloche.png";
 import capadocia from "../../assets/images/cards/capadocia/capadocia.png";
 
@@ -48,28 +63,28 @@ const destinations = [
     images: [cp1, cp2, cp3, cp4, cp5],
   },
   {
-    image: colombia,
-    title: "Parque e Palácio de Monserrate",
-    location: "Sintra, Portugal",
+    image: roma1,
+    title: "Roma",
+    location: "Italia",
     description:
-      "Escondido entre as colinas de Sintra, o Parque e Palácio de Monserrate é um refúgio de beleza natural e arquitetura deslumbrante...",
-    images: [colombia], // Adicione imagens extras se tiver
+      "Roma, a capital da Itália, é um destino repleto de história, arte e cultura...",
+    images: [r1, r2, r3, r4, r5], // Adicione imagens extras se tiver
   },
   {
-    image: chile,
-    title: "Parque Nacional Torres del Paine",
-    location: "Magallanes, Chile",
+    image: machupicchu,
+    title: "Machu Picchu",
+    location: "Peru",
     description:
-      "O Parque Nacional Torres del Paine é um paraíso para os amantes da natureza e da aventura...",
-    images: [chile], // Adicione imagens extras se necessário
+      "Machu Picchu é uma das maravilhas do mundo moderno, localizada nas montanhas dos Andes peruanos...",
+    images: [mp1, mp2, mp3, mp4, mp5], // Adicione imagens extras se necessário
   },
   {
-    image: canada,
-    title: "Lago Moraine",
-    location: "Banff, Canadá",
+    image: barcelona,
+    title: "Barcelona",
+    location: "Espanha",
     description:
-      "O Lago Moraine, situado no coração das Montanhas Rochosas canadenses, é um espetáculo natural...",
-    images: [canada],
+      "Barcelona é uma cidade vibrante e cheia de vida, famosa por sua arquitetura única e cultura rica.",
+    images: [br1, br2, br3, br4, br5],
   },
   {
     image: grecia,

@@ -6,126 +6,109 @@ import destinations from "./destinationsData";
 
 const CardsBar = () => {
   const [selectedCard, setSelectedCard] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null); // Estado para imagem ampliada
 
-  const handleOpenModal = (card) => setSelectedCard(card);
-  const handleCloseModal = () => setSelectedCard(null);
-  const handleOpenImage = (image) => setSelectedImage(image);
-  const handleCloseImage = () => setSelectedImage(null);
+  const whatsappNumber = "5511957700305";
+  const whatsappLink = selectedCard
+    ? `https://wa.me/${whatsappNumber}?text=Olá! Tenho interesse em conhecer o destino: ${selectedCard.title}.`
+    : `https://wa.me/${whatsappNumber}`;
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappLink, "_blank");
+  };
 
   return (
     <div className="text-center mt-14">
       <h1 className="text-4xl font-bold text-gray-800">Destinos Populares</h1>
-      <div className="h-1 w-16 bg-blue-500 mx-auto mt-2"></div>
+      <div className="h-1 w-16 bg-blue-400 mx-auto mt-2"></div>
 
-      {/* Área dos Cards */}
       <div className="flex flex-wrap justify-center gap-8 mt-8">
         {destinations.map((dest, i) => (
           <motion.div
             key={i}
             whileHover={{ scale: 1.05 }}
-            className="cursor-pointer rounded-2xl shadow-lg overflow-hidden bg-blue-200 max-w-xs border-4 border-transparent hover:border-yellow-300 transition-all duration-300"
-            onClick={() => handleOpenModal(dest)}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }} // Faz a animação ocorrer apenas uma vez
+            className="relative cursor-pointer rounded-[20px] p-4 shadow-xl w-80 text-white"
+            style={{
+              background: "linear-gradient(to bottom right, #C6EA8D, #FE90AF)",
+            }}
+            onClick={() => setSelectedCard(dest)}
           >
             <img
               src={dest.image}
               alt={dest.title}
-              className="w-full h-64 object-cover"
+              className="w-full h-48 object-cover rounded-xl"
             />
-            <div className="p-4">
+            <div className="mt-4">
               <h2 className="text-xl font-bold">{dest.title}</h2>
-              <p className="text-gray-500">{dest.location}</p>
+              <p className="text-sm opacity-80">{dest.location}</p>
+            </div>
+            <div className="absolute top-4 right-4 bg-yellow-300 text-black px-2 py-1 font-bold rounded">
+              <p> Em alta!</p>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Modal de Destino */}
       {selectedCard && (
-        <Modal open={!!selectedCard} onClose={handleCloseModal}>
-          <Box className="bg-gray-200 p-6 rounded-lg max-w-7xl mx-auto mt-20 shadow-xl relative">
-            {/* Botão Fechar */}
-            <button
-              onClick={handleCloseModal}
-              className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-2xl"
-            >
-              &times;
-            </button>
-
-            {/* Container Principal */}
-            <div className="flex flex-col lg:flex-row">
-              {/* Imagem e Carrossel */}
-              <div className="w-full lg:w-1/2 flex flex-col gap-3">
+        <Modal open={!!selectedCard} onClose={() => setSelectedCard(null)}>
+          <Box className="bg-white p-6 rounded-lg max-w-5xl mx-auto mt-20 shadow-xl flex flex-col md:flex-row gap-6">
+            <div className="grid gap-4">
+              <div>
                 <img
+                  className="h-auto w-full max-w-full rounded-lg object-cover object-center md:h-[480px]"
                   src={selectedCard.image}
-                  alt={selectedCard.title}
-                  className="rounded-lg shadow-md w-full cursor-pointer"
-                  onClick={() => handleOpenImage(selectedCard.image)} // Clique para abrir modal
+                  alt="Imagem principal"
                 />
-                <div className="flex gap-2 overflow-x-auto">
-                  {selectedCard.images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`Slide ${idx}`}
-                      className="w-20 h-20 object-cover rounded-md cursor-pointer hover:scale-105 transition"
-                      onClick={() => handleOpenImage(img)} // Clique para abrir modal da miniatura
-                    />
-                  ))}
-                </div>
               </div>
-
-              {/* Informações do Destino */}
-              <div className="w-full lg:w-1/2 p-6 flex flex-col">
-                <Typography
-                  level="h4"
-                  className="font-bold text-gray-800 text-3xl"
-                >
-                  {selectedCard.title}
-                </Typography>
-                <Typography className="text-gray-500 mt-1 text-lg">
-                  {selectedCard.location}
-                </Typography>
-                <Typography className="mt-4 text-gray-700">
-                  {selectedCard.description}
-                </Typography>
-
-                {/* Preço e Botão */}
-                <div className="mt-6 flex justify-between items-center">
-                  <Typography
-                    level="h5"
-                    className="text-2xl font-semibold text-blue-600"
+              <div className="grid grid-cols-5 gap-4">
+                {selectedCard.images?.map((img, index) => (
+                  <div
+                    key={index}
+                    className="h-20 w-20 cursor-pointer rounded-lg overflow-hidden"
                   >
-                    {selectedCard.price}
-                  </Typography>
-                  <Button size="lg" variant="solid" color="primary">
-                    Comprar Pacote
-                  </Button>
-                </div>
+                    <img
+                      className="h-full w-full object-cover"
+                      src={img}
+                      alt={`Imagem ${index + 1}`}
+                      onClick={() =>
+                        setSelectedCard({ ...selectedCard, image: img })
+                      }
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-          </Box>
-        </Modal>
-      )}
 
-      {/* Modal para ampliar a imagem */}
-      {selectedImage && (
-        <Modal open={!!selectedImage} onClose={handleCloseImage}>
-          <Box className="bg-white p-4 rounded-lg max-w-5xl mx-auto mt-20 shadow-xl relative flex justify-center items-center">
-            {/* Botão Fechar */}
-            <button
-              onClick={handleCloseImage}
-              className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-2xl"
-            >
-              &times;
-            </button>
-
-            {/* Imagem ampliada */}
-            <img
-              src={selectedImage}
-              alt="Imagem Ampliada"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
-            />
+            <div className="flex flex-col justify-center w-full md:w-1/2">
+              <Typography level="h4" className="font-bold text-3xl">
+                {selectedCard.title}
+              </Typography>
+              <Typography className="text-gray-500 mt-1 text-lg">
+                {selectedCard.location}
+              </Typography>
+              <Typography className="mt-4 text-gray-700">
+                {selectedCard.description}
+              </Typography>
+              <div className="mt-6 flex justify-between items-center">
+                <Typography
+                  level="h5"
+                  className="text-2xl font-semibold text-blue-600"
+                >
+                  {selectedCard.price}
+                </Typography>
+                <Button
+                  size="lg"
+                  variant="solid"
+                  color="primary"
+                  onClick={handleWhatsAppClick}
+                >
+                  Comprar Pacote
+                </Button>
+              </div>
+            </div>
           </Box>
         </Modal>
       )}
