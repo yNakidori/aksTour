@@ -32,7 +32,7 @@ const CardsBar = () => {
             viewport={{ once: true }} // Faz a animação ocorrer apenas uma vez
             className="relative cursor-pointer rounded-[20px] p-4 shadow-xl w-80 text-white"
             style={{
-              background: "linear-gradient(to bottom right, #C6EA8D, #FE90AF)",
+              background: "linear-gradient(to bottom right, #0093E9, #80D0C7)",
             }}
             onClick={() => setSelectedCard(dest)}
           >
@@ -54,7 +54,7 @@ const CardsBar = () => {
 
       {selectedCard && (
         <Modal open={!!selectedCard} onClose={() => setSelectedCard(null)}>
-          <Box className="bg-white p-6 rounded-lg max-w-5xl mx-auto mt-20 shadow-xl flex flex-col md:flex-row gap-6">
+          <Box className="bg-gray-300 bg-opacity-85 p-6 rounded-lg max-w-5xl mx-auto mt-20 shadow-xl flex flex-col md:flex-row gap-6">
             <div className="grid gap-4">
               <div>
                 <img

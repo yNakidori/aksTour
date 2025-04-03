@@ -31,6 +31,17 @@ import br2 from "../../assets/images/cards/barcelona/br2.png";
 import br3 from "../../assets/images/cards/barcelona/br3.png";
 import br4 from "../../assets/images/cards/barcelona/br4.png";
 import br5 from "../../assets/images/cards/barcelona/br5.png";
+import g1 from "../../assets/images/cards/grecia/g1.png";
+import g2 from "../../assets/images/cards/grecia/g2.png";
+import g3 from "../../assets/images/cards/grecia/g3.png";
+import g4 from "../../assets/images/cards/grecia/g4.png";
+import g5 from "../../assets/images/cards/grecia/g5.png";
+import nyc1 from "../../assets/images/cards/nyc/nyc1.png";
+import nyc2 from "../../assets/images/cards/nyc/nyc2.png";
+import nyc3 from "../../assets/images/cards/nyc/nyc3.png";
+import nyc4 from "../../assets/images/cards/nyc/nyc4.png";
+import nyc5 from "../../assets/images/cards/nyc/nyc5.png";
+import newyork from "../../assets/images/cards/nyc/newyork.png";
 import machupicchu from "../../assets/images/cards/machupicchu/machupicchu.png";
 import barcelona from "../../assets/images/cards/barcelona/barcelona.png";
 import roma1 from "../../assets/images/cards/roma/roma1.png";
@@ -92,15 +103,15 @@ const destinations = [
     location: "Santorini, Grécia",
     description:
       "Com suas casas brancas e cúpulas azuis que contrastam com o mar cristalino, Santorini é um dos destinos mais românticos do mundo...",
-    images: [grecia],
+    images: [g1, g2, g3, g4, g5],
   },
   {
-    image: caribe,
-    title: "Otrobanda",
-    location: "Willemstad, Curaçao",
+    image: newyork,
+    title: "Nova Iorque",
+    location: "EUA",
     description:
-      "Otrobanda, uma das regiões mais vibrantes de Willemstad, em Curaçao, é um destino repleto de cores, cultura e história...",
-    images: [caribe],
+      "Nova Iorque, a cidade que nunca dorme, é um destino icônico repleto de cultura, arte e entretenimento.",
+    images: [nyc1, nyc2, nyc3, nyc4, nyc5],
   },
 ];
 
