@@ -9,7 +9,7 @@ import Navbar from "../assets/navbar";
 import Footer from "../assets/footer";
 
 const API_KEY = "ZhQzWiPCEQ7WZBr8VoPrwy6QRdNP7pvuRXydUyZd4w5kRBC6MnkVmb8f";
-const QUERY = "turismo";
+const QUERY = "turism";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -81,7 +81,7 @@ const Login = () => {
           transition: "background 0.5s ease-in-out",
         }}
       >
-        <div className="bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="bg-black bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-md">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
             Login
           </h1>

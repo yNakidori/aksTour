@@ -8,6 +8,7 @@ import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
+import EuroCards from "./assets/homepage/euroCards";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
 
@@ -44,7 +45,7 @@ function App() {
         <Featured />
       </div>
       <div className="container mx-auto">
-        <Vacation />
+        <EuroCards />
       </div>
       {/*<div className="container mx-auto">
         <Gastro />
