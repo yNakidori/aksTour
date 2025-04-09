@@ -58,7 +58,7 @@ const TravelCarousel = () => {
               className="w-full h-screen object-cover"
             />
             {/* Fundo escuro */}
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="absolute inset-0 bg-black bg-opacity-20 flex justify-center items-center">
               <div className="text-center text-white p-6 max-w-4xl">
                 <h2 className="text-6xl font-bold mb-2 typing-animation">
                   {slide.title}
