@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
+import { HiOutlineXCircle } from "react-icons/hi";
+import Swal from "sweetalert2";
 
 const NationalCard = ({ isAdmin = false }) => {
   // Recebe a prop isAdmin
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingCard, setEditingCard] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -30,12 +40,66 @@ const NationalCard = ({ isAdmin = false }) => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir este pacote?")) {
+    const handleDelete = await Swal.fire({
+      icon: "warning",
+      title: "Tem certeza?",
+      text: "Você não poderá reverter isso!",
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (handleDelete.isConfirmed) {
+      // Verifica se o usuário confirmou a exclusão
       try {
         await deleteDoc(doc(db, "nationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
       } catch (error) {
         console.error("Erro ao excluir:", error);
+      }
+    }
+  };
+
+  const handleEdit = (card) => {
+    // Edição
+    setEditingCard(card);
+    setEditModalOpen(true);
+    console.log("Editando:", card);
+  };
+
+  const saveEdit = async () => {
+    if (editingCard) {
+      try {
+        await updateDoc(doc(db, "nationalOffers", editingCard.id), {
+          destiny: editingCard.destiny,
+          date: editingCard.date,
+          price: editingCard.price,
+          Image: editingCard.Image,
+        });
+
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card.id === editingCard.id ? editingCard : card
+          )
+        );
+
+        setEditModalOpen(false);
+        setEditingCard(null);
+        console.log("Card editado:", editingCard);
+        Swal.fire({
+          icon: "success",
+          title: "Sucesso",
+          text: "O cartão foi editado com sucesso.",
+          confirmButtonText: "OK",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Não foi possível editar o cartão.",
+          confirmButtonText: "OK",
+        });
+        console.error("Erro ao editar:", error);
       }
     }
   };
@@ -88,13 +152,17 @@ const NationalCard = ({ isAdmin = false }) => {
             {isAdmin && (
               <button
                 onClick={() => handleDelete(card.id)}
-                className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full text-xs hover:bg-red-700 transition"
+                className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full text-sm hover:bg-red-700 transition flex items-center justify-center shadow-md"
+                title="Excluir oferta"
               >
-                ❌
+                <HiOutlineXCircle className="w-4 h-4" />
               </button>
             )}
 
-            <span className="absolute top-2 left-2 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-lg">
+            <span
+              style={{ backgroundColor: "#337bff" }}
+              className="absolute top-2 left-2  text-white text-sm font-semibold px-3 py-1 rounded-lg"
+            >
               Pacote
             </span>
 
@@ -109,6 +177,16 @@ const NationalCard = ({ isAdmin = false }) => {
               <p className="text-2xl font-bold text-gray-800">
                 R$ {card.price}
               </p>
+
+              {/* Renderiza o botão de editar apenas se for admin */}
+              {isAdmin && (
+                <button
+                  onClick={() => handleEdit(card)}
+                  className="absolute top-2 right-12 bg-blue-600 text-white p-1 rounded-full text-xs hover:bg-blue-700 transition"
+                >
+                  ✏️ <span className="font-poppins">EDITAR</span>
+                </button>
+              )}
             </div>
           </div>
         ))}
@@ -120,6 +198,54 @@ const NationalCard = ({ isAdmin = false }) => {
       >
         <ArrowRightOutlined />
       </button>
+
+      {/* Modal de edição */}
+      {editModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Editar Oferta</h2>
+            <input
+              type="text"
+              value={editingCard.destiny}
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, destiny: e.target.value })
+              }
+              placeholder="Destino"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+            <input
+              type="text"
+              value={editingCard.date}
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, date: e.target.value })
+              }
+              placeholder="Data"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+            <input
+              type="text"
+              value={editingCard.price}
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, price: e.target.value })
+              }
+              placeholder="Preço"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+            <button
+              onClick={saveEdit}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+              Salvar
+            </button>
+            <button
+              onClick={() => setEditModalOpen(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition ml-2"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
