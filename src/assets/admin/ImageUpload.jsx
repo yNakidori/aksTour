@@ -4,7 +4,7 @@ import { storage } from "../../firebase/firbase";
 
 const ImageUpload = ({ formData, setFormData }) => {
   const handleImageUpload = async (e) => {
-    const file = e.target.file[0];
+    const file = e.target.files[0];
     setFormData((prev) => ({ ...prev, image: file }));
     if (file) {
       const storageRef = ref(storage, `pricingCards/${file.name}`);
