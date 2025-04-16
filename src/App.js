@@ -31,13 +31,13 @@ function App() {
 
   return (
     <div className=" ">
-      <Navbar />
       <TravelCarousel />
       {/* 
       <div className="container mx-auto">
         <FlightsForm />
       </div>
       */}
+      <Navbar />
       <div className="container mx-auto">
         <CardsBar />
       </div>
