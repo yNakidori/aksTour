@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# AKSTUR Viagens
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bem-vindo ao projeto **AKSTUR Viagens**, uma aplicação web desenvolvida com React para oferecer pacotes de viagens, serviços e informações sobre destinos turísticos. Este projeto foi criado para proporcionar uma experiência interativa e visualmente atraente para os usuários que desejam explorar e planejar suas próximas viagens.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- **Carrossel de Viagens**: Destaque para pacotes de viagens com imagens e descrições.
+- **Navegação Intuitiva**: Menu de navegação com links para diferentes seções, como destinos, eventos, cruzeiros, ônibus, serviços e contato.
+- **Pacotes Nacionais e Internacionais**: Exploração de pacotes de viagens nacionais e internacionais.
+- **Seção de Clientes**: Depoimentos de clientes sobre suas experiências de viagem.
+- **Botão Flutuante do WhatsApp**: Acesso rápido para entrar em contato via WhatsApp.
+- **Footer Informativo**: Links para redes sociais, políticas de privacidade e termos de uso.
 
-### `npm start`
+## Tecnologias Utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React**: Biblioteca principal para construção da interface.
+- **React Router**: Gerenciamento de rotas para navegação entre páginas.
+- **Tailwind CSS**: Estilização responsiva e moderna.
+- **Firebase**: Autenticação, Firestore e Storage para gerenciamento de dados.
+- **Lottie**: Animações interativas para o botão do WhatsApp.
+- **Headless UI**: Componentes acessíveis como menus e dropdowns.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Como Executar o Projeto
 
-### `npm test`
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/akstur-viagens.git
+   cd akstur-viagens
+   npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+ ## Scripts Disponíveis
+ 
+npm start: Inicia o servidor de desenvolvimento.
+npm run build: Gera a versão de produção do projeto.
+npm test: Executa os testes configurados no projeto.
+Estrutura de Componentes
+Navbar: Menu de navegação principal (navbar.jsx).
+TravelCarousel: Carrossel de imagens de viagens (carousel.jsx).
+Footer: Rodapé com informações e links úteis (footer.jsx).
+EuroCards: Exibição de pacotes de hospedagem na Europa (euroCards.jsx).
+Clients: Depoimentos de clientes (clients.jsx).
+Contato
+Para dúvidas ou sugestões, entre em contato pelo e-mail: contato@akstur.com.br ou pelo WhatsApp: (11) 95770-0305.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+AKSTUR Viagens - Explore o mundo com a gente! 🌍✈️ ```
