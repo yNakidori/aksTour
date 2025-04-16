@@ -9,11 +9,11 @@ import Services from "./assets/destinys/services";
 const InternationalDestinys = () => {
   return (
     <div>
-      <Navbar />
       <div
         className="relative min-h-screen bg-cover bg-center"
         style={{ backgroundImage: `url(${turquia})` }}
       >
+        <Navbar />
         <div className="container mx-auto px-6 relative z-10 flex items-start gap-8">
           {/* Texto à esquerda */}
           <div className="w-1/2 mt-52">
