@@ -8,7 +8,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
-import { HiOutlineXCircle } from "react-icons/hi";
+import { TextField } from "@mui/material";
+import { FcFullTrash, FcSupport } from "react-icons/fc";
 import Swal from "sweetalert2";
 
 const NationalCard = ({ isAdmin = false }) => {
@@ -148,14 +149,14 @@ const NationalCard = ({ isAdmin = false }) => {
               className="w-full h-52 object-cover"
             />
 
-            {/* Renderiza o botão de excluir apenas se for admin */}
+            {/* Botão de excluir */}
             {isAdmin && (
               <button
                 onClick={() => handleDelete(card.id)}
-                className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full text-sm hover:bg-red-700 transition flex items-center justify-center shadow-md"
+                className="absolute top-2 right-2 bg-white text-white p-2 rounded-full text-sm hover:bg-red-700 transition flex items-center justify-center shadow-md"
                 title="Excluir oferta"
               >
-                <HiOutlineXCircle className="w-4 h-4" />
+                <FcFullTrash className="w-5 h-5" />
               </button>
             )}
 
@@ -178,13 +179,14 @@ const NationalCard = ({ isAdmin = false }) => {
                 R$ {card.price}
               </p>
 
-              {/* Renderiza o botão de editar apenas se for admin */}
+              {/* Botão de editar */}
               {isAdmin && (
                 <button
                   onClick={() => handleEdit(card)}
-                  className="absolute top-2 right-12 bg-blue-600 text-white p-1 rounded-full text-xs hover:bg-blue-700 transition"
+                  className="absolute top-2 right-12 bg-white text-white p-2 rounded-full text-sm hover:bg-blue-700 transition flex items-center justify-center shadow-md"
+                  title="Editar oferta"
                 >
-                  ✏️ <span className="font-poppins">EDITAR</span>
+                  <FcSupport className="w-5 h-5" />
                 </button>
               )}
             </div>
@@ -204,36 +206,52 @@ const NationalCard = ({ isAdmin = false }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-bold mb-4">Editar Oferta</h2>
-            <input
+
+            <TextField
+              id="destiny"
+              label="Destino"
               type="text"
               value={editingCard.destiny}
+              variant="standard"
+              fullWidth
               onChange={(e) =>
                 setEditingCard({ ...editingCard, destiny: e.target.value })
               }
               placeholder="Destino"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
+              style={{ marginBottom: "16px" }}
             />
-            <input
-              type="text"
+
+            <TextField
+              className="mt-4"
+              id="date"
+              label="Data"
+              type="date"
+              variant="standard"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
               value={editingCard.date}
               onChange={(e) =>
                 setEditingCard({ ...editingCard, date: e.target.value })
               }
-              placeholder="Data"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
+              style={{ marginBottom: "16px" }}
             />
-            <input
+
+            <TextField
+              className="mt-4"
               type="text"
               value={editingCard.price}
-              onChange={(e) =>
-                setEditingCard({ ...editingCard, price: e.target.value })
-              }
+              variant="standard"
+              fullWidth
+              onChange={(e) => {
+                setEditingCard({ ...editingCard, price: e.target.value });
+              }}
+              style={{ marginBottom: "16px" }}
               placeholder="Preço"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
             />
+
             <button
               onClick={saveEdit}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+              className="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition"
             >
               Salvar
             </button>

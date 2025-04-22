@@ -36,14 +36,13 @@ const Admin = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="min-h-screen p-6" style={{ backgroundColor: "#282b30" }}>
-        <Navbar />
-        <div className="flex flex-col lg:flex-row gap-6 mt-28 bg-slate-400 bg-opacity-30">
+        <div className="flex flex-col lg:flex-row gap-6 mt-28 bg-slate-400 bg-opacity-30 rounded-2xl">
           {/* Formulário à esquerda */}
           <div className="lg:w-1/3 w-full mb-10 lg:mb-0 bg-slate-50 bg-opacity-80 rounded-2xl p-6">
             <CreateCard />
           </div>
-
           {/* Cards em carrossel ou grid à direita */}
           <div className="lg:w-2/3 w-full overflow-x-auto mt-20">
             <OfferCard
@@ -56,40 +55,22 @@ const Admin = () => {
         </div>
 
         {/* Ofertas Nacionais */}
-        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
-          <div className="p-6">
-            <FolderPlusIcon
-              style={{ height: "5vh", marginBottom: "3vh", cursor: "pointer" }}
-              onClick={() =>
-                setShowCreateNationalOffer(!showCreateNationalOffer)
-              }
-            />
-            {showCreateNationalOffer && <CreateNationalOffer />}
-            <p>Ofertas Nacionais</p>
-            <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
-              <div className="p-6">
-                <NationalCard isAdmin={true} />
-              </div>
-            </div>
+        <div className="flex flex-col lg:flex-row gap-6 mt-28 bg-slate-400 bg-opacity-30 rounded-2xl">
+          <div className="lg:w-1/3 w-full mb-10 lg:mb-0 bg-slate-50 bg-opacity-80 rounded-2xl p-6">
+            <CreateNationalOffer />
+          </div>
+          <div className="lg:w-2/3 w-full overflow-x-auto mt-20">
+            <NationalCard isAdmin={true} />
           </div>
         </div>
 
-        {/* Ofertas Internacionais */}
-        <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
-          <div className="p-6">
-            <FolderPlusIcon
-              style={{ height: "5vh", marginBottom: "3vh", cursor: "pointer" }}
-              onClick={() =>
-                setShowCreateInternationalOffer(!showCreateInternationalOffer)
-              }
-            />
-            {showCreateInternationalOffer && <CreateInternationalOffer />}
-            <p>Ofertas Internacionais</p>
-            <div className="mt-6 bg-slate-50 bg-opacity-80 rounded-2xl">
-              <div className="p-6">
-                <InternationalCard isAdmin={true} />
-              </div>
-            </div>
+        {/* Ofertas internacionais */}
+        <div className="flex flex-col lg:flex-row gap-6 mt-28 bg-slate-400 bg-opacity-30 rounded-2xl">
+          <div className="lg:w-1/3 w-full mb-10 lg:mb-0 bg-slate-50 bg-opacity-80 rounded-2xl p-6">
+            <CreateInternationalOffer />
+          </div>
+          <div className="lg:w-2/3 w-full overflow-x-auto mt-20">
+            <InternationalCard isAdmin={true} />
           </div>
         </div>
       </div>
