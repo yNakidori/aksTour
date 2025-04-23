@@ -13,7 +13,8 @@ const Companys = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    autoplay: true,
+    speed: 600,
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [

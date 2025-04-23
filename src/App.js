@@ -3,6 +3,8 @@ import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
 import CardsBar from "./assets/homepage/cardsBar";
 import Vacation from "./assets/homepage/vacation";
+import Savan from "./assets/homepage/savan";
+import EuroTuor from "./assets/homepage/euroTuor";
 import Featured from "./assets/homepage/featured";
 import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
@@ -40,6 +42,12 @@ function App() {
       <Navbar />
       <div className="container mx-auto">
         <CardsBar />
+      </div>
+      <div className="container mx-auto">
+        <Savan />
+      </div>
+      <div className="container mx-auto">
+        <EuroTuor />
       </div>
       <div className="container mx-auto">
         <Featured />
