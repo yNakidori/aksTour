@@ -6,7 +6,7 @@ import logo from "../assets/images/aksLogo.jpg";
 
 const Navbar = () => {
   return (
-    <nav className="top-0 left-0 w-full bg-black bg-opacity-80 shadow-lg flex items-center space-x-6 backdrop-blur-md z-50 text-lg px-4 py-2">
+    <nav className="top-0 left-0 w-full bg-blue-400 bg-opacity-80 shadow-lg flex items-center space-x-6 backdrop-blur-md z-50 text-lg px-4 py-2">
       <div>
         <img src={logo} alt="logo" width="55" className="rounded-full" />
       </div>
