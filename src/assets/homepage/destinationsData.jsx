@@ -41,12 +41,18 @@ import nyc2 from "../../assets/images/cards/nyc/nyc2.png";
 import nyc3 from "../../assets/images/cards/nyc/nyc3.png";
 import nyc4 from "../../assets/images/cards/nyc/nyc4.png";
 import nyc5 from "../../assets/images/cards/nyc/nyc5.png";
+import s1 from "../../assets/images/s1.png";
+import s2 from "../../assets/images/s2.png";
+import s3 from "../../assets/images/s3.png";
+import s4 from "../../assets/images/s4.png";
+import s5 from "../../assets/images/s5.png";
 import newyork from "../../assets/images/cards/nyc/newyork.png";
 import machupicchu from "../../assets/images/cards/machupicchu/machupicchu.png";
 import barcelona from "../../assets/images/cards/barcelona/barcelona.png";
 import roma1 from "../../assets/images/cards/roma/roma1.png";
 import bariloche from "../../assets/images/cards/bariloche/bariloche.png";
 import capadocia from "../../assets/images/cards/capadocia/capadocia.png";
+import swiss from "../../assets/images/swiss.png";
 
 const destinations = [
   {
@@ -112,6 +118,14 @@ const destinations = [
     description:
       "Nova Iorque, a cidade que nunca dorme, é um destino icônico repleto de cultura, arte e entretenimento.",
     images: [nyc1, nyc2, nyc3, nyc4, nyc5],
+  },
+  {
+    image: swiss,
+    title: "Suíça",
+    location: "Europa",
+    description:
+      "A Suíça é um país conhecido por suas paisagens deslumbrantes, montanhas majestosas e cidades encantadoras.",
+    images: [s1, s2, s3, s4, s5],
   },
 ];
 

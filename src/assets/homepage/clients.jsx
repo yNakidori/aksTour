@@ -1,5 +1,8 @@
 import React from "react";
 import ClientsCard from "./clientsCard";
+import yosemite from "../images/review-yosemite.png";
+import paris from "../images/review-paris.png";
+import machupicchu from "../images/review-peru.png";
 
 const Clients = () => {
   const clients = [
@@ -7,8 +10,7 @@ const Clients = () => {
       name: "Ana Silva",
       destination: "Yosemite Park",
       location: "California, USA",
-      image:
-        "https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=360",
+      image: yosemite,
       review:
         "A viagem para Yosemite foi incrível! Cada trilha revelou vistas deslumbrantes, e o atendimento da agência tornou tudo muito mais especial. Mal posso esperar para a próxima aventura!",
     },
@@ -16,8 +18,7 @@ const Clients = () => {
       name: "Carlos Pereira",
       destination: "Paris",
       location: "França",
-      image:
-        "https://images.pexels.com/photos/26806630/pexels-photo-26806630.jpeg",
+      image: paris,
       review:
         "Paris foi uma experiência inesquecível! A Torre Eiffel e os museus são de tirar o fôlego. A agência fez tudo acontecer de forma perfeita!",
     },
@@ -25,8 +26,7 @@ const Clients = () => {
       name: "Fernanda Oliveira",
       destination: "Machu Picchu",
       location: "Peru",
-      image:
-        "https://images.pexels.com/photos/2927260/pexels-photo-2927260.jpeg",
+      image: machupicchu,
       review:
         "Explorar Machu Picchu foi um sonho realizado! A organização impecável da agência tornou tudo muito mais fácil e agradável.",
     },
