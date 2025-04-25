@@ -1,13 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
+import { FcFullTrash, FcSupport } from "react-icons/fc";
+import Swal from "sweetalert2";
+import { TextField } from "@mui/material";
 
 const InternationalCard = ({ isAdmin = false }) => {
+  // Recebe a prop isAdmin
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingCard, setEditingCard] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const containerRef = useRef(null);
 
+  // Busca os dados das ofertas internacionais
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -30,8 +43,18 @@ const InternationalCard = ({ isAdmin = false }) => {
     fetchCards();
   }, []);
 
+  // Função para excluir uma oferta
   const handleDelete = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir este pacote?")) {
+    const handleDelete = await Swal.fire({
+      icon: "warning",
+      title: "Tem certeza?",
+      text: "Você não poderá reverter isso!",
+      showCancelButton: true,
+      confirmButtonText: "Sim, deletar!",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (handleDelete.isConfirmed) {
       try {
         await deleteDoc(doc(db, "internationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
@@ -41,6 +64,52 @@ const InternationalCard = ({ isAdmin = false }) => {
     }
   };
 
+  // Função para iniciar a edição de uma oferta
+  const handleEdit = (card) => {
+    setEditingCard(card);
+    setEditModalOpen(true);
+    console.log("Editando:", card);
+  };
+
+  // Função para salvar as alterações de uma oferta
+  const saveEdit = async () => {
+    if (editingCard) {
+      try {
+        await updateDoc(doc(db, "internationalOffers", editingCard.id), {
+          destiny: editingCard.destiny,
+          date: editingCard.date,
+          price: editingCard.price,
+          Image: editingCard.Image,
+        });
+
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card.id === editingCard.id ? editingCard : card
+          )
+        );
+
+        setEditModalOpen(false);
+        setEditingCard(null);
+        console.log("Card editado:", editingCard);
+        Swal.fire({
+          icon: "success",
+          title: "Sucesso",
+          text: "O cartão foi editado com sucesso.",
+          confirmButtonText: "OK",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Não foi possível editar o cartão.",
+          confirmButtonText: "OK",
+        });
+        console.error("Erro ao editar:", error);
+      }
+    }
+  };
+
+  // Funções para rolar a lista de ofertas
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
@@ -85,17 +154,21 @@ const InternationalCard = ({ isAdmin = false }) => {
               className="w-full h-52 object-cover"
             />
 
-            {/* Renderiza o botão de excluir apenas se for admin */}
+            {/* Botão de excluir */}
             {isAdmin && (
               <button
                 onClick={() => handleDelete(card.id)}
-                className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full text-xs hover:bg-red-700 transition"
+                className="absolute top-2 right-2 bg-white text-white p-2 rounded-full text-sm hover:bg-red-700 transition flex items-center justify-center shadow-md"
+                title="Excluir oferta"
               >
-                ❌
+                <FcFullTrash className="w-5 h-5" />
               </button>
             )}
 
-            <span className="absolute top-2 left-2 bg-orange-500 text-white text-sm font-semibold px-3 py-1 rounded-lg">
+            <span
+              style={{ backgroundColor: "#ff7b33" }}
+              className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
+            >
               Pacote
             </span>
 
@@ -110,6 +183,17 @@ const InternationalCard = ({ isAdmin = false }) => {
               <p className="text-2xl font-bold text-gray-800">
                 R$ {card.price}
               </p>
+
+              {/* Botão de editar */}
+              {isAdmin && (
+                <button
+                  onClick={() => handleEdit(card)}
+                  className="absolute top-2 right-12 bg-white text-white p-2 rounded-full text-sm hover:bg-blue-700 transition flex items-center justify-center shadow-md"
+                  title="Editar oferta"
+                >
+                  <FcSupport className="w-5 h-5" />
+                </button>
+              )}
             </div>
           </div>
         ))}
@@ -121,6 +205,70 @@ const InternationalCard = ({ isAdmin = false }) => {
       >
         <ArrowRightOutlined />
       </button>
+
+      {/* Modal de edição */}
+      {editModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Editar Oferta</h2>
+
+            <TextField
+              id="destiny"
+              label="Destino"
+              type="text"
+              value={editingCard.destiny}
+              variant="standard"
+              fullWidth
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, destiny: e.target.value })
+              }
+              placeholder="Destino"
+              style={{ marginBottom: "16px" }}
+            />
+
+            <TextField
+              className="mt-4"
+              id="date"
+              label="Data"
+              type="date"
+              variant="standard"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={editingCard.date}
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, date: e.target.value })
+              }
+              style={{ marginBottom: "16px" }}
+            />
+
+            <TextField
+              className="mt-4"
+              type="text"
+              value={editingCard.price}
+              variant="standard"
+              fullWidth
+              onChange={(e) => {
+                setEditingCard({ ...editingCard, price: e.target.value });
+              }}
+              style={{ marginBottom: "16px" }}
+              placeholder="Preço"
+            />
+
+            <button
+              onClick={saveEdit}
+              className="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition"
+            >
+              Salvar
+            </button>
+            <button
+              onClick={() => setEditModalOpen(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition ml-2"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
