@@ -51,11 +51,6 @@ const Footer = () => {
                     Termos de Uso
                   </button>
                 </li>
-                <li>
-                  <Link to="/login" className="hover:underline">
-                    <button className="hover: underline">Admin</button>
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>
