@@ -116,13 +116,13 @@ const CreateInternationalOffer = () => {
               />
               <div className="mt-4 flex text-sm text-gray-600">
                 <label
-                  htmlFor="file-upload"
+                  htmlFor="file-upload-international"
                   className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                 >
                   <span>Upload a file</span>
                   <input
-                    id="file-upload"
-                    name="file-upload"
+                    id="file-upload-international"
+                    name="file-upload-international"
                     type="file"
                     className="sr-only"
                     accept="image/*"

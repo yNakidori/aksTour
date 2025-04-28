@@ -7,49 +7,40 @@ const FeatureModal = ({
   setModalOpen,
 }) => {
   const handleFeatureToggle = (feature) => {
-    setFormData((prev) => {
-      const features = prev.features.includes(feature)
-        ? prev.features.filter((f) => f !== feature)
-        : [...prev.features, feature];
-      return { ...prev, features };
-    });
+    const features = formData.features.includes(feature)
+      ? formData.features.filter((f) => f !== feature)
+      : [...formData.features, feature];
+    setFormData((prev) => ({ ...prev, features }));
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md relative">
-        <button
-          onClick={() => setModalOpen(false)}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-        >
-          <span className="material-icons">close</span>
-        </button>
-        <h3 className="text-xl font-bold text-gray-800 mb-4">
-          Selecione Features
-        </h3>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-md max-h-[80vh] overflow-y-auto p-6">
+        <h3 className="text-lg font-bold mb-4">Selecione as Features</h3>
         <ul className="space-y-2">
-          {featureOptions.map((option, i) => (
-            <li key={i} className="flex items-center">
+          {featureOptions.map((feature, index) => (
+            <li key={index} className="flex items-center">
               <input
                 type="checkbox"
-                id={`feature-${i}`}
-                value={option}
-                onChange={() => handleFeatureToggle(option)}
-                checked={formData.features.includes(option)}
+                id={`feature-${index}`}
+                checked={formData.features.includes(feature)}
+                onChange={() => handleFeatureToggle(feature)}
                 className="mr-2"
               />
-              <label htmlFor={`feature-${i}`} className="text-gray-700">
-                {option}
+              <label htmlFor={`feature-${index}`} className="text-gray-700">
+                {feature}
               </label>
             </li>
           ))}
         </ul>
-        <button
-          onClick={() => setModalOpen(false)}
-          className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-        >
-          Confirmar
-        </button>
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={() => setModalOpen(false)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Fechar
+          </button>
+        </div>
       </div>
     </div>
   );
