@@ -22,18 +22,6 @@ const Navbar = () => {
             <MenuItem>
               {({ active }) => (
                 <Link
-                  to="/destinys"
-                  className={`font-poppins block px-4 py-2 ${
-                    active ? "bg-gray-100" : ""
-                  }`}
-                >
-                  Explore
-                </Link>
-              )}
-            </MenuItem>
-            <MenuItem>
-              {({ active }) => (
-                <Link
                   to="/destinys/nacionais"
                   className={`font-poppins block px-4 py-2 ${
                     active ? "bg-gray-100" : ""

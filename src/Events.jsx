@@ -8,7 +8,13 @@ import {
   Typography,
   Box,
   Button,
+  Container,
+  TextField,
+  Grid,
 } from "@mui/material";
+import Navbar from "./assets/navbar";
+import Footer from "./assets/footer";
+
 import e4 from "./assets/images/events/e4.png";
 import e6 from "./assets/images/events/6.png";
 import e3 from "./assets/images/events/e3.png";
@@ -19,8 +25,6 @@ import bienal from "./assets/images/events/bienal.png";
 import gramado from "./assets/images/events/gramado.png";
 import rock from "./assets/images/events/rock.png";
 import spfw from "./assets/images/events/spfw.png";
-import Navbar from "./assets/navbar";
-import Footer from "./assets/footer";
 
 const eventSuggestions = [
   {
@@ -77,100 +81,92 @@ const Events = () => {
   );
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className="relative">
-        {/* Imagem de Capa */}
-        <div className="w-full h-screen">
+      <Box>
+        {/* Banner */}
+        <Box>
           <Carousel
             showArrows={false}
             autoPlay
             infiniteLoop
             showThumbs={false}
             showStatus={false}
-            interval={3000}
+            interval={4000}
           >
-            {[e4, e6, e3].map((image, index) => (
-              <div key={index}>
+            {[e4, e6, e3].map((img, i) => (
+              <Box key={i}>
                 <img
-                  src={image}
-                  alt={`Banner ${index + 1}`}
+                  src={img}
+                  alt={`Banner ${i + 1}`}
                   className="w-full h-screen object-cover"
                 />
-              </div>
+              </Box>
             ))}
           </Carousel>
-        </div>
+        </Box>
 
-        {/* Conteúdo abaixo da imagem de capa */}
-        <div className="relative flex flex-col items-center justify-center bg-black/50 text-white p-6">
-          <h1 className="text-4xl font-bold mb-6 font-poppins">
-            Eventos imperdíveis
-          </h1>
-          <div className="w-full overflow-auto max-h-[400px]">
-            <div className="flex flex-wrap justify-center gap-6">
-              {filteredEvents.map((event) => (
+        {/* Conteúdo principal */}
+        <Container maxWidth="lg" sx={{ py: 6 }}>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            gutterBottom
+            align="center"
+          >
+            Eventos Imperdíveis de 2025
+          </Typography>
+
+          <Box mb={4} display="flex" justifyContent="center">
+            <TextField
+              label="Buscar evento"
+              variant="outlined"
+              fullWidth
+              sx={{ maxWidth: 500 }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Box>
+
+          <Grid container spacing={4} justifyContent="center">
+            {filteredEvents.map((event) => (
+              <Grid item xs={12} sm={6} md={4} key={event.id}>
                 <Card
-                  key={event.id}
                   sx={{
+                    height: "100%",
                     display: "flex",
-                    width: 380,
-                    backgroundColor: "#fff",
-                    borderRadius: 2,
-                    boxShadow: 3,
-                    position: "relative",
-                    marginBottom: 3,
+                    flexDirection: "column",
+                    borderRadius: 3,
+                    boxShadow: 4,
                   }}
                 >
                   <CardMedia
                     component="img"
-                    sx={{
-                      width: 150,
-                      borderTopLeftRadius: 8,
-                      borderBottomLeftRadius: 8,
-                      objectFit: "cover",
-                    }}
                     image={event.image}
                     alt={event.title}
+                    height="180"
                   />
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      flexGrow: 1,
-                      padding: 2,
-                    }}
-                  >
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography
-                        component="div"
-                        variant="h6"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        {event.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        {event.description}
-                      </Typography>
-                    </CardContent>
-                    <Button
-                      variant="outlined"
-                      sx={{ position: "absolute", bottom: 8, right: 8 }}
-                    >
-                      <a href="">Ingressos</a>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                      {event.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.description}
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{ p: 2, textAlign: "right" }}>
+                    <Button variant="contained" size="small">
+                      Ingressos
                     </Button>
                   </Box>
                 </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+        <Footer />
+      </Box>
+    </>
   );
 };
 
