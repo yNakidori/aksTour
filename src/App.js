@@ -2,7 +2,7 @@ import "./App.css";
 import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
 import CardsBar from "./assets/homepage/cardsBar";
-import Vacation from "./assets/homepage/vacation";
+import AccommodationList from "./assets/admin/AccommodationList";
 import Savan from "./assets/homepage/savan";
 import EuroTuor from "./assets/homepage/euroTuor";
 import Featured from "./assets/homepage/featured";
@@ -10,7 +10,6 @@ import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
-import EuroCards from "./assets/homepage/euroCards";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
 
@@ -34,11 +33,6 @@ function App() {
   return (
     <div className=" ">
       <TravelCarousel />
-      {/* 
-      <div className="container mx-auto">
-        <FlightsForm />
-      </div>
-      */}
       <Navbar />
       <div className="container mx-auto">
         <CardsBar />
@@ -53,11 +47,14 @@ function App() {
         <Featured />
       </div>
       <div className="container mx-auto">
-        <EuroCards />
+        <div className="text-center mt-10 mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Confira aqui algumas das nossas opções de hospedagem!
+          </h1>
+          <div className="h-1 w-16 bg-pink-600 mx-auto mt-2 mb-6"></div>
+        </div>
+        <AccommodationList isAdmin={false} />
       </div>
-      {/*<div className="container mx-auto">
-        <Gastro />
-      </div>*/}
       <div className="container mx-auto">
         <Companys />
       </div>
