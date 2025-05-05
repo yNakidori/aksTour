@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
+import TravelGlobe from "./assets/homepage/travelGlobe";
 import CardsBar from "./assets/homepage/cardsBar";
 import AccommodationList from "./assets/admin/AccommodationList";
 import Savan from "./assets/homepage/savan";
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <div className=" ">
+      <TravelGlobe />
       <TravelCarousel />
       <Navbar />
       <div className="container mx-auto">
