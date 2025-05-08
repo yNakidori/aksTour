@@ -60,10 +60,12 @@ const TravelCarousel = () => {
             {/* Fundo escuro */}
             <div className="absolute inset-0 bg-black bg-opacity-20 flex justify-center items-center">
               <div className="text-center text-white p-6 max-w-4xl">
-                <h2 className="text-6xl font-bold mb-2 typing-animation">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 typing-animation">
                   {slide.title}
                 </h2>
-                <p className="text-2xl">{slide.subtitle}</p>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+                  {slide.subtitle}
+                </p>
               </div>
             </div>
           </div>
@@ -72,14 +74,14 @@ const TravelCarousel = () => {
 
       {/* Icone de seta para rolagem */}
       <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
-        <p className="text-white justify-center items-center flex text-xl font-poppins">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white justify-center items-center flex font-poppins">
           Conheça nossos pacotes
         </p>
         <div
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
           onMouseOver={scrollToNextSection}
         >
-          <ArrowDown className="text-white text-9xl" />
+          <ArrowDown className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-9xl" />
         </div>
       </div>
     </div>

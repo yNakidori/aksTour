@@ -1,8 +1,8 @@
 import "./App.css";
 import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
-import TravelGlobe from "./assets/homepage/travelGlobe";
 import CardsBar from "./assets/homepage/cardsBar";
+import ResponsiveGlobe from "./assets/homepage/ResponsiveGlobe";
 import AccommodationList from "./assets/admin/AccommodationList";
 import Savan from "./assets/homepage/savan";
 import EuroTuor from "./assets/homepage/euroTuor";
@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className=" ">
-      <TravelGlobe />
+      <ResponsiveGlobe />
       <TravelCarousel />
       <Navbar />
       <div className="container mx-auto">
