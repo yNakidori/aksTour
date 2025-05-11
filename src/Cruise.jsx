@@ -7,8 +7,8 @@ import CruiseCard from "./assets/cruise/CruiseCard";
 const Cruise = () => {
   return (
     <>
+      <Navbar />
       <div className="relative min-h-screen">
-        <Navbar />
         <div className="absolute top-0 left-0 w-full h-full -z-10">
           <video
             className="w-full h-full object-cover"
