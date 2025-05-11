@@ -14,6 +14,7 @@ const ResponsiveGlobe = () => {
   const [points, setPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hoveredPoint, setHoveredPoint] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,6 +46,29 @@ const ResponsiveGlobe = () => {
       <button className="close-button" onClick={handleClose}>
         Fechar
       </button>
+
+      {/* Card no canto direito */}
+      <div className="absolute bottom-10 right-4 left-4 md:left-auto md:right-6 md:bottom-20 z-50 bg-white/90 p-5 rounded-2xl shadow-xl w-full max-w-[260px] mx-auto md:mx-0 text-zinc-900">
+        <h3 className="text-lg md:text-xl font-bold uppercase tracking-wide mb-2">
+          Todos os destinos
+        </h3>
+        <p className="text-sm leading-relaxed mb-4">
+          Conheça os <span className="font-semibold">cinco continentes</span> em
+          <br />
+          viagens inesquecíveis!
+          <br />
+          Descubra o mundo conosco!
+        </p>
+        <a
+          href="https://wa.me/5511957700305"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition w-full text-center"
+        >
+          SAIBA MAIS
+        </a>
+      </div>
+
       <Globe
         ref={globeRef}
         width={width}
@@ -54,10 +78,15 @@ const ResponsiveGlobe = () => {
         pointsData={destinos}
         pointLat={(d) => d.lat}
         pointLng={(d) => d.lng}
-        pointAltitude={() => 0.01}
-        pointColor={() => "#ffcc00"}
+        pointAltitude={(d) =>
+          hoveredPoint && hoveredPoint === d ? 0.05 : 0.02
+        }
+        pointColor={(d) =>
+          hoveredPoint && hoveredPoint === d ? "#f54e42" : "#ffcc00"
+        }
         pointRadius={(d) => d.size}
         onPointClick={handlePointClick}
+        onPointHover={setHoveredPoint}
       />
 
       <Drawer
@@ -66,7 +95,7 @@ const ResponsiveGlobe = () => {
         onClose={() => setDrawerOpen(false)}
         sx={{ zIndex: 2000 }}
       >
-        <div className="w-[300px] md:w-[400px] p-4 bg-zinc-900 text-white h-full">
+        <div className="w-[300px] md:w-[400px] p-4 bg-zinc-900 text-white overflow-scroll h-full">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">{selectedPoint?.label}</h2>
             <IconButton onClick={() => setDrawerOpen(false)}>
@@ -74,23 +103,17 @@ const ResponsiveGlobe = () => {
             </IconButton>
           </div>
           <p className="text-sm mb-4">
-            Aqui vai uma descrição de {selectedPoint?.label}.
+            {selectedPoint?.description || "Descrição não disponível."}
           </p>
           <div className="space-y-2">
-            <img
-              src={`/images/${selectedPoint?.label
-                .toLowerCase()
-                .replace(/\s+/g, "-")}-1.jpg`}
-              alt={`${selectedPoint?.label} 1`}
-              className="w-full rounded"
-            />
-            <img
-              src={`/images/${selectedPoint?.label
-                .toLowerCase()
-                .replace(/\s+/g, "-")}-2.jpg`}
-              alt={`${selectedPoint?.label} 2`}
-              className="w-full rounded"
-            />
+            {selectedPoint?.images?.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`${selectedPoint?.label} ${index + 1}`}
+                className="w-full rounded"
+              />
+            ))}
           </div>
         </div>
       </Drawer>
