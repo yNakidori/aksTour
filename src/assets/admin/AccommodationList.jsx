@@ -75,7 +75,15 @@ export default function AccommodationList({ isAdmin = false }) {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        px: { xs: 2, sm: 4, md: 8 }, // padding horizontal responsivo
+        py: 2,
+        justifyContent: "center", // centraliza os cards
+      }}
+    >
       {loading ? (
         <Grid item xs={12} textAlign="center">
           <CircularProgress />
@@ -88,11 +96,21 @@ export default function AccommodationList({ isAdmin = false }) {
         </Grid>
       ) : (
         accommodations.map((acc) => (
-          <Grid item xs={12} sm={6} md={4} key={acc.id}>
-            <Card>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3} // cards menores em telas grandes
+            key={acc.id}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Card sx={{ width: 280 }}>
+              {" "}
+              {/* largura máxima do card */}
               <CardMedia
                 component="img"
-                height="200"
+                height="160"
                 image={acc.mainImageUrl}
                 alt={acc.name}
               />

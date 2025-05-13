@@ -5,9 +5,11 @@ import { Tabs, TabList, Tab, TabPanel, tabClasses } from "@mui/joy";
 import CreateCard from "./assets/admin/CreateCard";
 import CreateNationalOffer from "./assets/admin/CreateNationalOffer";
 import CreateInternationalOffer from "./assets/admin/CreateInternationalOffer";
+import CreateEventsForm from "./assets/admin/CreateEventsForm";
 import NationalCard from "./assets/destinys/nationalCard";
 import InternationalCard from "./assets/destinys/internationalCard";
 import OfferCard from "./assets/admin/OfferCard";
+import EventTicketCard from "./assets/events/EventTicketCard";
 import AccommodationList from "./assets/admin/AccommodationList";
 import CreateAccommodationForm from "./assets/admin/CreateAccommodationForm";
 import { collection, getDocs } from "firebase/firestore";
@@ -70,6 +72,7 @@ const Admin = () => {
             <Tab>Ofertas Nacionais</Tab>
             <Tab>Ofertas Internacionais</Tab>
             <Tab>Hospedagem</Tab>
+            <Tab>Eventos</Tab>
           </TabList>
 
           <TabPanel value={0}>
@@ -117,6 +120,17 @@ const Admin = () => {
               </div>
               <div className="lg:w-2/3 w-full overflow-x-auto mt-10 lg:mt-0">
                 <AccommodationList isAdmin={true} />
+              </div>
+            </div>
+          </TabPanel>
+
+          <TabPanel value={4}>
+            <div className="flex flex-col lg:flex-row gap-6 mt-6 bg-slate-400 bg-opacity-30 rounded-2xl p-4">
+              <div className="lg:w-1/3 w-full bg-slate-50 bg-opacity-80 rounded-2xl p-6">
+                <CreateEventsForm />
+              </div>
+              <div className="lg:w-2/3 w-full overflow-x-auto mt-10 lg:mt-0">
+                <EventTicketCard isAdmin={true} />
               </div>
             </div>
           </TabPanel>
