@@ -1,165 +1,118 @@
 import * as React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  Chip,
-  Divider,
-  List,
-  ListItem,
-  ListItemDecorator,
-  Typography,
-} from "@mui/joy";
-import {
-  Check,
-  KeyboardArrowRight,
-  HourglassEmpty,
-  Close,
-} from "@mui/icons-material";
+import { Box, Typography, Button, Divider } from "@mui/joy";
+import { Check, Close, HourglassEmpty } from "@mui/icons-material";
+
+const items = [
+  {
+    title: "Outras Agências",
+    color: "danger",
+    variant: "outlined",
+    icon: Close,
+    points: [
+      "Pacotes genéricos",
+      "Atendimento automatizado",
+      "Suporte limitado",
+      "Taxas ocultas",
+    ],
+    footer: "Serviços limitados",
+  },
+  {
+    title: "Nossa Agência",
+    color: "success",
+    variant: "solid",
+    icon: Check,
+    points: [
+      "Pacotes personalizados",
+      "Atendimento humano 24/7",
+      "Suporte completo",
+      "Preços transparentes",
+    ],
+    footer: "A melhor escolha para você",
+    cta: true,
+  },
+  {
+    title: "Em breve",
+    color: "warning",
+    variant: "outlined",
+    icon: HourglassEmpty,
+    points: [
+      "Assistente virtual de planejamento",
+      "Aplicativo de acompanhamento",
+      "Pagamentos parcelados",
+      "Destinos exclusivos",
+    ],
+    footer: "Estamos inovando",
+  },
+];
 
 export default function CompareServices() {
   return (
-    <div className="items-center justify-center flex mb-8">
+    <Box className="flex flex-col items-center justify-center w-full px-6">
+      <Typography level="h2" className="text-3xl font-bold text-gray-800 mb-2">
+        Compare e escolha com confiança
+      </Typography>
+      <Typography className="text-gray-600 mb-10 text-center max-w-xl">
+        Veja como nossos serviços se destacam frente ao mercado — e o que ainda
+        estamos preparando.
+      </Typography>
+
       <Box
         sx={{
-          width: "100%",
           display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fill, minmax(min(100%, 300px), 1fr))",
-          gap: 2,
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: 3,
+          width: "100%",
+          maxWidth: "1200px",
         }}
       >
-        {/* Serviços de Outras Agências */}
-        <Card size="lg" variant="outlined" sx={{ borderColor: "error.400" }}>
-          <Chip size="sm" variant="outlined" color="danger">
-            Outras Agências
-          </Chip>
-          <Typography level="h2">O que eles oferecem</Typography>
-          <Divider inset="none" />
-          <List size="sm" sx={{ mx: "calc(-1 * var(--ListItem-paddingX))" }}>
-            <ListItem>
-              <ListItemDecorator>
-                <Close color="error" />
-              </ListItemDecorator>
-              Pacotes genéricos
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Close color="error" />
-              </ListItemDecorator>
-              Atendimento automatizado
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Close color="error" />
-              </ListItemDecorator>
-              Suporte limitado
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Close color="error" />
-              </ListItemDecorator>
-              Taxas ocultas
-            </ListItem>
-          </List>
-          <Divider inset="none" />
-          <CardActions>
-            <Typography level="title-lg" sx={{ mr: "auto" }}>
-              Serviços limitados
+        {items.map((item, index) => (
+          <Box
+            key={index}
+            sx={{
+              borderRadius: "16px",
+              p: 3,
+              border: item.variant === "outlined" ? "1px solid" : "none",
+              borderColor: `${item.color}.300`,
+              backgroundColor:
+                item.variant === "solid" ? `${item.color}.600` : "white",
+              color: item.variant === "solid" ? "white" : "neutral.900",
+              boxShadow: "lg",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              minHeight: "360px",
+            }}
+          >
+            <Typography level="title-md" sx={{ mb: 1 }}>
+              {item.title}
             </Typography>
-          </CardActions>
-        </Card>
-
-        {/* Serviços da Nossa Agência */}
-        <Card size="lg" variant="solid" color="neutral" invertedColors>
-          <Chip size="sm" variant="outlined" color="success">
-            Nossa Agência
-          </Chip>
-          <Typography level="h2">O que nós oferecemos</Typography>
-          <Divider inset="none" />
-          <List size="sm" sx={{ mx: "calc(-1 * var(--ListItem-paddingX))" }}>
-            <ListItem>
-              <ListItemDecorator>
-                <Check color="success" />
-              </ListItemDecorator>
-              Pacotes personalizados
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Check color="success" />
-              </ListItemDecorator>
-              Atendimento humano 24/7
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Check color="success" />
-              </ListItemDecorator>
-              Suporte completo
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <Check color="success" />
-              </ListItemDecorator>
-              Preços transparentes
-            </ListItem>
-          </List>
-          <Divider inset="none" />
-          <CardActions>
-            <Typography level="title-lg" sx={{ mr: "auto" }}>
-              A melhor escolha para você
-            </Typography>
-            <Button
-              variant="soft"
-              color="success"
-              endDecorator={<KeyboardArrowRight />}
+            <Divider sx={{ mb: 2 }} />
+            <Box component="ul" sx={{ listStyle: "none", pl: 0, mb: 3 }}>
+              {item.points.map((point, i) => (
+                <li key={i} className="flex items-center gap-2 mb-2">
+                  <item.icon
+                    color={item.variant === "solid" ? "inherit" : item.color}
+                    fontSize="small"
+                  />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </Box>
+            <Divider sx={{ mb: 2 }} />
+            <Typography
+              level="body-md"
+              sx={{ mb: item.cta ? 2 : 0, fontWeight: 500 }}
             >
-              Entre em contato
-            </Button>
-          </CardActions>
-        </Card>
-
-        {/* Serviços que vamos implementar */}
-        <Card size="lg" variant="outlined" sx={{ borderColor: "warning.400" }}>
-          <Chip size="sm" variant="outlined" color="warning">
-            Planejamento
-          </Chip>
-          <Typography level="h2">Serviços que vamos implementar</Typography>
-          <Divider inset="none" />
-          <List size="sm" sx={{ mx: "calc(-1 * var(--ListItem-paddingX))" }}>
-            <ListItem>
-              <ListItemDecorator>
-                <HourglassEmpty color="warning" />
-              </ListItemDecorator>
-              Assistente virtual de planejamento de viagens
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <HourglassEmpty color="warning" />
-              </ListItemDecorator>
-              Aplicativo móvel para acompanhamento
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <HourglassEmpty color="warning" />
-              </ListItemDecorator>
-              Opções de pagamentos parcelados
-            </ListItem>
-            <ListItem>
-              <ListItemDecorator>
-                <HourglassEmpty color="warning" />
-              </ListItemDecorator>
-              Novos destinos exclusivos
-            </ListItem>
-          </List>
-          <Divider inset="none" />
-          <CardActions>
-            <Typography level="title-lg" sx={{ mr: "auto" }}>
-              Em breve!
+              {item.footer}
             </Typography>
-          </CardActions>
-        </Card>
+            {item.cta && (
+              <Button variant="soft" color={item.color} sx={{ mt: "auto" }}>
+                Fale com um especialista
+              </Button>
+            )}
+          </Box>
+        ))}
       </Box>
-    </div>
+    </Box>
   );
 }

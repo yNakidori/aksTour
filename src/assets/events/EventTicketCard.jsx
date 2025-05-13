@@ -74,12 +74,12 @@ const EventTicketCard = ({ isAdmin = false }) => {
         <ArrowLeftOutlined />
       </button>
       <div ref={containerRef} className="flex gap-4 overflow-x-auto px-6 py-4">
-        {cards.map(({ id, image, title, date, location, price }) => (
+        {cards.map(({ id, Image, title, date, location, price }) => (
           <div
             key={id}
             className="relative w-80 bg-white shadow-xl border rounded-xl overflow-hidden ticket-shape shrink-0"
           >
-            <img src={image} alt={title} className="w-full h-40 object-cover" />
+            <img src={Image} alt={title} className="w-full h-40 object-cover" />
             <div className="p-4 space-y-2">
               <h3 className="text-lg font-bold">{title}</h3>
               <p className="text-sm text-gray-500">📍 {location}</p>

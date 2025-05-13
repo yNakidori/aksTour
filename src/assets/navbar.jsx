@@ -74,7 +74,7 @@ const Navbar = () => {
             <Link to="/cruise">Cruzeiros</Link>
           </li>
           <li className="text-white hover:text-gray-100 border-r pr-4 border-white font-poppins">
-            <Link to="/bus">Ônibus</Link>
+            <Link to="/bus">Rodoviario</Link>
           </li>
           <li className="text-white hover:text-gray-100 border-r pr-4 border-white font-poppins">
             <Link to="/services">Serviços</Link>

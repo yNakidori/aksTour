@@ -24,20 +24,22 @@ const CruiseCard = () => {
   ];
 
   return (
-    <div className="my-12">
-      <h2 className="text-3xl text-center font-bold mb-8 text-white uppercase tracking-wide">
-        Nossos Cruzeiros
-      </h2>
+    <div className="my-12 mb-4">
       <Swiper
-        slidesPerView={3} // Exibe 3 itens por vez
-        centeredSlides={true} // Centraliza o slide ativo
-        spaceBetween={30} // Espaçamento entre slides
-        loop={true} // Loop infinito
-        autoplay={{
-          delay: 2500, // Tempo entre slides
-          disableOnInteraction: false, // Continua rodando após interação
+        slidesPerView={1}
+        breakpoints={{
+          640: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
         }}
-        pagination={{ clickable: true }} // Navegação por pontos
+        centeredSlides={true}
+        spaceBetween={30}
+        loop={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
         modules={[Pagination, Autoplay]}
         className="mySwiper"
       >
