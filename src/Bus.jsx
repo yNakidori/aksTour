@@ -2,9 +2,9 @@ import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import bus from "./assets/images/bus/onibus.png";
-import foz from "./assets/images/bus/foz.png";
-import gramado from "./assets/images/bus/gramado.png";
-import rio from "./assets/images/bus/rio.png";
+import campos from "./assets/images/bus/campos.png";
+import aparecida from "./assets/images/bus/aparecida.png";
+import santos from "./assets/images/bus/santos.png";
 import Whats from "./assets/whats";
 import Lottie from "react-lottie";
 
@@ -26,119 +26,138 @@ const Bus = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-50">
       <Navbar />
 
-      {/* Imagem de Apresentação */}
+      {/* Banner */}
       <div className="relative">
-        <img src={bus} alt="Ônibus" className="w-full h-auto object-cover" />
+        <img
+          src={bus}
+          alt="Ônibus de viagem"
+          className="w-full h-auto object-cover"
+        />
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 flex items-center justify-center">
+          <h1 className="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
+            Viajar de ônibus nunca foi tão fácil
+          </h1>
+        </div>
       </div>
 
-      {/* Seção de Destinos Populares */}
-      <div className="container mx-auto px-6 py-12">
-        <h2 className="text-4xl mt-20 font-bold text-center text-black">
-          🌍 Destinos Populares
+      {/* Intro */}
+      <section className="container mx-auto px-6 py-10 text-center">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          Destinos pertinho de São Paulo
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Quer escapar da rotina sem ir longe? A AKS leva você com conforto e
+          praticidade para destinos incríveis a poucas horas de São Paulo.
+        </p>
+      </section>
+
+      {/* Destinos */}
+      <section className="container mx-auto px-6 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              nome: "Rio de Janeiro",
-              img: rio,
-              desc: "Praias, Cristo Redentor e muito mais!",
+              nome: "Campos do Jordão",
+              img: campos,
+              desc: "A Suíça brasileira com clima ameno e charme nas montanhas.",
             },
             {
-              nome: "Foz do Iguaçu",
-              img: foz,
-              desc: "Desfrute das incríveis Cataratas do Iguaçu.",
+              nome: "Aparecida",
+              img: aparecida,
+              desc: "O maior centro de fé do Brasil, perfeito para um bate-volta espiritual.",
             },
             {
-              nome: "Gramado",
-              img: gramado,
-              desc: "O charme europeu do sul do Brasil.",
+              nome: "Santos",
+              img: santos,
+              desc: "Praias, museus e história a apenas 1h30 da capital.",
             },
           ].map((destino, index) => (
-            <div
-              key={index}
-              className="bg-white bg-opacity-75 p-4 rounded-lg shadow-md"
-            >
-              <h3 className="text-xl font-bold font-poppins">{destino.nome}</h3>
+            <div key={index} className="bg-white p-6 rounded-xl shadow-md">
               <img
                 src={destino.img}
                 alt={destino.nome}
-                className="w-full rounded-lg"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
-              <p className="font-poppins">{destino.desc}</p>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                {destino.nome}
+              </h3>
+              <p className="text-gray-600">{destino.desc}</p>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Seção de Benefícios */}
-      <div className="container mx-auto px-6 py-12">
-        <h2 className="text-4xl font-bold text-center text-black">
-          💼 Benefícios da Viagem de Ônibus com a AKS
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {[
-            {
-              img: "https://cdn-icons-png.flaticon.com/512/833/833593.png",
-              titulo: "Maior Conforto e Segurança",
-              desc: "Viaje com assentos espaçosos e aproveite um trajeto seguro e tranquilo.",
-            },
-            {
-              img: "https://cdn-icons-png.flaticon.com/512/929/929564.png",
-              titulo: "Economia Garantida",
-              desc: "Passagens mais baratas que voos e opções flexíveis para o seu bolso.",
-            },
-            {
-              img: "https://cdn-icons-png.flaticon.com/512/3135/3135706.png",
-              titulo: "Mais Flexibilidade",
-              desc: "Escolha entre vários horários e destinos sem burocracia.",
-            },
-          ].map((beneficio, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center"
-            >
-              <img
-                src={beneficio.img}
-                alt={beneficio.titulo}
-                className="w-16 h-16"
-              />
-              <h3 className="text-xl font-semibold mt-4">{beneficio.titulo}</h3>
-              <p className="text-gray-600 mt-2">{beneficio.desc}</p>
-            </div>
-          ))}
+      {/* Benefícios */}
+      <section className="bg-white py-16">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-10">
+            Por que escolher a AKS?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                img: "https://cdn-icons-png.flaticon.com/512/833/833593.png",
+                titulo: "Conforto e Segurança",
+                desc: "Nossos parceiros oferecem ônibus modernos, confortáveis e com motoristas experientes.",
+              },
+              {
+                img: "https://cdn-icons-png.flaticon.com/512/929/929564.png",
+                titulo: "Preço que Cabe no Bolso",
+                desc: "Viagens acessíveis com opções para todos os perfis.",
+              },
+              {
+                img: "https://cdn-icons-png.flaticon.com/512/3135/3135706.png",
+                titulo: "Horários Flexíveis",
+                desc: "Escolha o melhor dia e horário para você e deixe o resto com a gente.",
+              },
+            ].map((beneficio, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center bg-gray-50 p-6 rounded-lg shadow"
+              >
+                <img
+                  src={beneficio.img}
+                  alt={beneficio.titulo}
+                  className="w-16 h-16 mb-4"
+                />
+                <h3 className="text-lg font-bold text-gray-800">
+                  {beneficio.titulo}
+                </h3>
+                <p className="text-gray-600 mt-2">{beneficio.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Seção de Promoções */}
-      <div className="container mx-auto px-6 py-12 bg-yellow-100 rounded-lg text-center">
-        <h2 className="text-4xl font-bold text-black">
-          🔥 Ofertas e Promoções
+      {/* Como Funciona */}
+      <section className="container mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Como funciona?
         </h2>
-        <p className="text-xl text-gray-700 mt-4">
-          Descontos de até 30% para viagens no final de semana!
-        </p>
-      </div>
-
-      {/* Seção Como Funciona */}
-      <div className="container mx-auto px-6 py-12">
-        <h2 className="text-4xl font-bold text-center text-black">
-          🚌 Como Funciona
-        </h2>
-        <ol className="list-decimal mt-4 ml-8 text-lg text-gray-700">
-          <li>Escolha seu destino e data</li>
-          <li>Selecione a categoria do ônibus</li>
+        <ol className="text-gray-700 space-y-3 text-lg max-w-xl mx-auto list-decimal list-inside">
+          <li>Você escolhe seu destino e datas.</li>
+          <li>Enviamos as opções de horários e valores via WhatsApp.</li>
           <li>
-            Realizamos toda a logística operacional para garantir uma
-            experiência fantástica para você
+            Após confirmação, cuidamos de tudo para você embarcar tranquilo.
           </li>
         </ol>
-      </div>
+      </section>
 
-      {/* Botão Flutuante do WhatsApp */}
+      {/* Promoção */}
+      <section className="bg-yellow-100 py-12 text-center">
+        <h2 className="text-3xl font-bold text-gray-800">
+          🎁 Promoções de fim de semana
+        </h2>
+        <p className="text-lg mt-4 text-gray-700">
+          Até 30% de desconto para viagens curtas saindo de São Paulo. Fale com
+          a gente agora!
+        </p>
+      </section>
+
+      {/* WhatsApp Flutuante */}
       <div
         className="fixed bottom-5 right-5 z-50"
         onClick={handleWhatsAppClick}

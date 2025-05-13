@@ -2,7 +2,7 @@ import React from "react";
 import Featured from "./assets/homepage/featured";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
-import CompareServices from "./assets/compareServices";
+import HowItWorks from "./assets/services/HowItWorks";
 
 const services = [
   {
@@ -33,52 +33,59 @@ const services = [
 
 const Services = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-sky-600">
+    <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <div className="flex-grow">
-        {/* Título da seção */}
-        <h1 className="text-4xl text-center font-bold mt-10 text-gray-800">
-          Serviços
-        </h1>
-        <p className="text-center text-gray-50 mt-2">
-          Explore os serviços que oferecemos para tornar sua viagem
-          inesquecível.
-        </p>
-
-        {/* Cards de serviços */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 max-w-6xl mx-auto">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow bg-white text-center"
-            >
-              <div className="text-6xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {service.title}
-              </h3>
-              <p className="text-gray-600">{service.description}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Cards de serviços */}
-        <div className="bg-orange-200 py-12">
-          <Featured />
-        </div>
-
-        {/* Comparação de Serviços */}
-        <div className="bg-gray-100 py-12">
-          <h2 className="text-3xl text-center font-bold text-gray-800 mb-6">
-            Compare Nossos Serviços
-          </h2>
-          <p className="text-center text-gray-600 mb-8">
-            Veja como nos destacamos em relação às outras agências.
-          </p>
-          <div className="max-w-6xl mx-auto px-6 ">
-            <CompareServices />
+        {/* Cabeçalho da Seção */}
+        <section className="py-16 px-6 bg-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="text-4xl font-bold text-green-900 mb-4">
+              Soluções de Viagem
+            </h1>
+            <p className="text-gray-700 text-lg max-w-2xl">
+              Nós cuidamos de cada detalhe para que você possa aproveitar sua
+              viagem com tranquilidade. Descubra os serviços exclusivos que
+              oferecemos para tornar sua experiência única.
+            </p>
           </div>
-        </div>
+        </section>
+
+        {/* Cards de Serviços */}
+        <section className="py-12 bg-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-6">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-gray-100"
+              >
+                <div className="bg-green-700 text-white text-5xl p-6 text-center">
+                  {service.icon}
+                </div>
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-semibold text-green-900 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm mb-4">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Como Funciona */}
+        <section className="py-12 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-6">
+            <HowItWorks />
+          </div>
+        </section>
       </div>
+
+      {/* Destaques */}
+      <section className="bg-orange-100 py-12">
+        <Featured />
+      </section>
 
       <Footer />
     </div>
