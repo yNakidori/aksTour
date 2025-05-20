@@ -29,6 +29,90 @@ const Cruise = () => {
       </div>
 
       {/* Sessão Informativa */}
+      <section className="bg-gray-50 py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-blue-900 mb-8">
+            Por que escolher um cruzeiro?
+          </h2>
+          <div className="text-lg text-gray-700 space-y-6 text-justify max-w-4xl mx-auto">
+            <p>
+              Viajar de cruzeiro é uma das formas mais relaxantes e completas de
+              explorar diversos destinos em uma única viagem. Com conforto de
+              hotel 5 estrelas, gastronomia internacional, entretenimento a
+              bordo e paisagens incríveis, você aproveita cada segundo, sem se
+              preocupar com deslocamentos ou bagagens.
+            </p>
+            <p>
+              É ideal para casais, famílias, grupos ou até mesmo para quem busca
+              uma viagem solo segura e cheia de atividades. Dos mares tropicais
+              do Caribe às rotas históricas da Europa, há sempre uma nova
+              experiência esperando por você.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Nova Sessão: Tipos de Cruzeiros */}
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-blue-900 mb-8">
+            Tipos de Cruzeiros
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+            {[
+              {
+                title: "Cruzeiro Romântico",
+                description:
+                  "Perfeito para casais em lua de mel ou datas especiais. Ambientes intimistas, jantares exclusivos e muito charme em alto mar.",
+                icon: "💑",
+              },
+              {
+                title: "Cruzeiro Familiar",
+                description:
+                  "Atividades para todas as idades, áreas infantis, parques aquáticos e entretenimento para garantir diversão em grupo.",
+                icon: "👨‍👩‍👧‍👦",
+              },
+              {
+                title: "Cruzeiro de Aventura",
+                description:
+                  "Para quem busca destinos exóticos e paisagens selvagens. Trilha, mergulho e excursões com emoção garantida.",
+                icon: "🌋",
+              },
+              {
+                title: "Cruzeiro de Luxo",
+                description:
+                  "O ápice da sofisticação. Cabines espaçosas, spas, restaurantes gourmet e atendimento premium a bordo.",
+                icon: "🛳️",
+              },
+              {
+                title: "Cruzeiro Temático",
+                description:
+                  "Experiências com temas como gastronomia, música, esportes ou cultura pop, para quem busca algo fora do comum.",
+                icon: "🎭",
+              },
+              {
+                title: "Mini Cruzeiros",
+                description:
+                  "Viagens rápidas de 2 a 5 dias, ideais para escapadas curtas sem abrir mão da experiência completa de cruzeiro.",
+                icon: "⏱️",
+              },
+            ].map((type, index) => (
+              <div
+                key={index}
+                className="rounded-xl bg-gray-100 p-6 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="text-4xl mb-4 text-blue-700 text-center">
+                  {type.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                  {type.title}
+                </h3>
+                <p className="text-gray-700 text-sm">{type.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="bg-white py-16 px-6 text-gray-800">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6 uppercase tracking-wide">
@@ -50,10 +134,10 @@ const Cruise = () => {
         </div>
       </section>
 
-      {/* Seção com carrossel */}
-      <section className="bg-[#c0d9f1] py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 uppercase tracking-wide">
+      {/* Seção com carrossel de cruzeiros */}
+      <section className="bg-blue-50 py-16 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-blue-900 mb-12">
             Nossos Cruzeiros
           </h2>
           <CruiseCard />

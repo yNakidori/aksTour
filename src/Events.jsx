@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, Typography, Container } from "@mui/material";
+import React from "react";
+import { Box, Typography, Container, Grid, Paper } from "@mui/material";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import backgroundHero from "./assets/images/events/e3.png";
@@ -36,8 +36,8 @@ const Events = () => {
       </Box>
 
       {/* Destaques */}
-      <Container sx={{ mt: 6, mb: 2, textAlign: "center" }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Container sx={{ mt: 10, mb: 4, textAlign: "center" }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom color="primary">
           Eventos em Destaque
         </Typography>
         <Typography variant="body1" color="textSecondary">
@@ -48,17 +48,82 @@ const Events = () => {
       {/* Carrossel de Eventos */}
       <Box
         sx={{
-          display: "flex",
-          overflowX: "auto",
-          gap: 3,
+          backgroundColor: "#f0f4f8",
+          py: 6,
           px: 4,
-          pb: 6,
-          scrollSnapType: "x mandatory",
+          overflowX: "auto",
         }}
       >
-        {/* O componente EventTicketCard já busca os eventos do Firebase */}
-        <EventTicketCard />
+        <Box
+          sx={{
+            display: "flex",
+            gap: 3,
+            scrollSnapType: "x mandatory",
+          }}
+        >
+          <EventTicketCard />
+        </Box>
       </Box>
+
+      {/* Nova Seção - Benefícios de participar */}
+      <Container sx={{ py: 10 }}>
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          align="center"
+          gutterBottom
+          color="primary"
+        >
+          Por que Participar de um Evento com a Gente?
+        </Typography>
+
+        <Grid container spacing={4} mt={3}>
+          {[
+            {
+              icon: "🎫",
+              title: "Ingressos Garantidos",
+              desc: "Tenha acesso facilitado aos eventos mais disputados sem enfrentar filas ou riscos de esgotamento.",
+            },
+            {
+              icon: "🚌",
+              title: "Transporte Incluso",
+              desc: "Saídas organizadas com segurança, conforto e pontualidade, direto para o evento.",
+            },
+            {
+              icon: "🛏️",
+              title: "Hospedagem e Roteiros",
+              desc: "Oferecemos pacotes com hospedagem e passeios para curtir o evento sem preocupações.",
+            },
+          ].map((item, i) => (
+            <Grid item xs={12} md={4} key={i}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 4,
+                  textAlign: "center",
+                  borderRadius: 4,
+                  height: "100%",
+                }}
+              >
+                <Typography variant="h3" component="div">
+                  {item.icon}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  mt={2}
+                  color="primary"
+                >
+                  {item.title}
+                </Typography>
+                <Typography variant="body1" color="textSecondary" mt={1}>
+                  {item.desc}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
 
       <Footer />
     </>
