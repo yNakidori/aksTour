@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Typography, Container } from "@mui/material";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
-import backgroundHero from "./assets/images/events/e4.png";
+import backgroundHero from "./assets/images/events/e3.png";
 import EventTicketCard from "./assets/events/EventTicketCard";
 
 const Events = () => {

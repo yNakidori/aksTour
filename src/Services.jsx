@@ -8,26 +8,32 @@ const services = [
   {
     title: "Pacotes de Viagem Personalizados",
     description:
-      "Oferecemos pacotes de viagem sob medida para atender suas preferências e orçamento.",
+      "Transformamos seus sonhos em itinerários únicos. Seja uma lua de mel romântica ou uma aventura em família, criamos experiências sob medida que se encaixam no seu estilo e no seu orçamento.",
     icon: "🌍",
   },
   {
     title: "Reserva de Hotéis",
     description:
-      "Encontre os melhores hotéis com preços acessíveis para uma estadia confortável.",
+      "Conforto e praticidade em cada destino. Conte com nossa curadoria para garantir as melhores acomodações com preços acessíveis e localização privilegiada.",
     icon: "🏨",
   },
   {
     title: "Passeios Guiados",
     description:
-      "Explore destinos incríveis com guias experientes e apaixonados.",
+      "Explore cada canto com quem realmente conhece. Nossos guias apaixonados oferecem roteiros culturais, históricos e naturais, com segurança e muita informação.",
     icon: "🗺️",
   },
   {
     title: "Seguro Viagem",
     description:
-      "Viaje com tranquilidade com nosso seguro viagem que cobre imprevistos.",
+      "Viaje com tranquilidade e segurança. Nossos seguros oferecem cobertura completa contra imprevistos, garantindo suporte onde quer que você esteja.",
     icon: "🛡️",
+  },
+  {
+    title: "Emissão de Visto",
+    description:
+      "Cuidamos de todo o processo de solicitação de visto com agilidade e precisão. Você fornece os documentos, e nós lidamos com a burocracia — simples, seguro e sem complicações.",
+    icon: "📄",
   },
 ];
 
@@ -36,13 +42,13 @@ const Services = () => {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <div className="flex-grow">
-        {/* Cabeçalho da Seção */}
-        <section className="py-16 px-6 bg-gray-50">
-          <div className="max-w-6xl mx-auto">
-            <h1 className="text-4xl font-bold text-green-900 mb-4">
+        {/* Cabeçalho */}
+        <section className="py-20 px-6 bg-gradient-to-b from-green-100 via-white to-white">
+          <div className="max-w-5xl mx-auto text-center">
+            <h1 className="text-5xl font-bold text-green-800 mb-6">
               Soluções de Viagem
             </h1>
-            <p className="text-gray-700 text-lg max-w-2xl">
+            <p className="text-gray-700 text-lg">
               Nós cuidamos de cada detalhe para que você possa aproveitar sua
               viagem com tranquilidade. Descubra os serviços exclusivos que
               oferecemos para tornar sua experiência única.
@@ -51,31 +57,31 @@ const Services = () => {
         </section>
 
         {/* Cards de Serviços */}
-        <section className="py-12 bg-white">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-6">
+        <section className="py-16 bg-white">
+          <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-gray-100"
+                className="relative bg-gray-50 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 p-8 text-center border border-gray-200"
               >
-                <div className="bg-green-700 text-white text-5xl p-6 text-center">
-                  {service.icon}
+                <div className="flex items-center justify-center mb-6">
+                  <div className="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center text-4xl shadow-md">
+                    {service.icon}
+                  </div>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-green-900 mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-700 text-sm mb-4">
-                    {service.description}
-                  </p>
-                </div>
+                <h3 className="text-2xl font-semibold text-green-800 mb-4">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {service.description}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Como Funciona */}
-        <section className="py-12 bg-gray-50">
+        <section className="py-16 bg-gray-50">
           <div className="max-w-6xl mx-auto px-6">
             <HowItWorks />
           </div>
@@ -83,7 +89,7 @@ const Services = () => {
       </div>
 
       {/* Destaques */}
-      <section className="bg-orange-100 py-12">
+      <section className="bg-orange-100 py-16">
         <Featured />
       </section>
 
