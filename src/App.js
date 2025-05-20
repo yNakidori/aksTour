@@ -2,7 +2,6 @@ import "./App.css";
 import Navbar from "./assets/navbar";
 import TravelCarousel from "./assets/carousel";
 import CardsBar from "./assets/homepage/cardsBar";
-import ResponsiveGlobe from "./assets/homepage/ResponsiveGlobe";
 import AccommodationList from "./assets/admin/AccommodationList";
 import Savan from "./assets/homepage/savan";
 import EuroTuor from "./assets/homepage/euroTuor";
@@ -33,13 +32,44 @@ function App() {
 
   return (
     <div className=" ">
-      <ResponsiveGlobe />
       <TravelCarousel />
       <Navbar />
-      <div></div>
+
       <div className="container mx-auto">
         <CardsBar />
       </div>
+
+      {/* NOVA SEÇÃO: Destaques da Semana */}
+      <div className="container mx-auto my-12 px-4">
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">
+          Destaques da Semana
+        </h2>
+        <div className="h-1 w-16 bg-yellow-500 mx-auto mb-6"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Promoções Relâmpago</h3>
+            <p className="text-gray-600">
+              Aproveite ofertas especiais em destinos selecionados por tempo
+              limitado.
+            </p>
+          </div>
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Destinos Exóticos</h3>
+            <p className="text-gray-600">
+              Descubra lugares fora do comum com pacotes exclusivos e
+              personalizados.
+            </p>
+          </div>
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Suporte 24/7</h3>
+            <p className="text-gray-600">
+              Nossa equipe está sempre disponível para te ajudar, antes, durante
+              e depois da viagem.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto">
         <Savan />
       </div>
@@ -49,6 +79,8 @@ function App() {
       <div className="container mx-auto">
         <Featured />
       </div>
+
+      {/* TÍTULO ANTES DA LISTA DE HOSPEDAGENS */}
       <div className="container mx-auto">
         <div className="text-center mt-10 mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
@@ -58,18 +90,55 @@ function App() {
         </div>
         <AccommodationList isAdmin={false} />
       </div>
+
+      {/* NOVA SEÇÃO: Quem Somos */}
+      <div className="container mx-auto my-12 px-4 text-center">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">Quem somos</h2>
+        <div className="h-1 w-16 bg-blue-500 mx-auto mb-6"></div>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          Somos uma agência especializada em criar experiências inesquecíveis.
+          Seja uma viagem de férias, intercâmbio ou hospedagens exclusivas,
+          nosso compromisso é com a sua satisfação e segurança. Conheça nossos
+          destinos e venha viajar com tranquilidade!
+        </p>
+      </div>
+
       <div className="container mx-auto">
         <Companys />
       </div>
       <div className="container mx-auto">
         <Clients />
       </div>
+
+      {/* NOVA SEÇÃO: Depoimento de Cliente */}
+      <div className="bg-gray-100 py-10">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            O que dizem nossos viajantes
+          </h2>
+          <div className="h-1 w-16 bg-green-500 mx-auto mb-6"></div>
+          <div className="max-w-4xl mx-auto">
+            <p className="italic text-gray-700 text-lg">
+              “A melhor experiência que já tive! Tudo muito organizado,
+              atendimento rápido e destinos incríveis. Recomendo para todos que
+              querem viajar com tranquilidade.”
+            </p>
+            <span className="block mt-4 font-semibold text-gray-800">
+              — Mariana Costa
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Botão WhatsApp */}
       <div
         className="fixed bottom-5 right-5 z-50"
         onClick={handleWhatsAppClick}
       >
         <Lottie options={defaultOptions} height={100} width={100} />
       </div>
+
+      {/* CHAMADA FINAL */}
       <div className="text-center mt-10 mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
           Clique aqui e saiba tudo sobre as nossas oportunidades!
@@ -86,6 +155,7 @@ function App() {
           onClick={handleWhatsAppClick}
         />
       </div>
+
       <Footer />
     </div>
   );

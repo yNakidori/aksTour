@@ -5,6 +5,7 @@ import CT5 from "../assets/images/caribe.jpg";
 import CT6 from "../assets/images/capadocia.jpg";
 import CT7 from "../assets/images/liberdade.jpg";
 import CT8 from "../assets/images/bariloche.jpg";
+import mundi from "../assets/images/mundi.png";
 
 const TravelCarousel = () => {
   const CustomPrevArrow = ({ onClick }) => (
@@ -29,7 +30,7 @@ const TravelCarousel = () => {
     dots: true,
     infinite: true,
     speed: 1100,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -38,6 +39,11 @@ const TravelCarousel = () => {
   };
 
   const slides = [
+    {
+      src: mundi,
+      title: "Explore o Mundo",
+      subtitle: "Descubra novos horizontes e viva experiências únicas.",
+    },
     {
       src: CT5,
       title: "Descubra Novos Destinos",

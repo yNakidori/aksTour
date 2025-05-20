@@ -27,6 +27,7 @@ import agra3 from "../images/globe/agra3.png";
 import paris from "../images/globe/paris.png";
 import paris2 from "../images/globe/paris2.png";
 import paris3 from "../images/globe/paris3.png";
+import eifel from "../images/icons/eifelIcon.png";
 // roma
 import roma from "../images/globe/roma.png";
 import roma2 from "../images/globe/roma2.png";
@@ -40,9 +41,10 @@ const destinos = [
   {
     lat: 40.7128,
     lng: -74.006,
+    icon: "fa-solid fa-plane",
     size: 0.5,
     label: "Nova York",
-    images: [ny, ny2, ny3],
+    images: eifel,
     description:
       "Nova York é famosa por sua arquitetura imponente e vida agitada.",
   },
