@@ -39,37 +39,6 @@ function App() {
         <CardsBar />
       </div>
 
-      {/* NOVA SEÇÃO: Destaques da Semana */}
-      <div className="container mx-auto my-12 px-4">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">
-          Destaques da Semana
-        </h2>
-        <div className="h-1 w-16 bg-yellow-500 mx-auto mb-6"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-2">Promoções Relâmpago</h3>
-            <p className="text-gray-600">
-              Aproveite ofertas especiais em destinos selecionados por tempo
-              limitado.
-            </p>
-          </div>
-          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-2">Destinos Exóticos</h3>
-            <p className="text-gray-600">
-              Descubra lugares fora do comum com pacotes exclusivos e
-              personalizados.
-            </p>
-          </div>
-          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold mb-2">Suporte 24/7</h3>
-            <p className="text-gray-600">
-              Nossa equipe está sempre disponível para te ajudar, antes, durante
-              e depois da viagem.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div className="container mx-auto">
         <Savan />
       </div>
@@ -101,6 +70,37 @@ function App() {
           nosso compromisso é com a sua satisfação e segurança. Conheça nossos
           destinos e venha viajar com tranquilidade!
         </p>
+      </div>
+
+      {/* NOVA SEÇÃO: Destaques da Semana */}
+      <div className="container mx-auto my-12 px-4">
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">
+          Destaques
+        </h2>
+        <div className="h-1 w-16 bg-yellow-500 mx-auto mb-6"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Promoções Relâmpago</h3>
+            <p className="text-gray-600">
+              Aproveite ofertas especiais em destinos selecionados por tempo
+              limitado.
+            </p>
+          </div>
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Destinos Exóticos</h3>
+            <p className="text-gray-600">
+              Descubra lugares fora do comum com pacotes exclusivos e
+              personalizados.
+            </p>
+          </div>
+          <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+            <h3 className="text-xl font-semibold mb-2">Suporte 24/7</h3>
+            <p className="text-gray-600">
+              Nossa equipe está sempre disponível para te ajudar, antes, durante
+              e depois da viagem.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="container mx-auto">

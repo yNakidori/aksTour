@@ -4,8 +4,26 @@ import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import backgroundHero from "./assets/images/events/e3.png";
 import EventTicketCard from "./assets/events/EventTicketCard";
+import Whats from "./assets/whats.json";
+import Lottie from "react-lottie";
 
 const Events = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: Whats,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const whatsappNumber = "5511957700305";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá!`;
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappLink, "_blank");
+  };
+
   return (
     <>
       <Navbar />
@@ -124,6 +142,14 @@ const Events = () => {
           ))}
         </Grid>
       </Container>
+
+      {/* Botão WhatsApp */}
+      <div
+        className="fixed bottom-5 right-5 z-50"
+        onClick={handleWhatsAppClick}
+      >
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
 
       <Footer />
     </>

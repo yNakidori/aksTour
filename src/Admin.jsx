@@ -77,7 +77,7 @@ const Admin = () => {
 
           <TabPanel value={0}>
             <div className="flex flex-col lg:flex-row gap-6 mt-6 bg-slate-400 bg-opacity-30 rounded-2xl p-4">
-              <div className="lg:w-1/3 w-full bg-slate-50 bg-opacity-80 rounded-2xl p-6">
+              <div className="lg:w-1/3 w-full bg-slate-500 bg-opacity-80 rounded-2xl p-6">
                 <CreateCard />
               </div>
               <div className="lg:w-2/3 w-full overflow-x-auto mt-10 lg:mt-0">

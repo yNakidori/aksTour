@@ -5,8 +5,26 @@ import turquia from "./assets/images/turquia.jpg";
 import InternationalCard from "./assets/destinys/internationalCard";
 import CustomInternationalCard from "./assets/destinys/customInternationalCard";
 import Services from "./assets/destinys/services";
+import Whats from "./assets/whats.json";
+import Lottie from "react-lottie";
 
 const InternationalDestinys = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: Whats,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const whatsappNumber = "5511957700305";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá!`;
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappLink, "_blank");
+  };
+
   return (
     <div>
       <div
@@ -75,6 +93,14 @@ const InternationalDestinys = () => {
             <Services />
           </div>
         </div>
+      </div>
+
+      {/* Botão WhatsApp */}
+      <div
+        className="fixed bottom-5 right-5 z-50"
+        onClick={handleWhatsAppClick}
+      >
+        <Lottie options={defaultOptions} height={100} width={100} />
       </div>
 
       <Footer />

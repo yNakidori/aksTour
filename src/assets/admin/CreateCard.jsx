@@ -71,6 +71,21 @@ const CreateCard = () => {
         </h2>
         <FeedbackMessage success={success} error={error} />
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-gray-700 mb-2" htmlFor="place">
+              Nome do Destino
+            </label>
+            <input
+              type="text"
+              id="place"
+              value={formData.place}
+              onChange={(e) =>
+                setFormData({ ...formData, place: e.target.value })
+              }
+              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
           <ImageUpload formData={formData} setFormData={setFormData} />
           <CustomFields formData={formData} setFormData={setFormData} />
           <div>
@@ -79,7 +94,6 @@ const CreateCard = () => {
               onClick={() => setModalOpen(true)}
               className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center"
             >
-              <span className="material-icons mr-2">add</span>
               Selecionar Features
             </button>
             <ul className="mt-2 space-y-1">
@@ -94,7 +108,6 @@ const CreateCard = () => {
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center"
           >
-            <span className="material-icons mr-2">check</span>
             Criar Card
           </button>
         </form>
