@@ -83,7 +83,7 @@ const OfferCard = ({ cards, setCards, selectedCards, setSelectedCards }) => {
           {cards.map((card) => (
             <div
               key={card.id}
-              className={`min-w-[300px] backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-lg p-4 transition-all duration-300 hover:shadow-2xl ${
+              className={`min-w-[300px] backdrop-blur-md bg-black/30 border border-white/20 rounded-2xl shadow-lg p-4 transition-all duration-300 hover:shadow-2xl ${
                 selectedCards.includes(card.id) ? "border-green-500/80" : ""
               }`}
             >

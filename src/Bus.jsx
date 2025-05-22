@@ -148,12 +148,10 @@ const Bus = () => {
 
       {/* Promoção */}
       <section className="bg-yellow-100 py-12 text-center">
-        <h2 className="text-3xl font-bold text-gray-800">
-          🎁 Promoções de fim de semana
-        </h2>
+        <h2 className="text-3xl font-bold text-gray-800">🎁 Promoções</h2>
         <p className="text-lg mt-4 text-gray-700">
-          Até 30% de desconto para viagens curtas saindo de São Paulo. Fale com
-          a gente agora!
+          Descontos para viagens curtas saindo de São Paulo. Fale com a gente
+          agora!
         </p>
       </section>
 

@@ -7,8 +7,11 @@ import CT6 from "../assets/images/capadocia.jpg";
 import CT7 from "../assets/images/liberdade.jpg";
 import CT8 from "../assets/images/bariloche.jpg";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const TravelCarousel = () => {
+  const navigate = useNavigate();
+
   const CustomPrevArrow = ({ onClick }) => (
     <button
       onClick={onClick}
@@ -26,6 +29,14 @@ const TravelCarousel = () => {
       <ChevronRight size={28} />
     </button>
   );
+
+  const handleDestinyClick = () => {
+    navigate("/destinys/internacionais");
+  };
+
+  const handleServicesClick = () => {
+    navigate("/services");
+  };
 
   const settings = {
     dots: true,
@@ -109,7 +120,10 @@ const TravelCarousel = () => {
                     Rápido, simples e sem erros! <br />
                     Você viaja tranquilo e a gente cuida de tudo!
                   </p>
-                  <button className="mt-4 text-blue-600 font-semibold hover:underline">
+                  <button
+                    onClick={handleServicesClick}
+                    className="mt-4 text-blue-600 font-semibold hover:underline"
+                  >
                     SAIBA MAIS
                   </button>
                 </div>
@@ -127,7 +141,10 @@ const TravelCarousel = () => {
                     <br />
                     Descubra o mundo conosco!
                   </p>
-                  <button className="mt-4 text-green-600 font-semibold hover:underline">
+                  <button
+                    onClick={handleDestinyClick}
+                    className="mt-4 text-green-600 font-semibold hover:underline"
+                  >
                     SAIBA MAIS
                   </button>
                 </div>

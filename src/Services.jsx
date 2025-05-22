@@ -3,6 +3,8 @@ import Featured from "./assets/homepage/featured";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import HowItWorks from "./assets/services/HowItWorks";
+import Whats from "./assets/whats.json";
+import Lottie from "react-lottie";
 
 const services = [
   {
@@ -38,20 +40,59 @@ const services = [
 ];
 
 const Services = () => {
+  const defaultOptions = {
+    Loop: true,
+    autoplay: true,
+    animationData: Whats,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const whatsappNumber = "5511957700305";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá!`;
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappLink, "_blank");
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <div className="flex-grow">
         {/* Cabeçalho */}
-        <section className="py-20 px-6 bg-gradient-to-b from-green-100 via-white to-white">
+        <section className="py-20 px-6 bg-gradient-to-b from-blue-100 via-white to-white">
           <div className="max-w-5xl mx-auto text-center">
-            <h1 className="text-5xl font-bold text-green-800 mb-6">
+            <h1 className="text-5xl font-bold text-blue-800 mb-6">
               Soluções de Viagem
             </h1>
             <p className="text-gray-700 text-lg">
               Nós cuidamos de cada detalhe para que você possa aproveitar sua
               viagem com tranquilidade. Descubra os serviços exclusivos que
               oferecemos para tornar sua experiência única.
+            </p>
+          </div>
+        </section>
+
+        {/* Seção especial sobre Emissão de Visto */}
+        <section className="py-20 bg-blue-50">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-bold text-yellow-400 mb-6">
+              Emissão de Visto sem Complicações
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Sabemos que o processo de obtenção de visto pode ser estressante e
+              confuso. Por isso, oferecemos um serviço completo e descomplicado
+              de <strong>emissão de vistos</strong>. Nossa equipe especializada
+              cuida de todas as etapas: desde a análise dos documentos até o
+              agendamento da entrevista. Com a gente, você evita erros,
+              economiza tempo e garante mais tranquilidade para focar no que
+              realmente importa:
+              <em> sua viagem</em>.
+            </p>
+            <p className="mt-6 text-green-800 font-medium text-md">
+              Atendemos vistos para os EUA, Canadá, Europa, Japão e outros
+              destinos.
             </p>
           </div>
         </section>
@@ -89,9 +130,17 @@ const Services = () => {
       </div>
 
       {/* Destaques */}
-      <section className="bg-orange-100 py-16">
+      <section className="bg-yellow-50 py-16">
         <Featured />
       </section>
+
+      {/* Botão WhatsApp */}
+      <div
+        className="fixed bottom-5 right-5 z-50"
+        onClick={handleWhatsAppClick}
+      >
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
 
       <Footer />
     </div>

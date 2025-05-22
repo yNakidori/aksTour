@@ -5,6 +5,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firbase";
 import { useNavigate } from "react-router-dom";
+import swiss from "../assets/images/swiss.jpg";
 import Navbar from "../assets/navbar";
 import Footer from "../assets/footer";
 
@@ -32,7 +33,7 @@ const Login = () => {
         );
         const data = await response.json();
         if (data.photos.length > 0) {
-          setBackgroundImage(data.photos[0].src.landscape);
+          setBackgroundImage(data.photos[0].src.large2x);
         }
       } catch (error) {
         console.log("Erro ao buscar imagem do Pexels:", error);
@@ -46,12 +47,7 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("Usuário logado: ", userCredential.user);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate("/admin");
     } catch (error) {
       setError(error.message);
@@ -60,7 +56,6 @@ const Login = () => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    setResetMessage(null);
     try {
       await sendPasswordResetEmail(auth, resetEmail);
       setResetMessage("Email de redefinição de senha enviado!");
@@ -70,83 +65,86 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div
+      className="min-h-screen flex flex-col bg-gray-100"
+      style={{
+        backgroundImage: `url(${swiss})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Navbar />
-      <section
-        className="bg-gray-50 dark:bg-orange-200 min-h-screen flex items-center justify-center"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          transition: "background 0.5s ease-in-out",
-        }}
-      >
-        <div className="bg-black bg-opacity-80 backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
-            Login
-          </h1>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-white">
-                Seu email
-              </label>
+      <div className="flex flex-1 items-center justify-center">
+        <div className="flex w-full max-w-6xl h-[700px] bg-white shadow-2xl rounded-3xl overflow-hidden">
+          {/* Seção do formulário */}
+          <div className="w-full md:w-1/2 p-12 flex flex-col justify-center bg-white">
+            <h2 className="text-4xl font-bold text-center mb-8">
+              Bem-vindo de volta
+            </h2>
+            <form onSubmit={handleLogin} className="space-y-6">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2 border rounded-lg focus:ring focus:ring-primary-300"
-                placeholder="name@company.com"
+                className="w-full px-6 py-3 border border-gray-300 rounded-lg text-lg"
+                placeholder="Email"
                 required
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-white">
-                Senha
-              </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-2 border rounded-lg focus:ring focus:ring-primary-300"
-                placeholder="••••••••"
+                className="w-full px-6 py-3 border border-gray-300 rounded-lg text-lg"
+                placeholder="Senha"
                 required
               />
-            </div>
-            <button
-              type="submit"
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 p-2 rounded-lg"
-            >
-              Login
-            </button>
-            {error && <p className="text-red-500 text-center">{error}</p>}
-          </form>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition"
+              >
+                Entrar
+              </button>
+              {error && <p className="text-red-500 text-center">{error}</p>}
+            </form>
 
-          <form onSubmit={handleResetPassword} className="mt-4 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-white">
-                Email para redefinição de senha
-              </label>
+            <form onSubmit={handleResetPassword} className="mt-6 space-y-4">
               <input
                 type="email"
                 value={resetEmail}
                 onChange={(e) => setResetEmail(e.target.value)}
-                className="w-full p-2 border rounded-lg focus:ring focus:ring-primary-300"
-                placeholder="name@company.com"
+                className="w-full px-6 py-3 border border-gray-300 rounded-lg text-lg"
+                placeholder="Email para redefinir senha"
                 required
               />
+              <button
+                type="submit"
+                className="w-full bg-gray-600 text-white py-3 rounded-lg text-lg hover:bg-gray-700 transition"
+              >
+                Redefinir Senha
+              </button>
+              {resetMessage && (
+                <p className="text-green-500 text-center">{resetMessage}</p>
+              )}
+            </form>
+          </div>
+
+          {/* Seção da imagem com chamada */}
+          <div
+            className="hidden md:flex w-1/2 bg-cover bg-center items-center justify-center text-white relative"
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+            }}
+          >
+            <div className="bg-black bg-opacity-60 p-12 rounded-2xl text-center max-w-sm">
+              <h2 className="text-4xl font-bold mb-6">Comece sua jornada</h2>
+              <p className="mb-6 text-lg">
+                Explore, descubra novos lugares e inspire-se com as
+                possibilidades.
+              </p>
             </div>
-            <button
-              type="submit"
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 p-2 rounded-lg"
-            >
-              Redefinir senha
-            </button>
-            {resetMessage && (
-              <p className="text-green-500 text-center">{resetMessage}</p>
-            )}
-          </form>
+          </div>
         </div>
-      </section>
+      </div>
       <Footer />
     </div>
   );
