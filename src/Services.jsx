@@ -106,11 +106,11 @@ const Services = () => {
                 className="relative bg-gray-50 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 p-8 text-center border border-gray-200"
               >
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-green-600 text-white rounded-full flex items-center justify-center text-4xl shadow-md">
+                  <div className="w-20 h-20 bg-yellow-400 text-white rounded-full flex items-center justify-center text-4xl shadow-md">
                     {service.icon}
                   </div>
                 </div>
-                <h3 className="text-2xl font-semibold text-green-800 mb-4">
+                <h3 className="text-2xl font-semibold text-blue-400 mb-4">
                   {service.title}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">

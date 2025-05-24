@@ -8,6 +8,9 @@ import {
   Button,
   Card,
   CardContent,
+  Container,
+  Grid,
+  Paper,
 } from "@mui/material";
 import Swal from "sweetalert2";
 
@@ -60,9 +63,7 @@ const Contact = () => {
               <Typography variant="body1" className="mb-2">
                 <strong>Email:</strong> contato@akstur.com.br
               </Typography>
-              <Typography variant="body1" className="mb-2">
-                <strong>Telefone:</strong> (11) 95770-0305
-              </Typography>
+
               <Typography variant="body1">
                 <strong>Instagram:</strong> <InstagramPost />
               </Typography>
@@ -123,6 +124,58 @@ const Contact = () => {
           </Card>
         </div>
       </div>
+
+      <Container className="py-12">
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          align="center"
+          color="primary"
+          gutterBottom
+        >
+          Estamos aqui para você
+        </Typography>
+        <Grid container spacing={4} mt={4}>
+          {[
+            {
+              emoji: "⏱️",
+              title: "Atendimento rápido",
+              desc: "Respondemos em até 24 horas úteis.",
+            },
+            {
+              emoji: "🧭",
+              title: "Guiamos sua jornada",
+              desc: "Oferecemos suporte em todas as etapas da sua viagem.",
+            },
+            {
+              emoji: "🤝",
+              title: "Equipe dedicada",
+              desc: "Nosso time é apaixonado por transformar experiências em memórias.",
+            },
+          ].map((item, i) => (
+            <Grid item xs={12} md={4} key={i}>
+              <Paper
+                elevation={3}
+                sx={{ p: 4, textAlign: "center", borderRadius: 4 }}
+              >
+                <Typography variant="h3">{item.emoji}</Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  mt={2}
+                  color="primary"
+                >
+                  {item.title}
+                </Typography>
+                <Typography variant="body1" color="textSecondary" mt={1}>
+                  {item.desc}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
       <Footer />
     </div>
   );

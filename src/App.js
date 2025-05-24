@@ -34,7 +34,6 @@ function App() {
     <div className=" ">
       <TravelCarousel />
       <Navbar />
-      <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
       <div className="container mx-auto">
         <CardsBar />
       </div>
