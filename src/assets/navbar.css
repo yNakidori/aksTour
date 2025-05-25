@@ -1,0 +1,145 @@
+/* Container geral da navbar */
+.navbar {
+  background: linear-gradient(to right, #799be6, #4978df);
+  color: white;
+  padding: 0.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Flex container principal */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Botão mobile */
+.mobile-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+/* Cada item do menu */
+.nav-links li {
+  position: relative;
+}
+
+/* Estilo base dos links */
+.nav-links a,
+.nav-links span {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.3rem 0;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Sublinhado animado */
+.nav-links a::after,
+.nav-links span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-out;
+}
+
+.nav-links a:hover::after,
+.nav-links span:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: linear-gradient(to right, #799be6, #4978df);
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-menu li a {
+  color: white;
+  display: block;
+  width: 100%;
+}
+
+.dropdown.open .dropdown-menu {
+  display: flex;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    flex-direction: column;
+    background: linear-gradient(to right, #799be6, #4978df);
+    width: 100%;
+    padding: 1rem 2rem;
+    gap: 1rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .dropdown.open .dropdown-menu {
+    display: flex;
+  }
+}

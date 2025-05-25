@@ -7,6 +7,7 @@ import aparecida from "./assets/images/bus/aparecida.png";
 import santos from "./assets/images/bus/santos.png";
 import Whats from "./assets/whats";
 import Lottie from "react-lottie";
+import BusRouteCard from "./assets/bus/BusRouteCard";
 
 const Bus = () => {
   const defaultOptions = {
@@ -86,6 +87,19 @@ const Bus = () => {
               <p className="text-gray-600">{destino.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            Ofertas Rodoviárias
+          </h2>
+          <p className="text-gray-600 mb-10">
+            Confira nossas ofertas de viagens rodoviárias e aproveite para
+            conhecer novos destinos com conforto e segurança.
+          </p>
+          <BusRouteCard />
         </div>
       </section>
 
