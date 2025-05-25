@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import { ArrowDown } from "lucide-react";
-import map from "../assets/images/map.jpg";
+import map from "../assets/images/mapa.jpg";
 import CT5 from "../assets/images/caribe.jpg";
 import CT6 from "../assets/images/capadocia.jpg";
 import CT7 from "../assets/images/liberdade.jpg";
