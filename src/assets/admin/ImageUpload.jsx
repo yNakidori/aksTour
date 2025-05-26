@@ -17,7 +17,7 @@ const ImageUpload = ({ formData, setFormData }) => {
   return (
     <div>
       <label className="block text-gray-700 font-poppins font-semibold mb-2">
-        Criar Pacote
+        Adicionar Imagem
       </label>
       <input
         type="file"

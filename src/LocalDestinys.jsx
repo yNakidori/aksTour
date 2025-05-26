@@ -52,7 +52,7 @@ const LocalDestinys = () => {
           </div>
           {/* Cards à direita */}
           <div className="w-full md:w-1/2 mt-10 md:mt-52">
-            <NationalCard />
+            <NationalCard filterType="package" />
           </div>
         </div>
 
@@ -60,7 +60,7 @@ const LocalDestinys = () => {
         <div className="container mx-auto px-6 relative z-10 flex flex-col-reverse md:flex-row items-start gap-8">
           {/* Cards à esquerda */}
           <div className="w-full md:w-1/2 mt-10 md:mt-52">
-            <CustomNationalCard />
+            <NationalCard filterType="ticket" />
           </div>
 
           {/* Texto à direita */}

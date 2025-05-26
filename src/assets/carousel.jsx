@@ -54,7 +54,8 @@ const TravelCarousel = () => {
     {
       src: map,
       title: "Explore o Mundo",
-      subtitle: "Descubra novos horizontes e viva experiências únicas.",
+      subtitle:
+        "O mundo espera por você. Embarque em novas jornadas e viva histórias incríveis!",
     },
     {
       src: CT5,
@@ -103,7 +104,7 @@ const TravelCarousel = () => {
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 typing-animation">
                     {slide.title}
                   </h2>
-                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+                  <p className="text-base mb-28 sm:text-lg md:text-xl lg:text-2xl">
                     {slide.subtitle}
                   </p>
                 </div>
@@ -133,7 +134,7 @@ const TravelCarousel = () => {
                   <h3 className="text-sm font-bold uppercase text-gray-500 mb-1">
                     Todos os destinos
                   </h3>
-                  <h2 className="text-xl font-bold text-green-700">
+                  <h2 className="text-xl font-bold text-blue-700">
                     Viagens Inesquecíveis
                   </h2>
                   <p className="text-sm mt-2">
@@ -143,7 +144,7 @@ const TravelCarousel = () => {
                   </p>
                   <button
                     onClick={handleDestinyClick}
-                    className="mt-4 text-green-600 font-semibold hover:underline"
+                    className="mt-4 text-blue-600 font-semibold hover:underline"
                   >
                     SAIBA MAIS
                   </button>

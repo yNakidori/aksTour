@@ -12,6 +12,8 @@ const CreateNationalOffer = () => {
     destiny: "",
     date: "",
     price: "",
+    package: false,
+    ticket: false,
   });
 
   const [success, setSuccess] = useState("");
@@ -42,6 +44,8 @@ const CreateNationalOffer = () => {
         destiny: formData.destiny,
         date: formData.date,
         price: formData.price,
+        package: formData.package,
+        ticket: formData.ticket,
       });
 
       setSuccess("Oferta criada com sucesso!");
@@ -100,6 +104,38 @@ const CreateNationalOffer = () => {
               setFormData((prev) => ({ ...prev, price: e.target.value }))
             }
           />
+        </div>
+        <div className="flex gap-4 mb-2">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="offerType"
+              checked={formData.package}
+              onChange={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  package: true,
+                  ticket: false,
+                }))
+              }
+            />
+            Pacote completo
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="offerType"
+              checked={formData.ticket}
+              onChange={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  package: false,
+                  ticket: true,
+                }))
+              }
+            />
+            Apenas passagem
+          </label>
         </div>
         <div className="col-span-full">
           <label

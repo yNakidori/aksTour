@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
+import {
+  FaMapMarkerAlt,
+  FaSuitcase,
+  FaUserFriends,
+  FaMoon,
+  FaSun,
+  FaWhatsapp,
+} from "react-icons/fa";
 
 const PricingCards = () => {
   const [cards, setCards] = useState([]);
@@ -37,10 +45,10 @@ const PricingCards = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-blue-50 gap-6 p-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-gradient-to-br from-blue-100 to-blue-200 gap-8 p-8">
       {cards.map((card) => {
         const whatsappNumber = "5511957700305";
-        const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá! Gostaria de saber sobre o pacote de ${card.place}`;
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá! Gostaria de saber sobre o pacote de ${card.destination}`;
         const handleWhatsAppClick = () => {
           window.open(whatsappLink, "_blank");
         };
@@ -48,17 +56,31 @@ const PricingCards = () => {
         return (
           <div
             key={card.id}
-            className="border border-gray-300 shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            className="flex flex-col border border-blue-200 shadow-xl rounded-2xl overflow-hidden bg-white/90 hover:shadow-2xl transition-shadow duration-300 min-h-[520px] max-h-[520px]"
           >
-            <img
-              src={card.image}
-              alt={card.place}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-800">{card.contry}</h2>
-              <h3 className="text-xl font-bold text-gray-800">{card.place}</h3>
-              <ul className="mb-4 space-y-2">
+            <div className="relative h-48 w-full overflow-hidden">
+              <img
+                src={card.image}
+                alt={card.destination}
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+              <div className="absolute top-2 right-2 bg-blue-600/80 text-white px-3 py-1 rounded-full text-xs font-semibold shadow">
+                {card.price}
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col p-6 overflow-auto">
+              <div className="mb-2">
+                <h2 className="text-xl font-bold text-blue-900 flex items-center gap-2">
+                  <FaMapMarkerAlt className="text-blue-500" />
+                  {card.destination}
+                </h2>
+                {card.accommodation && (
+                  <div className="text-base font-semibold text-blue-500 ml-7 mb-1">
+                    {card.accommodation}
+                  </div>
+                )}
+              </div>
+              <ul className="mb-4 space-y-2 max-h-20 overflow-y-auto pr-1">
                 {card.features?.map((feature, i) => (
                   <li key={i} className="text-gray-700 flex items-center">
                     <span className="w-2 h-2 bg-green-500 rounded-full inline-block mr-2"></span>
@@ -66,31 +88,37 @@ const PricingCards = () => {
                   </li>
                 ))}
               </ul>
-              {/* Campos personalizados */}
               <div className="mb-4 text-gray-700 text-sm space-y-1">
-                <div>
-                  <span className="font-semibold">Dias:</span>{" "}
+                <div className="flex items-center gap-2">
+                  <FaSun className="text-yellow-400" />
+                  <span className="font-semibold">Dias:</span>
                   {card.customFields?.days || 0}
                 </div>
-                <div>
-                  <span className="font-semibold">Noites:</span>{" "}
+                <div className="flex items-center gap-2">
+                  <FaMoon className="text-indigo-400" />
+                  <span className="font-semibold">Noites:</span>
                   {card.customFields?.nights || 0}
                 </div>
-                <div>
-                  <span className="font-semibold">Pessoas:</span>{" "}
+                <div className="flex items-center gap-2">
+                  <FaUserFriends className="text-blue-400" />
+                  <span className="font-semibold">Pessoas:</span>
                   {card.customFields?.people || 0}
                 </div>
-                <div>
-                  <span className="font-semibold">Malas:</span>{" "}
+                <div className="flex items-center gap-2">
+                  <FaSuitcase className="text-pink-400" />
+                  <span className="font-semibold">Malas:</span>
                   {card.customFields?.luggage || 0}
                 </div>
               </div>
-              <button
-                onClick={handleWhatsAppClick}
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
-              >
-                Agende agora
-              </button>
+              <div className="mt-auto">
+                <button
+                  onClick={handleWhatsAppClick}
+                  className="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl font-semibold text-lg shadow transition-colors duration-200"
+                >
+                  <FaWhatsapp className="text-2xl" />
+                  Agende agora
+                </button>
+              </div>
             </div>
           </div>
         );

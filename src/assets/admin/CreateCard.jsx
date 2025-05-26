@@ -1,29 +1,33 @@
 import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import ImageUpload from "./ImageUpload";
 import CustomFields from "./CustomFields";
 import FeatureModal from "./FeatureModal";
 import FeedbackMessage from "./FeedbackMessage";
+import TextField from "@mui/material/TextField";
+
+const initialForm = {
+  image: null,
+  imageUrl: "",
+  destination: "",
+  accommodation: "",
+  price: "",
+  features: [],
+  customFields: {
+    days: "",
+    people: "",
+    luggage: "",
+    nights: "",
+  },
+};
 
 const CreateCard = () => {
-  const [formData, setFormData] = useState({
-    image: null,
-    imageUrl: "",
-    country: "",
-    place: "",
-    price: "",
-    features: [],
-    customFields: {
-      days: "",
-      people: "",
-      luggage: "",
-      nights: "",
-    },
-  });
+  const [formData, setFormData] = useState(initialForm);
   const [modalOpen, setModalOpen] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [editingCard, setEditingCard] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,57 +37,87 @@ const CreateCard = () => {
       if (formData.features.length === 0)
         throw new Error("Selecione pelo menos uma feature.");
 
-      await addDoc(collection(db, "pricingCards"), {
-        image: formData.imageUrl,
-        country: formData.country,
-        place: formData.place,
-        price: formData.price,
-        features: formData.features,
-        customFields: formData.customFields,
-        isFeatured: false,
-      });
+      if (editingCard) {
+        // Edição
+        await updateDoc(doc(db, "pricingCards", editingCard.id), {
+          image: formData.imageUrl,
+          destination: formData.destination,
+          accommodation: formData.accommodation,
+          price: formData.price,
+          features: formData.features,
+          customFields: formData.customFields,
+          isFeatured: editingCard.isFeatured || false,
+        });
+        setSuccess("Card atualizado com sucesso!");
+      } else {
+        // Criação
+        await addDoc(collection(db, "pricingCards"), {
+          image: formData.imageUrl,
+          destination: formData.destination,
+          accommodation: formData.accommodation,
+          price: formData.price,
+          features: formData.features,
+          customFields: formData.customFields,
+          isFeatured: false,
+        });
+        setSuccess("Card criado com sucesso!");
+      }
 
-      setSuccess("Card criado com sucesso!");
-      setFormData({
-        image: null,
-        imageUrl: "",
-        country: "",
-        place: "",
-        price: "",
-        features: [],
-        customFields: {
-          days: "",
-          people: "",
-          luggage: "",
-          nights: "",
-        },
-      });
+      setFormData(initialForm);
+      setEditingCard(null);
     } catch (err) {
-      setError(err.message || "Erro ao criar o card.");
+      setError(err.message || "Erro ao salvar o card.");
     }
   };
 
+  // Exemplo de função para iniciar edição (você pode adaptar para seu fluxo)
+  const handleEdit = (card) => {
+    setEditingCard(card);
+    setFormData({
+      image: null,
+      imageUrl: card.image,
+      destination: card.destination,
+      accommodation: card.accommodation,
+      price: card.price,
+      features: card.features,
+      customFields: card.customFields,
+    });
+    setSuccess("");
+    setError("");
+  };
+
   return (
-    <div className="mt-20 ">
-      <div className="p-8  bg-gray-50 rounded-lg shadow-lg max-w-lg mx-auto">
+    <div className="mt-20">
+      <div className="p-8 bg-gray-50 rounded-lg shadow-lg max-w-lg mx-auto">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Adicionar Novo Card
+          {editingCard ? "Editar Pacote" : "Adicionar Novo Pacote"}
         </h2>
         <FeedbackMessage success={success} error={error} />
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-gray-700 mb-2" htmlFor="place">
-              Nome do Destino
-            </label>
-            <input
-              type="text"
-              id="place"
-              value={formData.place}
+            <TextField
+              label="Destino"
+              id="destination"
+              value={formData.destination}
               onChange={(e) =>
-                setFormData({ ...formData, place: e.target.value })
+                setFormData({ ...formData, destination: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              variant="standard"
+              fullWidth
+            />
+          </div>
+          <div>
+            <TextField
+              label="Hospedagem"
+              id="accommodation"
+              value={formData.accommodation}
+              onChange={(e) =>
+                setFormData({ ...formData, accommodation: e.target.value })
+              }
+              required
+              variant="standard"
+              fullWidth
             />
           </div>
           <ImageUpload formData={formData} setFormData={setFormData} />
@@ -104,11 +138,20 @@ const CreateCard = () => {
               ))}
             </ul>
           </div>
+          <TextField
+            label="Preço"
+            value={formData.price}
+            onChange={(e) =>
+              setFormData({ ...formData, price: e.target.value })
+            }
+            variant="standard"
+            fullWidth
+          />
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center justify-center"
           >
-            Criar Card
+            {editingCard ? "Salvar Alterações" : "Criar Pacote"}
           </button>
         </form>
         {modalOpen && (
@@ -144,6 +187,7 @@ const CreateCard = () => {
             formData={formData}
             setFormData={setFormData}
             setModalOpen={setModalOpen}
+            selectedFeatures={formData.features}
           />
         )}
       </div>

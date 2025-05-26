@@ -7,20 +7,19 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { FcFullTrash, FcSupport } from "react-icons/fc";
 import Swal from "sweetalert2";
 import { TextField } from "@mui/material";
 
-const InternationalCard = ({ isAdmin = false }) => {
-  // Recebe a prop isAdmin
+const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const containerRef = useRef(null);
 
-  // Busca os dados das ofertas internacionais
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -43,6 +42,29 @@ const InternationalCard = ({ isAdmin = false }) => {
     fetchCards();
   }, []);
 
+  // Delete imagem do Storage
+  const deleteImageFromStorage = async (imageUrl) => {
+    try {
+      const storage = getStorage();
+      const url = new URL(imageUrl);
+      const decodedPath = decodeURIComponent(url.pathname);
+      const pathStart = decodedPath.indexOf("/o/") + 3;
+      const pathEnd =
+        decodedPath.indexOf("?alt=") !== -1
+          ? decodedPath.indexOf("?alt=")
+          : decodedPath.length;
+      if (pathStart < 3 || pathEnd <= pathStart) {
+        console.error("Caminho da imagem inválido:", imageUrl);
+        return;
+      }
+      const fullPath = decodedPath.substring(pathStart, pathEnd);
+      const imageRef = ref(storage, fullPath);
+      await deleteObject(imageRef);
+    } catch (error) {
+      console.error("Erro ao excluir imagem do Firebase Storage:", error);
+    }
+  };
+
   // Função para excluir uma oferta
   const handleDelete = async (id) => {
     const handleDelete = await Swal.fire({
@@ -56,6 +78,10 @@ const InternationalCard = ({ isAdmin = false }) => {
 
     if (handleDelete.isConfirmed) {
       try {
+        const cardToDelete = cards.find((card) => card.id === id);
+        if (cardToDelete?.Image) {
+          await deleteImageFromStorage(cardToDelete.Image);
+        }
         await deleteDoc(doc(db, "internationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
       } catch (error) {
@@ -68,7 +94,6 @@ const InternationalCard = ({ isAdmin = false }) => {
   const handleEdit = (card) => {
     setEditingCard(card);
     setEditModalOpen(true);
-    console.log("Editando:", card);
   };
 
   // Função para salvar as alterações de uma oferta
@@ -90,7 +115,6 @@ const InternationalCard = ({ isAdmin = false }) => {
 
         setEditModalOpen(false);
         setEditingCard(null);
-        console.log("Card editado:", editingCard);
         Swal.fire({
           icon: "success",
           title: "Sucesso",
@@ -109,7 +133,6 @@ const InternationalCard = ({ isAdmin = false }) => {
     }
   };
 
-  // Funções para rolar a lista de ofertas
   const scrollLeft = () => {
     if (containerRef.current) {
       containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
@@ -121,6 +144,13 @@ const InternationalCard = ({ isAdmin = false }) => {
       containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
+
+  // Filtro por tipo
+  const filteredCards = cards.filter((card) => {
+    if (filterType === "package") return card.package;
+    if (filterType === "ticket") return card.ticket;
+    return true;
+  });
 
   if (loading) {
     return <p className="text-center">Carregando...</p>;
@@ -143,7 +173,7 @@ const InternationalCard = ({ isAdmin = false }) => {
         ref={containerRef}
         className="flex gap-6 p-4 overflow-hidden scroll-smooth no-scrollbar"
       >
-        {cards.map((card) => (
+        {filteredCards.map((card) => (
           <div
             key={card.id}
             className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 w-72 shrink-0"
@@ -165,12 +195,23 @@ const InternationalCard = ({ isAdmin = false }) => {
               </button>
             )}
 
-            <span
-              style={{ backgroundColor: "#ff7b33" }}
-              className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
-            >
-              Pacote
-            </span>
+            {/* Tag de tipo */}
+            {card.package && (
+              <span
+                style={{ backgroundColor: "#337bff" }}
+                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
+              >
+                Pacote
+              </span>
+            )}
+            {!card.package && card.ticket && (
+              <span
+                style={{ backgroundColor: "#22c55e" }}
+                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
+              >
+                Passagem
+              </span>
+            )}
 
             <div className="p-4">
               <h2 className="text-lg font-bold text-gray-800">

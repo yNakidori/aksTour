@@ -7,17 +7,19 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { TextField } from "@mui/material";
 import { FcFullTrash, FcSupport } from "react-icons/fc";
 import Swal from "sweetalert2";
 
-const NationalCard = ({ isAdmin = false }) => {
+const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   // Recebe a prop isAdmin
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [filter, setFilter] = useState("all"); // "all", "package", "ticket"
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -51,13 +53,43 @@ const NationalCard = ({ isAdmin = false }) => {
     });
 
     if (handleDelete.isConfirmed) {
-      // Verifica se o usuário confirmou a exclusão
       try {
+        // Busca o card para pegar a URL da imagem
+        const cardToDelete = cards.find((card) => card.id === id);
+        if (cardToDelete?.Image) {
+          await deleteImageFromStorage(cardToDelete.Image);
+        }
         await deleteDoc(doc(db, "nationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
       } catch (error) {
         console.error("Erro ao excluir:", error);
       }
+    }
+  };
+
+  const deleteImageFromStorage = async (imageUrl) => {
+    try {
+      const storage = getStorage();
+      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
+      const url = new URL(imageUrl);
+      const decodedPath = decodeURIComponent(url.pathname);
+      const pathStart = decodedPath.indexOf("/o/") + 3;
+      const pathEnd =
+        decodedPath.indexOf("?alt=") !== -1
+          ? decodedPath.indexOf("?alt=")
+          : decodedPath.length;
+      if (pathStart < 3 || pathEnd <= pathStart) {
+        console.error("Caminho da imagem inválido:", imageUrl);
+        return;
+      }
+      const fullPath = decodedPath.substring(pathStart, pathEnd);
+      console.log("Removendo imagem do Storage:", fullPath);
+
+      const imageRef = ref(storage, fullPath);
+      await deleteObject(imageRef);
+      console.log("Imagem excluída com sucesso do Storage");
+    } catch (error) {
+      console.error("Erro ao excluir imagem do Firebase Storage:", error);
     }
   };
 
@@ -117,6 +149,12 @@ const NationalCard = ({ isAdmin = false }) => {
     }
   };
 
+  const filteredCards = cards.filter((card) => {
+    if (filterType === "package") return card.package;
+    if (filterType === "ticket") return card.ticket;
+    return true;
+  });
+
   if (loading) {
     return <p className="text-center">Carregando...</p>;
   }
@@ -138,7 +176,7 @@ const NationalCard = ({ isAdmin = false }) => {
         ref={containerRef}
         className="flex gap-6 p-4 overflow-hidden scroll-smooth no-scrollbar"
       >
-        {cards.map((card) => (
+        {filteredCards.map((card) => (
           <div
             key={card.id}
             className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 w-72 shrink-0"
@@ -160,12 +198,22 @@ const NationalCard = ({ isAdmin = false }) => {
               </button>
             )}
 
-            <span
-              style={{ backgroundColor: "#337bff" }}
-              className="absolute top-2 left-2  text-white text-sm font-semibold px-3 py-1 rounded-lg"
-            >
-              Pacote
-            </span>
+            {card.package && (
+              <span
+                style={{ backgroundColor: "#337bff" }}
+                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
+              >
+                Pacote
+              </span>
+            )}
+            {!card.package && card.ticket && (
+              <span
+                style={{ backgroundColor: "#22c55e" }}
+                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
+              >
+                Passagem
+              </span>
+            )}
 
             <div className="p-4">
               <h2 className="text-lg font-bold text-gray-800">

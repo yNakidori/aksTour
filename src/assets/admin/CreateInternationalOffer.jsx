@@ -12,6 +12,8 @@ const CreateInternationalOffer = () => {
     destiny: "",
     date: "",
     price: "",
+    package: false,
+    ticket: false,
   });
 
   const [success, setSuccess] = useState("");
@@ -36,12 +38,16 @@ const CreateInternationalOffer = () => {
       if (!formData.destiny) throw new Error("A oferta precisa de um destino!");
       if (!formData.date) throw new Error("A oferta precisa de uma data!");
       if (!formData.price) throw new Error("A oferta precisa de um preço!");
+      if (!formData.package && !formData.ticket)
+        throw new Error("Selecione se é pacote ou passagem!");
 
       await addDoc(collection(db, "internationalOffers"), {
         Image: formData.imageUrl,
         destiny: formData.destiny,
         date: formData.date,
         price: formData.price,
+        package: formData.package,
+        ticket: formData.ticket,
       });
 
       setSuccess("Oferta criada com sucesso!");
@@ -51,6 +57,8 @@ const CreateInternationalOffer = () => {
         destiny: "",
         date: "",
         price: "",
+        package: false,
+        ticket: false,
       });
     } catch (error) {
       setError(error.message);
@@ -100,6 +108,38 @@ const CreateInternationalOffer = () => {
               setFormData((prev) => ({ ...prev, price: e.target.value }))
             }
           />
+        </div>
+        <div className="flex gap-4 mb-2">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="offerType"
+              checked={formData.package}
+              onChange={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  package: true,
+                  ticket: false,
+                }))
+              }
+            />
+            Pacote completo
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="offerType"
+              checked={formData.ticket}
+              onChange={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  package: false,
+                  ticket: true,
+                }))
+              }
+            />
+            Apenas passagem
+          </label>
         </div>
         <div className="col-span-full">
           <label

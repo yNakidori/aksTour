@@ -6,14 +6,17 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { db } from "../../firebase/firbase";
 import Swal from "sweetalert2";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 
 const BusRouteCard = ({ isAdmin = false }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const scrollContainerRef = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
     mainImageUrl: "",
@@ -21,6 +24,15 @@ const BusRouteCard = ({ isAdmin = false }) => {
     arrival: "",
     price: "",
   });
+
+  const handleWhatsAppClick = (routeName) => {
+    const whatsappNumber = "5511957700305";
+    const message = `Olá! Gostaria de conhecer essa oferta para ${routeName}`;
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappLink, "_blank");
+  };
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -53,11 +65,42 @@ const BusRouteCard = ({ isAdmin = false }) => {
 
     if (result.isConfirmed) {
       try {
+        const cardToDelete = cards.find((card) => card.id === id);
+        if (cardToDelete?.mainImageUrl) {
+          await deleteImageFromStorage(cardToDelete.mainImageUrl);
+        }
+
         await deleteDoc(doc(db, "buses", id));
         setCards((prev) => prev.filter((card) => card.id !== id));
       } catch (error) {
         console.error("Erro ao excluir: ", error);
       }
+    }
+  };
+
+  const deleteImageFromStorage = async (imageUrl) => {
+    try {
+      const storage = getStorage();
+      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
+      const url = new URL(imageUrl);
+      const decodedPath = decodeURIComponent(url.pathname);
+      const pathStart = decodedPath.indexOf("/o/") + 3;
+      const pathEnd =
+        decodedPath.indexOf("?alt=") !== -1
+          ? decodedPath.indexOf("?alt=")
+          : decodedPath.length;
+      if (pathStart < 3 || pathEnd <= pathStart) {
+        console.error("Caminho da imagem inválido:", imageUrl);
+        return;
+      }
+      const fullPath = decodedPath.substring(pathStart, pathEnd);
+      console.log("Removendo imagem do Storage:", fullPath);
+
+      const imageRef = ref(storage, fullPath);
+      await deleteObject(imageRef);
+      console.log("Imagem excluída com sucesso do Storage");
+    } catch (error) {
+      console.error("Erro ao excluir imagem do Firebase Storage:", error);
     }
   };
 
@@ -105,42 +148,83 @@ const BusRouteCard = ({ isAdmin = false }) => {
     }
   };
 
+  const scrollLeft = () => {
+    scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   if (loading) return <div>Carregando...</div>;
   if (cards.length === 0)
     return <div>Nenhuma oferta rodoviária encontrada.</div>;
 
   return (
     <div>
-      <div className="flex overflow-x-auto space-x-4 p-4">
-        {cards.map((card) => (
-          <div key={card.id} className="bg-white shadow-md rounded-lg p-4 w-64">
-            <img
-              src={card.mainImageUrl}
-              alt={card.name}
-              className="w-full h-32 object-cover rounded-t-lg"
-            />
-            <h3 className="text-lg font-semibold mt-2">{card.name}</h3>
-            <p className="text-gray-600">Partida: {card.departure}</p>
-            <p className="text-gray-600">Chegada: {card.arrival}</p>
-            <p className="text-gray-800 font-bold">Preço: R$ {card.price}</p>
-            {isAdmin && (
-              <>
+      <div className="relative">
+        {/* Botão de Scroll para Esquerda */}
+        <button
+          onClick={scrollLeft}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full shadow-md ml-2 p-2 hover:bg-gray-100"
+        >
+          <ArrowLeftOutlined />
+        </button>
+
+        {/* Contêiner de Scroll com Cards */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto space-x-4 ml-10 p-4 scrollbar-hide scroll-smooth"
+        >
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className="bg-white shadow-md rounded-lg p-4 w-64 flex-shrink-0"
+            >
+              <img
+                src={card.mainImageUrl}
+                alt={card.name}
+                className="w-full h-32 object-cover rounded-t-lg"
+              />
+              <h3 className="text-lg font-semibold mt-2">{card.name}</h3>
+              <p className="text-gray-600">Partida: {card.departure}</p>
+              <p className="text-gray-600">Chegada: {card.arrival}</p>
+              <p className="text-gray-800 font-bold">Preço: R$ {card.price}</p>
+              {isAdmin ? (
+                <>
+                  <button
+                    onClick={() => handleEdit(card)}
+                    className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete(card.id)}
+                    className="mt-2 ml-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    Deletar
+                  </button>
+                </>
+              ) : (
                 <button
-                  onClick={() => handleEdit(card)}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  onClick={() => handleWhatsAppClick(card.name)}
+                  className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                 >
-                  Editar
+                  <i className="fab fa-whatsapp mr-2"></i>
+                  Quero conhecer essa oferta
                 </button>
-                <button
-                  onClick={() => handleDelete(card.id)}
-                  className="mt-2 ml-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Deletar
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Botão de Scroll para Direita */}
+        <button
+          onClick={scrollRight}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full shadow-md mr-2 p-2 hover:bg-gray-100"
+        >
+          <ArrowRightOutlined />
+        </button>
       </div>
 
       {/* Modal de edição */}

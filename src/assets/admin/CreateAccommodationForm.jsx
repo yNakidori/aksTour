@@ -52,6 +52,8 @@ export default function CreateAccommodationForm() {
       await addDoc(collection(db, "accommodations"), {
         name: form.name,
         mainImageUrl: form.mainImageUrl || "",
+        days: form.days || 0,
+        description: form.description || "",
         rating: parseFloat(form.rating),
         location: form.location,
         price: form.price,
@@ -112,12 +114,38 @@ export default function CreateAccommodationForm() {
         variant="standard"
         fullWidth
       />
+
+      {/* Campo de dias */}
+      <TextField
+        label="Dias"
+        name="days"
+        type="number"
+        value={form.days || ""}
+        onChange={handleChange}
+        required
+        variant="standard"
+        fullWidth
+        inputProps={{ min: 1 }}
+      />
+
       <TextField
         label="Preço"
         name="price"
         value={form.price}
         onChange={handleChange}
         required
+        variant="standard"
+        fullWidth
+      />
+
+      {/* Campo de descrição */}
+      <TextField
+        label="Descrição"
+        name="description"
+        value={form.description || ""}
+        onChange={handleChange}
+        multiline
+        minRows={3}
         variant="standard"
         fullWidth
       />

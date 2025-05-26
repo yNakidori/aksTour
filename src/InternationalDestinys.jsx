@@ -3,7 +3,6 @@ import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import turquia from "./assets/images/turquia.jpg";
 import InternationalCard from "./assets/destinys/internationalCard";
-import CustomInternationalCard from "./assets/destinys/customInternationalCard";
 import Services from "./assets/destinys/services";
 import Whats from "./assets/whats.json";
 import Lottie from "react-lottie";
@@ -52,7 +51,7 @@ const InternationalDestinys = () => {
           </div>
           {/* Cards à direita */}
           <div className="w-full md:w-1/2 mt-10 md:mt-52">
-            <InternationalCard />
+            <InternationalCard filterType="package" />
           </div>
         </div>
 
@@ -60,7 +59,7 @@ const InternationalDestinys = () => {
         <div className="container mx-auto px-6 relative z-10 flex flex-col-reverse md:flex-row items-start gap-8">
           {/* Cards à esquerda */}
           <div className="w-full md:w-1/2 mt-10 md:mt-52">
-            <CustomInternationalCard />
+            <InternationalCard filterType="ticket" />
           </div>
 
           {/* Texto à direita */}

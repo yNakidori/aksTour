@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { FcFullTrash } from "react-icons/fc";
 import Swal from "sweetalert2";
@@ -41,11 +42,43 @@ const EventTicketCard = ({ isAdmin = false }) => {
 
     if (result.isConfirmed) {
       try {
+        // Busca o card para pegar a URL da imagem
+        const cardToDelete = cards.find((card) => card.id === id);
+        if (cardToDelete?.Image) {
+          await deleteImageFromStorage(cardToDelete.Image);
+        }
+
         await deleteDoc(doc(db, "events", id));
         setCards((prev) => prev.filter((card) => card.id !== id));
       } catch (error) {
         console.error("Erro ao excluir: ", error);
       }
+    }
+  };
+
+  const deleteImageFromStorage = async (imageUrl) => {
+    try {
+      const storage = getStorage();
+      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
+      const url = new URL(imageUrl);
+      const decodedPath = decodeURIComponent(url.pathname);
+      const pathStart = decodedPath.indexOf("/o/") + 3;
+      const pathEnd =
+        decodedPath.indexOf("?alt=") !== -1
+          ? decodedPath.indexOf("?alt=")
+          : decodedPath.length;
+      if (pathStart < 3 || pathEnd <= pathStart) {
+        console.error("Caminho da imagem inválido:", imageUrl);
+        return;
+      }
+      const fullPath = decodedPath.substring(pathStart, pathEnd);
+      console.log("Removendo imagem do Storage:", fullPath);
+
+      const imageRef = ref(storage, fullPath);
+      await deleteObject(imageRef);
+      console.log("Imagem excluída com sucesso do Storage");
+    } catch (error) {
+      console.error("Erro ao excluir imagem do Firebase Storage:", error);
     }
   };
 
