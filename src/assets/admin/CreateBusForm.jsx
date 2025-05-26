@@ -10,8 +10,9 @@ export default function CreateBusForm() {
     name: "",
     mainImage: "",
     mainImageUrl: "",
-    departure: "",
-    arrival: "",
+    duration: "",
+    company: "",
+    Category: "",
     price: "",
   });
 
@@ -44,15 +45,17 @@ export default function CreateBusForm() {
       if (!form.mainImageUrl)
         throw new Error("O destino precisa de uma imagem!");
       if (!form.name) throw new Error("O destino precisa de um nome!");
-      if (!form.departure) throw new Error("Informe o local de partida!");
-      if (!form.arrival) throw new Error("Informe o local de chegada!");
+      if (!form.duration) throw new Error("Informe a duração!");
+      if (!form.company) throw new Error("Informe a Viação!");
+      if (!form.Category) throw new Error("Informe a Categoria!");
       if (!form.price) throw new Error("Informe o preço!");
 
       await addDoc(collection(db, "buses"), {
         name: form.name,
         mainImageUrl: form.mainImageUrl,
-        departure: form.departure,
-        arrival: form.arrival,
+        duration: form.duration,
+        company: form.company,
+        Category: form.Category,
         price: form.price,
       });
 
@@ -61,8 +64,9 @@ export default function CreateBusForm() {
         name: "",
         mainImage: "",
         mainImageUrl: "",
-        departure: "",
-        arrival: "",
+        duration: "",
+        company: "",
+        Category: "",
         price: "",
       });
     } catch (err) {
@@ -107,25 +111,30 @@ export default function CreateBusForm() {
         />
 
         <TextField
-          label="Partida"
-          name="departure"
+          label="Duração"
+          name="duration"
           variant="standard"
-          type="date"
           fullWidth
-          value={form.departure}
+          value={form.duration}
           onChange={handleChange}
-          InputLabelProps={{ shrink: true }}
         />
 
         <TextField
-          label="Chegada"
-          name="arrival"
+          label="Viação"
+          name="company"
           variant="standard"
-          type="date"
           fullWidth
-          value={form.arrival}
+          value={form.company}
           onChange={handleChange}
-          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          label="Categoria"
+          name="Category"
+          variant="standard"
+          fullWidth
+          value={form.Category}
+          onChange={handleChange}
         />
 
         <TextField

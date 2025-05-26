@@ -20,8 +20,9 @@ const BusRouteCard = ({ isAdmin = false }) => {
   const [formData, setFormData] = useState({
     name: "",
     mainImageUrl: "",
-    departure: "",
-    arrival: "",
+    duration: "",
+    company: "",
+    Category: "",
     price: "",
   });
 
@@ -81,7 +82,6 @@ const BusRouteCard = ({ isAdmin = false }) => {
   const deleteImageFromStorage = async (imageUrl) => {
     try {
       const storage = getStorage();
-      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
       const url = new URL(imageUrl);
       const decodedPath = decodeURIComponent(url.pathname);
       const pathStart = decodedPath.indexOf("/o/") + 3;
@@ -94,11 +94,8 @@ const BusRouteCard = ({ isAdmin = false }) => {
         return;
       }
       const fullPath = decodedPath.substring(pathStart, pathEnd);
-      console.log("Removendo imagem do Storage:", fullPath);
-
       const imageRef = ref(storage, fullPath);
       await deleteObject(imageRef);
-      console.log("Imagem excluída com sucesso do Storage");
     } catch (error) {
       console.error("Erro ao excluir imagem do Firebase Storage:", error);
     }
@@ -106,7 +103,7 @@ const BusRouteCard = ({ isAdmin = false }) => {
 
   const handleEdit = (card) => {
     setEditingCard(card);
-    setFormData({ ...card }); // popula o formulário com os dados do card
+    setFormData({ ...card });
     setEditModalOpen(true);
   };
 
@@ -187,8 +184,9 @@ const BusRouteCard = ({ isAdmin = false }) => {
                 className="w-full h-32 object-cover rounded-t-lg"
               />
               <h3 className="text-lg font-semibold mt-2">{card.name}</h3>
-              <p className="text-gray-600">Partida: {card.departure}</p>
-              <p className="text-gray-600">Chegada: {card.arrival}</p>
+              <p className="text-gray-600">Duração: {card.duration}</p>
+              <p className="text-gray-600">Viação: {card.company}</p>
+              <p className="text-gray-600">Categoria: {card.Category}</p>
               <p className="text-gray-800 font-bold">Preço: R$ {card.price}</p>
               {isAdmin ? (
                 <>
@@ -237,7 +235,7 @@ const BusRouteCard = ({ isAdmin = false }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Nome"
+              placeholder="Destino"
               className="w-full border mb-2 px-3 py-2 rounded"
             />
             <input
@@ -245,24 +243,31 @@ const BusRouteCard = ({ isAdmin = false }) => {
               name="mainImageUrl"
               value={formData.mainImageUrl}
               disabled
-              onChange={handleChange}
               placeholder="URL da Imagem"
               className="w-full border mb-2 px-3 py-2 rounded"
             />
             <input
               type="text"
-              name="departure"
-              value={formData.departure}
+              name="duration"
+              value={formData.duration}
               onChange={handleChange}
-              placeholder="Partida"
+              placeholder="Duração"
               className="w-full border mb-2 px-3 py-2 rounded"
             />
             <input
               type="text"
-              name="arrival"
-              value={formData.arrival}
+              name="company"
+              value={formData.company}
               onChange={handleChange}
-              placeholder="Chegada"
+              placeholder="Viação"
+              className="w-full border mb-2 px-3 py-2 rounded"
+            />
+            <input
+              type="text"
+              name="Category"
+              value={formData.Category}
+              onChange={handleChange}
+              placeholder="Categoria"
               className="w-full border mb-2 px-3 py-2 rounded"
             />
             <input
