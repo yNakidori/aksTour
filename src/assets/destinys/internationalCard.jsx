@@ -220,7 +220,7 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
               <p className="text-gray-600 flex items-center gap-1 mt-1">
                 ✈️ <span>{card.date}</span>
               </p>
-              <p className="text-gray-500 text-sm mt-2">A partir de</p>
+              <p className="text-gray-500 text-sm mt-2">Valores promocionais</p>
               <p className="text-2xl font-bold text-gray-800">
                 R$ {card.price}
               </p>
