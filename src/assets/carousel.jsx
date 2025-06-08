@@ -78,9 +78,11 @@ const TravelCarousel = () => {
               playsInline
               onEnded={goToNext}
             />
+
             {/* Fundo escuro e conteúdo central */}
             <div className="absolute inset-0 bg-black bg-opacity-20">
               <div className="flex justify-center items-center h-full relative">
+                {/* Texto central */}
                 <div className="text-center text-white p-6 max-w-4xl z-10">
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 typing-animation">
                     {slide.title}
@@ -89,14 +91,56 @@ const TravelCarousel = () => {
                     {slide.subtitle}
                   </p>
                 </div>
-                {/* Cards à esquerda e direita, se quiser */}
+
+                {/* Card esquerdo */}
+                <div className="absolute left-6 lg:ml-20 top-[75%] -translate-y-1/2 bg-white/90 text-black rounded-xl shadow-lg p-4 w-full max-w-xs md:max-w-xs z-10 hidden lg:block">
+                  {" "}
+                  <h3 className="text-sm font-bold uppercase text-gray-500 mb-1">
+                    Seu passaporte para o mundo está aqui!
+                  </h3>
+                  <h2 className="text-xl font-bold text-blue-700">
+                    Visto de Turismo
+                  </h2>
+                  <p className="text-sm mt-2">
+                    Rápido, simples e sem erros! <br />
+                    Você viaja tranquilo e a gente cuida de tudo!
+                  </p>
+                  <button
+                    onClick={handleServicesClick}
+                    className="mt-4 text-blue-600 font-semibold hover:underline"
+                  >
+                    SAIBA MAIS
+                  </button>
+                </div>
+
+                {/* Card direito */}
+                <div className="absolute right-6 lg:mr-20 top-[75%] -translate-y-1/2 bg-white/90 text-black rounded-xl shadow-lg p-4 w-full max-w-xs md:max-w-xs z-10 hidden lg:block">
+                  {" "}
+                  <h3 className="text-sm font-bold uppercase text-gray-500 mb-1">
+                    Todos os destinos
+                  </h3>
+                  <h2 className="text-xl font-bold text-blue-700">
+                    Viagens Inesquecíveis
+                  </h2>
+                  <p className="text-sm mt-2">
+                    Conheça os cinco continentes em viagens inesquecíveis!{" "}
+                    <br />
+                    Descubra o mundo conosco!
+                  </p>
+                  <button
+                    onClick={handleDestinyClick}
+                    className="mt-4 text-blue-600 font-semibold hover:underline"
+                  >
+                    SAIBA MAIS
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </Slider>
 
-      {/* Áreas clicáveis esquerda/direita */}
+      {/* Áreas clicáveis esquerda e direita */}
       <div
         onClick={goToPrev}
         className="absolute left-0 top-0 w-1/3 h-full cursor-pointer"
