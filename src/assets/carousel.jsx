@@ -57,7 +57,7 @@ const TravelCarousel = () => {
     {
       src: savannah,
       title: "Savannah",
-      subtitle: "Um charme sulista que conquista.",
+      subtitle: "Aventura e natureza na savana africana.",
     },
   ];
 
