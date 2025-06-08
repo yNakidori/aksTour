@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Slider from "react-slick";
 import { ArrowDown } from "lucide-react";
+import maldivas from "../assets/videos/maldivas.mp4";
 import capadoccia from "../assets/videos/capadoccia.mp4";
 import india from "../assets/videos/india.mp4";
 import kyoto from "../assets/videos/kyoto.mp4";
@@ -29,6 +30,11 @@ const TravelCarousel = () => {
   };
 
   const slides = [
+    {
+      src: maldivas,
+      title: "Descubra as Maldivas",
+      subtitle: "Um paraíso tropical de águas cristalinas.",
+    },
     {
       src: capadoccia,
       title: "Explore Capadócia",
