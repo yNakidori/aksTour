@@ -1,21 +1,25 @@
 import React, { useRef } from "react";
 import Slider from "react-slick";
 import { ArrowDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 import maldivas from "../assets/videos/maldivas.mp4";
 import capadoccia from "../assets/videos/capadoccia.mp4";
-import india from "../assets/videos/india.mp4";
-import kyoto from "../assets/videos/kyoto.mp4";
+import newyork from "../assets/videos/newyork.mp4";
+import bariloche from "../assets/videos/bariloche.mp4";
+import italy from "../assets/videos/italy.mp4";
+import swiss from "../assets/videos/swiss.mp4";
+import israel from "../assets/videos/israel.mp4";
+import safari from "../assets/videos/safari.mp4";
 import london from "../assets/videos/london.mp4";
 import salvador from "../assets/videos/salvador.mp4";
-import savannah from "../assets/videos/savannah.mp4";
-import { useNavigate } from "react-router-dom";
+
+import passaporte from "../assets/images/passaporte.png";
+import mapa from "../assets/images/mapa.png";
 
 const TravelCarousel = () => {
   const sliderRef = useRef(null);
   const navigate = useNavigate();
-
-  const goToPrev = () => sliderRef.current?.slickPrev();
-  const goToNext = () => sliderRef.current?.slickNext();
 
   const handleDestinyClick = () => navigate("/destinys/internacionais");
   const handleServicesClick = () => navigate("/services");
@@ -24,35 +28,53 @@ const TravelCarousel = () => {
     dots: true,
     infinite: true,
     speed: 1100,
-    autoplay: false,
+    autoplay: true,
+    autoplaySpeed: 7000,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
+    pauseOnHover: false,
   };
 
   const slides = [
     {
       src: maldivas,
-      title: "Descubra as Maldivas",
+      title: "",
       subtitle: "Um paraíso tropical de águas cristalinas.",
     },
     {
+      src: bariloche,
+      title: "Bariloche",
+      subtitle: "Belezas naturais e aventura na neve.",
+    },
+    {
+      src: newyork,
+      title: "Nova York",
+      subtitle: "A cidade que nunca dorme, cheia de energia e cultura.",
+    },
+    {
+      src: italy,
+      title: "Itália",
+      subtitle: "Arte, história e gastronomia em cada esquina.",
+    },
+    {
+      src: israel,
+      title: "Israel",
+      subtitle: "Descubra a história e a cultura milenar.",
+    },
+    {
+      src: swiss,
+      title: "Suíça",
+      subtitle: "Paisagens de tirar o fôlego e chocolates irresistíveis.",
+    },
+    {
       src: capadoccia,
-      title: "Explore Capadócia",
+      title: "Capadócia",
       subtitle: "Uma viagem entre balões e paisagens surreais.",
     },
     {
-      src: india,
-      title: "Encantos da Índia",
-      subtitle: "Cores, sabores e cultura em um só lugar.",
-    },
-    {
-      src: kyoto,
-      title: "Tradições de Kyoto",
-      subtitle: "Flores, templos e a serenidade japonesa.",
-    },
-    {
       src: london,
-      title: "Clássica Londres",
+      title: "Londres",
       subtitle: "História e modernidade lado a lado.",
     },
     {
@@ -61,9 +83,9 @@ const TravelCarousel = () => {
       subtitle: "Axé, alegria e praias encantadoras.",
     },
     {
-      src: savannah,
-      title: "Savannah",
-      subtitle: "Aventura e natureza na savana africana.",
+      src: safari,
+      title: "Safari",
+      subtitle: "Explore a vida selvagem em sua forma mais pura.",
     },
   ];
 
@@ -81,82 +103,81 @@ const TravelCarousel = () => {
               className="w-full h-screen object-cover"
               autoPlay
               muted
+              loop
               playsInline
-              onEnded={goToNext}
             />
 
-            {/* Fundo escuro e conteúdo central */}
             <div className="absolute inset-0 bg-black bg-opacity-20">
               <div className="flex justify-center items-center h-full relative">
                 {/* Texto central */}
-                <div className="text-center text-white p-6 max-w-4xl z-10">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 typing-animation">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 z-10 text-center">
+                  {index === 0 ? (
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                      Viva momentos Incríveis, Viaja!
+                    </h2>
+                  ) : (
+                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                </div>
+
+                {/* Nome do destino no canto superior direito */}
+                {slide.title && (
+                  <div className="absolute top-4 right-4 text-white text-xs sm:text-sm md:text-base lg:text-lg font-semibold bg-black/40 px-3 py-1 rounded-full z-10">
                     {slide.title}
-                  </h2>
-                  <p className="text-base mb-28 sm:text-lg md:text-xl lg:text-2xl">
-                    {slide.subtitle}
-                  </p>
+                  </div>
+                )}
+
+                {/* Card esquerdo - Visto de Turismo */}
+                <div
+                  className="absolute top-1/2 left-0 -translate-y-1/2 ml-8 w-[220px] h-[320px] bg-cover bg-center rounded-2xl shadow-xl overflow-hidden z-10 hidden lg:flex"
+                  style={{
+                    backgroundImage: `url(${passaporte})`,
+                  }}
+                >
+                  <div className="w-full h-full bg-black bg-opacity-60 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
+                    <h2 className="text-xl font-bold">Visto de Turismo</h2>
+                    <p className="text-sm leading-snug">
+                      Rápido, simples e sem erros! <br />
+                      Você viaja tranquilo <br />e a gente cuida de tudo!
+                    </p>
+                    <button
+                      onClick={handleServicesClick}
+                      className="bg-white text-blue-800 font-semibold text-sm px-4 py-1 rounded-full shadow-md hover:bg-gray-200 transition"
+                    >
+                      SAIBA MAIS
+                    </button>
+                  </div>
                 </div>
 
-                {/* Card esquerdo */}
-                <div className="absolute left-6 lg:ml-20 top-[75%] -translate-y-1/2 bg-white/90 text-black rounded-xl shadow-lg p-4 w-full max-w-xs md:max-w-xs z-10 hidden lg:block">
-                  {" "}
-                  <h3 className="text-sm font-bold uppercase text-gray-500 mb-1">
-                    Seu passaporte para o mundo está aqui!
-                  </h3>
-                  <h2 className="text-xl font-bold text-blue-700">
-                    Visto de Turismo
-                  </h2>
-                  <p className="text-sm mt-2">
-                    Rápido, simples e sem erros! <br />
-                    Você viaja tranquilo e a gente cuida de tudo!
-                  </p>
-                  <button
-                    onClick={handleServicesClick}
-                    className="mt-4 text-blue-600 font-semibold hover:underline"
-                  >
-                    SAIBA MAIS
-                  </button>
-                </div>
-
-                {/* Card direito */}
-                <div className="absolute right-6 lg:mr-20 top-[75%] -translate-y-1/2 bg-white/90 text-black rounded-xl shadow-lg p-4 w-full max-w-xs md:max-w-xs z-10 hidden lg:block">
-                  {" "}
-                  <h3 className="text-sm font-bold uppercase text-gray-500 mb-1">
-                    Todos os destinos
-                  </h3>
-                  <h2 className="text-xl font-bold text-blue-700">
-                    Viagens Inesquecíveis
-                  </h2>
-                  <p className="text-sm mt-2">
-                    Conheça os cinco continentes em viagens inesquecíveis!{" "}
-                    <br />
-                    Descubra o mundo conosco!
-                  </p>
-                  <button
-                    onClick={handleDestinyClick}
-                    className="mt-4 text-blue-600 font-semibold hover:underline"
-                  >
-                    SAIBA MAIS
-                  </button>
+                {/* Card direito - Todos os destinos */}
+                <div
+                  className="absolute top-1/2 right-0 -translate-y-1/2 mr-8 w-[220px] h-[320px] bg-cover bg-center rounded-2xl shadow-xl overflow-hidden z-10 hidden lg:flex"
+                  style={{
+                    backgroundImage: `url(${mapa})`,
+                  }}
+                >
+                  <div className="w-full h-full bg-black bg-opacity-60 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
+                    <h2 className="text-xl font-bold">Todos os destinos</h2>
+                    <p className="text-sm leading-snug">
+                      Conheça os cinco continentes <br />
+                      em viagens inesquecíveis! <br />
+                      Descubra o mundo conosco!
+                    </p>
+                    <button
+                      onClick={handleDestinyClick}
+                      className="bg-white text-blue-800 font-semibold text-sm px-4 py-1 rounded-full shadow-md hover:bg-gray-200 transition"
+                    >
+                      SAIBA MAIS
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         ))}
       </Slider>
-
-      {/* Áreas clicáveis esquerda e direita */}
-      <div
-        onClick={goToPrev}
-        className="absolute left-0 top-0 w-1/3 h-full cursor-pointer"
-        style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
-      ></div>
-      <div
-        onClick={goToNext}
-        className="absolute right-0 top-0 w-1/3 h-full cursor-pointer"
-        style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
-      ></div>
 
       {/* Ícone de rolagem */}
       <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
