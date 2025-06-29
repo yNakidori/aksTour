@@ -31,7 +31,7 @@ const Events = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.2)), url(${backgroundHero})`,
+          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url(${backgroundHero})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "60vh",

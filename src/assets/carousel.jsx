@@ -107,16 +107,16 @@ const TravelCarousel = () => {
               playsInline
             />
 
-            <div className="absolute inset-0 bg-black bg-opacity-20">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40">
               <div className="flex justify-center items-center h-full relative">
                 {/* Texto central */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 z-10 text-center">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 z-10 text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
                   {index === 0 ? (
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+                    <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold">
                       Viva momentos Incríveis, Viaja!
                     </h2>
                   ) : (
-                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+                    <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
                       {slide.subtitle}
                     </p>
                   )}
