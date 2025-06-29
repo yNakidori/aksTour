@@ -134,10 +134,9 @@ const TravelCarousel = () => {
                   className="absolute top-1/2 left-0 -translate-y-1/2 ml-8 w-[220px] h-[320px] bg-cover bg-center rounded-2xl shadow-xl overflow-hidden z-10 hidden lg:flex"
                   style={{
                     backgroundImage: `url(${passaporte})`,
-                    opacity: 0.9,
                   }}
                 >
-                  <div className="w-full h-full bg-black bg-opacity-60 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
+                  <div className="w-full h-full flex flex-col justify-end items-center p-4 text-white text-center gap-2">
                     <h2 className="text-xl font-bold">Visto de Turismo</h2>
                     <p className="text-sm leading-snug">
                       Rápido, simples e sem erros! <br />
@@ -157,10 +156,9 @@ const TravelCarousel = () => {
                   className="absolute top-1/2 right-0 -translate-y-1/2 mr-8 w-[220px] h-[320px] bg-cover bg-center rounded-2xl shadow-xl overflow-hidden z-10 hidden lg:flex"
                   style={{
                     backgroundImage: `url(${mapa})`,
-                    opacity: 0.9,
                   }}
                 >
-                  <div className="w-full h-full bg-black bg-opacity-60 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
+                  <div className="w-full h-full bg-black bg-opacity-20 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
                     <h2 className="text-xl font-bold">Todos os destinos</h2>
                     <p className="text-sm leading-snug">
                       Conheça os cinco continentes <br />
