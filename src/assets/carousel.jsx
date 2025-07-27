@@ -112,7 +112,7 @@ const TravelCarousel = () => {
                 {/* Texto central */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 z-10 text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
                   {index === 0 ? (
-                    <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold">
+                    <h2 className="text-4xl sm:text-3xl md:text-5xl lg:text-5xl font-extrabold">
                       Viva momentos Incríveis, Viaja!
                     </h2>
                   ) : (
@@ -124,7 +124,7 @@ const TravelCarousel = () => {
 
                 {/* Nome do destino no canto superior direito */}
                 {slide.title && (
-                  <div className="absolute top-4 right-4 text-white text-xs sm:text-sm md:text-base lg:text-lg font-semibold bg-black/40 px-3 py-1 rounded-full z-10">
+                  <div className="absolute top-6 right-6 text-white text-base sm:text-lg md:text-xl lg:text-2xl font-bold bg-black/60 px-5 py-2 rounded-full z-10 shadow-lg tracking-wide">
                     {slide.title}
                   </div>
                 )}
@@ -138,7 +138,7 @@ const TravelCarousel = () => {
                 >
                   <div className="w-full h-full flex flex-col justify-end items-center p-4 text-white text-center gap-2">
                     <h2 className="text-xl font-bold">Visto de Turismo</h2>
-                    <p className="text-sm leading-snug">
+                    <p className="text-sm text-slate-50 leading-snug">
                       Rápido, simples e sem erros! <br />
                       Você viaja tranquilo <br />e a gente cuida de tudo!
                     </p>
@@ -158,9 +158,11 @@ const TravelCarousel = () => {
                     backgroundImage: `url(${mapa})`,
                   }}
                 >
-                  <div className="w-full h-full bg-black bg-opacity-20 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
-                    <h2 className="text-xl font-bold">Todos os destinos</h2>
-                    <p className="text-sm leading-snug">
+                  <div className="w-full h-full bg-black bg-opacity-30 flex flex-col justify-end items-center p-4 text-white text-center gap-2">
+                    <h2 className="text-xl font-extrabold drop-shadow-md">
+                      Todos os destinos
+                    </h2>
+                    <p className="text-sm drop-shadow-md text-white leading-snug">
                       Conheça os cinco continentes <br />
                       em viagens inesquecíveis! <br />
                       Descubra o mundo conosco!
@@ -186,7 +188,7 @@ const TravelCarousel = () => {
         </p>
         <div
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
-          onClick={scrollToNextSection}
+          onMouseEnter={scrollToNextSection}
         >
           <ArrowDown className="text-white text-4xl" />
         </div>
