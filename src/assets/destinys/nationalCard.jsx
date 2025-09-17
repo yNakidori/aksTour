@@ -6,20 +6,20 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase/firbase";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { TextField } from "@mui/material";
 import { FcFullTrash, FcSupport } from "react-icons/fc";
 import Swal from "sweetalert2";
 
-const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
+const NationalCard = ({ isAdmin = false }) => {
   // Recebe a prop isAdmin
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [filter, setFilter] = useState("all"); // "all", "package", "ticket"
+  const [uploadingImage, setUploadingImage] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -53,12 +53,8 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
     });
 
     if (handleDelete.isConfirmed) {
+      // Verifica se o usuário confirmou a exclusão
       try {
-        // Busca o card para pegar a URL da imagem
-        const cardToDelete = cards.find((card) => card.id === id);
-        if (cardToDelete?.Image) {
-          await deleteImageFromStorage(cardToDelete.Image);
-        }
         await deleteDoc(doc(db, "nationalOffers", id));
         setCards(cards.filter((card) => card.id !== id));
       } catch (error) {
@@ -67,37 +63,35 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
     }
   };
 
-  const deleteImageFromStorage = async (imageUrl) => {
-    try {
-      const storage = getStorage();
-      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
-      const url = new URL(imageUrl);
-      const decodedPath = decodeURIComponent(url.pathname);
-      const pathStart = decodedPath.indexOf("/o/") + 3;
-      const pathEnd =
-        decodedPath.indexOf("?alt=") !== -1
-          ? decodedPath.indexOf("?alt=")
-          : decodedPath.length;
-      if (pathStart < 3 || pathEnd <= pathStart) {
-        console.error("Caminho da imagem inválido:", imageUrl);
-        return;
-      }
-      const fullPath = decodedPath.substring(pathStart, pathEnd);
-      console.log("Removendo imagem do Storage:", fullPath);
-
-      const imageRef = ref(storage, fullPath);
-      await deleteObject(imageRef);
-      console.log("Imagem excluída com sucesso do Storage");
-    } catch (error) {
-      console.error("Erro ao excluir imagem do Firebase Storage:", error);
-    }
-  };
-
   const handleEdit = (card) => {
     // Edição
     setEditingCard(card);
     setEditModalOpen(true);
     console.log("Editando:", card);
+  };
+
+  // Função para fazer upload da nova imagem
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadingImage(true);
+      try {
+        const storageRef = ref(storage, `nationalOffers/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        setEditingCard({ ...editingCard, Image: url });
+        setUploadingImage(false);
+      } catch (error) {
+        console.error("Erro ao fazer upload da imagem:", error);
+        setUploadingImage(false);
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Não foi possível fazer upload da imagem.",
+          confirmButtonText: "OK",
+        });
+      }
+    }
   };
 
   const saveEdit = async () => {
@@ -149,12 +143,6 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
     }
   };
 
-  const filteredCards = cards.filter((card) => {
-    if (filterType === "package") return card.package;
-    if (filterType === "ticket") return card.ticket;
-    return true;
-  });
-
   if (loading) {
     return <p className="text-center">Carregando...</p>;
   }
@@ -176,7 +164,7 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
         ref={containerRef}
         className="flex gap-6 p-4 overflow-hidden scroll-smooth no-scrollbar"
       >
-        {filteredCards.map((card) => (
+        {cards.map((card) => (
           <div
             key={card.id}
             className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 w-72 shrink-0"
@@ -198,22 +186,12 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
               </button>
             )}
 
-            {card.package && (
-              <span
-                style={{ backgroundColor: "#337bff" }}
-                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
-              >
-                Pacote
-              </span>
-            )}
-            {!card.package && card.ticket && (
-              <span
-                style={{ backgroundColor: "#22c55e" }}
-                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
-              >
-                Passagem
-              </span>
-            )}
+            <span
+              style={{ backgroundColor: "#337bff" }}
+              className="absolute top-2 left-2  text-white text-sm font-semibold px-3 py-1 rounded-lg"
+            >
+              Pacote
+            </span>
 
             <div className="p-4">
               <h2 className="text-lg font-bold text-gray-800">
@@ -222,7 +200,7 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
               <p className="text-gray-600 flex items-center gap-1 mt-1">
                 ✈️ <span>{card.date}</span>
               </p>
-              <p className="text-gray-500 text-sm mt-2">Valores promocionais</p>
+              <p className="text-gray-500 text-sm mt-2">Pacotes a partir de</p>
               <p className="text-2xl font-bold text-gray-800">
                 R$ {card.price}
               </p>
@@ -252,8 +230,37 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
       {/* Modal de edição */}
       {editModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">Editar Oferta</h2>
+
+            {/* Preview da imagem atual */}
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2">
+                Imagem Atual
+              </label>
+              <img
+                src={editingCard.Image}
+                alt={editingCard.destiny}
+                className="w-full h-32 object-cover rounded-lg border"
+              />
+            </div>
+
+            {/* Upload de nova imagem */}
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2">
+                Alterar Imagem
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploadingImage}
+                className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+              />
+              {uploadingImage && (
+                <p className="text-blue-600 text-sm mt-1">Fazendo upload...</p>
+              )}
+            </div>
 
             <TextField
               id="destiny"
@@ -297,18 +304,21 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
               placeholder="Preço"
             />
 
-            <button
-              onClick={saveEdit}
-              className="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition"
-            >
-              Salvar
-            </button>
-            <button
-              onClick={() => setEditModalOpen(false)}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition ml-2"
-            >
-              Cancelar
-            </button>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={saveEdit}
+                disabled={uploadingImage}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition disabled:bg-blue-300"
+              >
+                Salvar
+              </button>
+              <button
+                onClick={() => setEditModalOpen(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}

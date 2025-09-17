@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase/firbase";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../firebase/firbase";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
-import { FcFullTrash } from "react-icons/fc";
+import { FcFullTrash, FcSupport } from "react-icons/fc";
+import { TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 const EventTicketCard = ({ isAdmin = false }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingCard, setEditingCard] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -42,12 +46,6 @@ const EventTicketCard = ({ isAdmin = false }) => {
 
     if (result.isConfirmed) {
       try {
-        // Busca o card para pegar a URL da imagem
-        const cardToDelete = cards.find((card) => card.id === id);
-        if (cardToDelete?.Image) {
-          await deleteImageFromStorage(cardToDelete.Image);
-        }
-
         await deleteDoc(doc(db, "events", id));
         setCards((prev) => prev.filter((card) => card.id !== id));
       } catch (error) {
@@ -56,29 +54,73 @@ const EventTicketCard = ({ isAdmin = false }) => {
     }
   };
 
-  const deleteImageFromStorage = async (imageUrl) => {
-    try {
-      const storage = getStorage();
-      // Exemplo de URL: https://firebasestorage.googleapis.com/v0/b/SEU-PROJETO.appspot.com/o/pasta%2Farquivo.jpg?alt=media&token=...
-      const url = new URL(imageUrl);
-      const decodedPath = decodeURIComponent(url.pathname);
-      const pathStart = decodedPath.indexOf("/o/") + 3;
-      const pathEnd =
-        decodedPath.indexOf("?alt=") !== -1
-          ? decodedPath.indexOf("?alt=")
-          : decodedPath.length;
-      if (pathStart < 3 || pathEnd <= pathStart) {
-        console.error("Caminho da imagem inválido:", imageUrl);
-        return;
-      }
-      const fullPath = decodedPath.substring(pathStart, pathEnd);
-      console.log("Removendo imagem do Storage:", fullPath);
+  // Função para iniciar a edição de um evento
+  const handleEdit = (card) => {
+    setEditingCard(card);
+    setEditModalOpen(true);
+    console.log("Editando:", card);
+  };
 
-      const imageRef = ref(storage, fullPath);
-      await deleteObject(imageRef);
-      console.log("Imagem excluída com sucesso do Storage");
-    } catch (error) {
-      console.error("Erro ao excluir imagem do Firebase Storage:", error);
+  // Função para fazer upload da nova imagem
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadingImage(true);
+      try {
+        const storageRef = ref(storage, `events/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        setEditingCard({ ...editingCard, Image: url });
+        setUploadingImage(false);
+      } catch (error) {
+        console.error("Erro ao fazer upload da imagem:", error);
+        setUploadingImage(false);
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Não foi possível fazer upload da imagem.",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
+
+  // Função para salvar as alterações de um evento
+  const saveEdit = async () => {
+    if (editingCard) {
+      try {
+        await updateDoc(doc(db, "events", editingCard.id), {
+          title: editingCard.title,
+          date: editingCard.date,
+          location: editingCard.location,
+          price: editingCard.price,
+          Image: editingCard.Image,
+        });
+
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card.id === editingCard.id ? editingCard : card
+          )
+        );
+
+        setEditModalOpen(false);
+        setEditingCard(null);
+        console.log("Evento editado:", editingCard);
+        Swal.fire({
+          icon: "success",
+          title: "Sucesso",
+          text: "O evento foi editado com sucesso.",
+          confirmButtonText: "OK",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Não foi possível editar o evento.",
+          confirmButtonText: "OK",
+        });
+        console.error("Erro ao editar:", error);
+      }
     }
   };
 
@@ -120,12 +162,22 @@ const EventTicketCard = ({ isAdmin = false }) => {
               <p className="text-sm font-semibold text-green-600">R$ {price}</p>
             </div>
             {isAdmin && (
-              <button
-                className="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform"
-                onClick={() => handleDelete(id)}
-              >
-                <FcFullTrash size={24} />
-              </button>
+              <>
+                <button
+                  className="absolute top-2 right-2 text-red-500 hover:scale-110 transition-transform"
+                  onClick={() => handleDelete(id)}
+                  title="Excluir evento"
+                >
+                  <FcFullTrash size={24} />
+                </button>
+                <button
+                  className="absolute top-2 right-10 bg-white text-blue-500 hover:scale-110 transition-transform p-1 rounded-full shadow-md"
+                  onClick={() => handleEdit({ id, Image, title, date, location, price })}
+                  title="Editar evento"
+                >
+                  <FcSupport size={20} />
+                </button>
+              </>
             )}
           </div>
         ))}
@@ -136,6 +188,119 @@ const EventTicketCard = ({ isAdmin = false }) => {
       >
         <ArrowRightOutlined />
       </button>
+
+      {/* Modal de edição */}
+      {editModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">Editar Evento</h2>
+
+            {/* Preview da imagem atual */}
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2">
+                Imagem Atual
+              </label>
+              <img
+                src={editingCard.Image}
+                alt={editingCard.title}
+                className="w-full h-32 object-cover rounded-lg border"
+              />
+            </div>
+
+            {/* Upload de nova imagem */}
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2">
+                Alterar Imagem
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploadingImage}
+                className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+              />
+              {uploadingImage && (
+                <p className="text-blue-600 text-sm mt-1">Fazendo upload...</p>
+              )}
+            </div>
+
+            <TextField
+              id="title"
+              label="Título"
+              type="text"
+              value={editingCard.title}
+              variant="standard"
+              fullWidth
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, title: e.target.value })
+              }
+              placeholder="Título do evento"
+              style={{ marginBottom: "16px" }}
+            />
+
+            <TextField
+              className="mt-4"
+              id="date"
+              label="Data"
+              type="date"
+              variant="standard"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              value={editingCard.date}
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, date: e.target.value })
+              }
+              style={{ marginBottom: "16px" }}
+            />
+
+            <TextField
+              className="mt-4"
+              id="location"
+              label="Local"
+              type="text"
+              value={editingCard.location}
+              variant="standard"
+              fullWidth
+              onChange={(e) =>
+                setEditingCard({ ...editingCard, location: e.target.value })
+              }
+              placeholder="Local do evento"
+              style={{ marginBottom: "16px" }}
+            />
+
+            <TextField
+              className="mt-4"
+              id="price"
+              label="Preço"
+              type="text"
+              value={editingCard.price}
+              variant="standard"
+              fullWidth
+              onChange={(e) => {
+                setEditingCard({ ...editingCard, price: e.target.value });
+              }}
+              style={{ marginBottom: "16px" }}
+              placeholder="Preço"
+            />
+
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={saveEdit}
+                disabled={uploadingImage}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition disabled:bg-blue-300"
+              >
+                Salvar
+              </button>
+              <button
+                onClick={() => setEditModalOpen(false)}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
