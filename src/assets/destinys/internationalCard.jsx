@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   collection,
   getDocs,
@@ -8,17 +8,38 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
-import { FcFullTrash, FcSupport } from "react-icons/fc";
 import Swal from "sweetalert2";
-import { TextField } from "@mui/material";
+import Pagination from "../Pagination";
 
 const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const containerRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 8;
+
+  // Cálculos para paginação (depois do filtro)
+  const filteredCards = cards.filter((card) => {
+    if (filterType === "package") return card.package;
+    if (filterType === "ticket") return card.ticket;
+    return true;
+  });
+  
+  const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+  const startIndex = (currentPage - 1) * cardsPerPage;
+  const endIndex = startIndex + cardsPerPage;
+  const currentCards = filteredCards.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Reset page quando filtro muda
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterType]);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -32,9 +53,9 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
         }));
 
         setCards(cardData);
-        setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -67,25 +88,60 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
 
   // Função para excluir uma oferta
   const handleDelete = async (id) => {
-    const handleDelete = await Swal.fire({
+    const result = await Swal.fire({
       icon: "warning",
       title: "Tem certeza?",
       text: "Você não poderá reverter isso!",
       showCancelButton: true,
       confirmButtonText: "Sim, deletar!",
       cancelButtonText: "Cancelar",
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: 'white',
+      confirmButtonColor: '#10b981',
+      cancelButtonColor: '#ef4444'
     });
 
-    if (handleDelete.isConfirmed) {
+    if (result.isConfirmed) {
       try {
         const cardToDelete = cards.find((card) => card.id === id);
         if (cardToDelete?.Image) {
           await deleteImageFromStorage(cardToDelete.Image);
         }
         await deleteDoc(doc(db, "internationalOffers", id));
-        setCards(cards.filter((card) => card.id !== id));
+        const updatedCards = cards.filter((card) => card.id !== id);
+        setCards(updatedCards);
+        
+        // Ajustar página se necessário após deletar
+        const updatedFilteredCards = updatedCards.filter((card) => {
+          if (filterType === "package") return card.package;
+          if (filterType === "ticket") return card.ticket;
+          return true;
+        });
+        const newTotalPages = Math.ceil(updatedFilteredCards.length / cardsPerPage);
+        if (currentPage > newTotalPages && newTotalPages > 0) {
+          setCurrentPage(newTotalPages);
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: "Deletado!",
+          text: "Oferta removida com sucesso.",
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 1500
+        });
       } catch (error) {
         console.error("Erro ao excluir:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Erro!",
+          text: "Erro ao excluir a oferta.",
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     }
   };
@@ -119,194 +175,214 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
           icon: "success",
           title: "Sucesso",
           text: "O cartão foi editado com sucesso.",
-          confirmButtonText: "OK",
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 1500
         });
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Erro",
           text: "Não foi possível editar o cartão.",
-          confirmButtonText: "OK",
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 1500
         });
         console.error("Erro ao editar:", error);
       }
     }
   };
 
-  const scrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
-  // Filtro por tipo
-  const filteredCards = cards.filter((card) => {
-    if (filterType === "package") return card.package;
-    if (filterType === "ticket") return card.ticket;
-    return true;
-  });
-
   if (loading) {
-    return <p className="text-center">Carregando...</p>;
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <p className="text-gray-600 font-medium">Carregando ofertas internacionais...</p>
+        </div>
+      </div>
+    );
   }
 
   if (cards.length === 0) {
-    return <p className="text-center">Nenhuma oferta disponível no momento.</p>;
+    return (
+      <div className="text-center py-12">
+        <div className="flex flex-col items-center space-y-4">
+          <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h3 className="text-xl font-semibold text-gray-700">Nenhuma oferta internacional encontrada</h3>
+          <p className="text-gray-500">Em breve teremos destinos internacionais disponíveis!</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (filteredCards.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <div className="flex flex-col items-center space-y-4">
+          <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <h3 className="text-xl font-semibold text-gray-700">Nenhum resultado encontrado</h3>
+          <p className="text-gray-500">Tente ajustar os filtros para ver mais ofertas.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto">
-      <button
-        onClick={scrollLeft}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-900 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition z-10"
-      >
-        <ArrowLeftOutlined />
-      </button>
-
-      <div
-        ref={containerRef}
-        className="flex gap-6 p-4 overflow-hidden scroll-smooth no-scrollbar"
-      >
-        {filteredCards.map((card) => (
+    <div className="w-full">
+      {/* Grid responsivo de ofertas internacionais */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        {currentCards.map((card) => (
           <div
             key={card.id}
-            className="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 w-72 shrink-0"
+            className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            <img
-              src={card.Image}
-              alt={card.destiny}
-              className="w-full h-52 object-cover"
-            />
-
-            {/* Botão de excluir */}
-            {isAdmin && (
-              <button
-                onClick={() => handleDelete(card.id)}
-                className="absolute top-2 right-2 bg-white text-white p-2 rounded-full text-sm hover:bg-red-700 transition flex items-center justify-center shadow-md"
-                title="Excluir oferta"
-              >
-                <FcFullTrash className="w-5 h-5" />
-              </button>
-            )}
-
-            {/* Tag de tipo */}
-            {card.package && (
-              <span
-                style={{ backgroundColor: "#337bff" }}
-                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
-              >
-                Pacote
-              </span>
-            )}
-            {!card.package && card.ticket && (
-              <span
-                style={{ backgroundColor: "#22c55e" }}
-                className="absolute top-2 left-2 text-white text-sm font-semibold px-3 py-1 rounded-lg"
-              >
-                Passagem
-              </span>
-            )}
-
-            <div className="p-4">
-              <h2 className="text-lg font-bold text-gray-800">
-                {card.destiny}
-              </h2>
-              <p className="text-gray-600 flex items-center gap-1 mt-1">
-                ✈️ <span>{card.date}</span>
-              </p>
-              <p className="text-gray-500 text-sm mt-2">Valores promocionais</p>
-              <p className="text-2xl font-bold text-gray-800">
-                R$ {card.price}
-              </p>
-
-              {/* Botão de editar */}
-              {isAdmin && (
-                <button
-                  onClick={() => handleEdit(card)}
-                  className="absolute top-2 right-12 bg-white text-white p-2 rounded-full text-sm hover:bg-blue-700 transition flex items-center justify-center shadow-md"
-                  title="Editar oferta"
-                >
-                  <FcSupport className="w-5 h-5" />
-                </button>
+            <div className="relative">
+              <img
+                src={card.Image}
+                alt={card.destiny}
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              
+              {/* Badge do tipo */}
+              {card.package && (
+                <div className="absolute top-3 left-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                  Pacote
+                </div>
               )}
+              {!card.package && card.ticket && (
+                <div className="absolute top-3 left-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                  Passagem
+                </div>
+              )}
+
+              {/* Botões admin */}
+              {isAdmin && (
+                <>
+                  <button
+                    onClick={() => handleDelete(card.id)}
+                    className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm hover:bg-red-500 hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg group/delete"
+                    title="Excluir oferta"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9zM4 5a2 2 0 012-2h8a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zM8 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 10-2 0v4a1 1 0 102 0V8z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => handleEdit(card)}
+                    className="absolute top-3 right-14 bg-white/90 backdrop-blur-sm hover:bg-blue-500 hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg"
+                    title="Editar oferta"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className="p-5">
+              <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                {card.destiny}
+              </h3>
+              
+              <div className="flex items-center text-gray-600 mb-4">
+                <svg className="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm">{card.date}</span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-500 mb-1">Valores promocionais</span>
+                  <span className="text-2xl font-bold text-blue-600">
+                    R$ {card.price}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <button
-        onClick={scrollRight}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-900 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition z-10"
-      >
-        <ArrowRightOutlined />
-      </button>
+      {/* Componente de Paginação */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        className="mt-8"
+      />
 
-      {/* Modal de edição */}
+      {/* Modal de edição modernizado */}
       {editModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Editar Oferta</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6">
+              <h2 className="text-2xl font-bold">Editar Oferta Internacional</h2>
+              <p className="text-blue-100 mt-1">Atualize as informações da oferta</p>
+            </div>
 
-            <TextField
-              id="destiny"
-              label="Destino"
-              type="text"
-              value={editingCard.destiny}
-              variant="standard"
-              fullWidth
-              onChange={(e) =>
-                setEditingCard({ ...editingCard, destiny: e.target.value })
-              }
-              placeholder="Destino"
-              style={{ marginBottom: "16px" }}
-            />
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Destino</label>
+                <input
+                  type="text"
+                  value={editingCard?.destiny || ""}
+                  onChange={(e) =>
+                    setEditingCard({ ...editingCard, destiny: e.target.value })
+                  }
+                  placeholder="Nome do destino"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-            <TextField
-              className="mt-4"
-              id="date"
-              label="Data"
-              type="date"
-              variant="standard"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-              value={editingCard.date}
-              onChange={(e) =>
-                setEditingCard({ ...editingCard, date: e.target.value })
-              }
-              style={{ marginBottom: "16px" }}
-            />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Data</label>
+                <input
+                  type="date"
+                  value={editingCard?.date || ""}
+                  onChange={(e) =>
+                    setEditingCard({ ...editingCard, date: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-            <TextField
-              className="mt-4"
-              type="text"
-              value={editingCard.price}
-              variant="standard"
-              fullWidth
-              onChange={(e) => {
-                setEditingCard({ ...editingCard, price: e.target.value });
-              }}
-              style={{ marginBottom: "16px" }}
-              placeholder="Preço"
-            />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Preço (R$)</label>
+                <input
+                  type="text"
+                  value={editingCard?.price || ""}
+                  onChange={(e) => {
+                    setEditingCard({ ...editingCard, price: e.target.value });
+                  }}
+                  placeholder="000,00"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
+            </div>
 
-            <button
-              onClick={saveEdit}
-              className="bg-blue-600 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition"
-            >
-              Salvar
-            </button>
-            <button
-              onClick={() => setEditModalOpen(false)}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition ml-2"
-            >
-              Cancelar
-            </button>
+            <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+              <button
+                onClick={() => setEditModalOpen(false)}
+                className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={saveEdit}
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg"
+              >
+                Salvar Alterações
+              </button>
+            </div>
           </div>
         </div>
       )}
