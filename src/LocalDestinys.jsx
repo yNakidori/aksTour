@@ -33,63 +33,71 @@ const LocalDestinys = () => {
       >
         <Navbar />
 
-        {/* Bloco 1 */}
-        <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-start gap-8">
-          {/* Texto à esquerda */}
-          <div className="w-full md:w-1/2 mt-20 md:mt-52">
-            <h2 className="text-4xl font-bold text-black">
-              <span className="flex items-center gap-2 font-poppins text-blue-600">
-                🧳 Pacotes
+        {/* Hero Section */}
+        <div className="container mx-auto px-6 relative z-10 pt-20 md:pt-32 pb-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl text-amber-400 font-extrabold font-poppins mb-4">
+              Destinos Nacionais
+            </h1>
+            <p className="text-xl text-yellow-400 font-poppins mb-2">
+              Descubra as maravilhas do Brasil
+            </p>
+            <p className="text-lg text-blue-700 font-poppins">
+              Pacotes e passagens com os melhores preços
+            </p>
+          </div>
+        </div>
+
+        {/* Seção de Pacotes */}
+        <div className="container mx-auto px-6 relative z-10 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-600 font-poppins mb-4">
+              <span className="flex items-center justify-center gap-3">
+                🧳 Pacotes Nacionais
               </span>
             </h2>
             <p className="text-lg text-yellow-400 font-poppins">
-              Promoções imperdíveis
+              Promoções imperdíveis para suas próximas férias
             </p>
-            <h1 className="text-3xl md:text-5xl text-amber-400 font-extrabold font-poppins mt-2">
-              Uma seleção de pacotes para suas{" "}
-              <br className="hidden md:block" /> próximas férias
-            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-amber-400 mx-auto mt-4 rounded-full"></div>
           </div>
-          {/* Cards à direita */}
-          <div className="w-full md:w-1/2 mt-10 md:mt-52">
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
             <NationalCard filterType="package" />
           </div>
         </div>
 
-        {/* Bloco 2 */}
-        <div className="container mx-auto px-6 relative z-10 flex flex-col-reverse md:flex-row items-start gap-8">
-          {/* Cards à esquerda */}
-          <div className="w-full md:w-1/2 mt-10 md:mt-52">
-            <NationalCard filterType="ticket" />
-          </div>
-
-          {/* Texto à direita */}
-          <div className="w-full md:w-1/2 mt-20 md:mt-52">
+        {/* Seção de Passagens */}
+        <div className="container mx-auto px-6 relative z-10 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-amber-400 font-poppins mb-4">
+              <span className="flex items-center justify-center gap-3">
+                ✈️ Passagens Nacionais
+              </span>
+            </h2>
             <p className="text-lg text-blue-700 font-poppins">
-              Saindo de São Paulo
+              Passagens com preços imbatíveis saindo de São Paulo
             </p>
-            <h1 className="text-3xl md:text-5xl text-amber-400 font-extrabold font-poppins mt-2">
-              Passagens com preços imbatíveis
-            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-blue-400 mx-auto mt-4 rounded-full"></div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+            <NationalCard filterType="ticket" />
           </div>
         </div>
 
-        {/* Bloco 3 */}
-        <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-start gap-8 pb-20">
-          {/* Texto à esquerda */}
-          <div className="w-full md:w-1/2 mt-20 md:mt-52">
-            <h2 className="text-4xl font-bold text-black">
-              <span className="text-lg text-yellow-400 font-poppins">
-                🧳 Explore o Mundo com a AKS
+        {/* Seção de Serviços */}
+        <div className="container mx-auto px-6 relative z-10 py-16 pb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-yellow-400 font-poppins mb-4">
+              <span className="flex items-center justify-center gap-3">
+                🌟 Explore o Brasil com a AKS
               </span>
             </h2>
-            <h1 className="text-3xl md:text-5xl text-amber-400 font-extrabold font-poppins mt-2">
-              Uma seleção de pacotes para suas{" "}
-              <br className="hidden md:block" /> próximas férias
-            </h1>
+            <p className="text-lg text-amber-400 font-poppins">
+              Serviços completos para sua viagem perfeita
+            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-500 to-amber-400 mx-auto mt-4 rounded-full"></div>
           </div>
-          {/* Cards à direita */}
-          <div className="w-full md:w-1/2 mt-10 md:mt-52">
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
             <Services />
           </div>
         </div>
