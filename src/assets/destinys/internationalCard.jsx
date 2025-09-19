@@ -17,7 +17,26 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 6;
+  const [cardsPerPage, setCardsPerPage] = useState(6);
+
+  useEffect(() => {
+    function updateCardsPerPage() {
+       // Define as quebras de grid do Tailwind usadas no componente
+      let columns = 1;
+      const width = window.innerWidth;
+      if (width >= 1280) columns = 4; // xl:grid-cols-4
+      else if (width >= 1024) columns = 3; // lg:grid-cols-3
+      else if (width >= 768) columns = 2; // md:grid-cols-2
+      // Quantas linhas cabem na tela? (ajuste conforme altura desejada)
+      const cardHeight = 340; // px, estimado (inclui imagem, texto, padding)
+      const availableHeight = window.innerHeight - 300; // 300px para header/footer
+      const rows = Math.max(1, Math.floor(availableHeight / cardHeight));
+      setCardsPerPage(columns * rows);
+    }
+    updateCardsPerPage();
+    window.addEventListener("resize", updateCardsPerPage);
+    return () => window.removeEventListener("resize", updateCardsPerPage);
+  }, []);
 
   // Cálculos para paginação (depois do filtro)
   const filteredCards = cards.filter((card) => {
