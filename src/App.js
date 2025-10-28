@@ -10,14 +10,26 @@ import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
 import Whats from "./assets/whats";
+import CartIcon from "./assets/animations/CartIcon.json";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
+import { useState } from "react";
 
 function App() {
+  const [isCartHovered, setIsCartHovered] = useState(false);
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: Whats,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const cartOptions = {
+    loop: true,
+    autoplay: isCartHovered,
+    animationData: CartIcon,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -29,6 +41,10 @@ function App() {
   const handleWhatsAppClick = () => {
     window.open(whatsappLink, "_blank");
   };
+
+  const handleCartClick = () => {
+    window.location.href = "/store";
+  }
 
   return (
     <div className=" ">
@@ -129,12 +145,22 @@ function App() {
         </div>
       </div>
 
-      {/* Botão WhatsApp */}
-      <div
-        className="fixed bottom-5 right-5 z-50"
-        onClick={handleWhatsAppClick}
-      >
-        <Lottie options={defaultOptions} height={100} width={100} />
+      {/* Botões Flutuantes - WhatsApp e Carrinho */}
+      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-2">
+        <div 
+          className="cursor-pointer hover:scale-110 transition-transform bg-yellow-100 rounded-full p-1 shadow-lg"
+          onMouseEnter={() => setIsCartHovered(true)}
+          onMouseLeave={() => setIsCartHovered(false)}
+          onClick={handleCartClick}
+        >
+          <Lottie options={cartOptions} height={80} width={80} />
+        </div>
+        <div
+          className="cursor-pointer hover:scale-110 transition-transform"
+          onClick={handleWhatsAppClick}
+        >
+          <Lottie options={defaultOptions} height={100} width={100} />
+        </div>
       </div>
 
       {/* CHAMADA FINAL */}

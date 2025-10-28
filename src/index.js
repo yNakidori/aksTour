@@ -14,6 +14,7 @@ import Contact from "./Contact";
 import SignIn from "./auth/signin";
 import LogIn from "./auth/login";
 import Social from "./Social";
+import Store from "./Store";
 import Admin from "./Admin";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -35,6 +36,7 @@ root.render(
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/store" element={<Store />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/admin" element={
             <ProtectedRoute>
