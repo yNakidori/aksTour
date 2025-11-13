@@ -146,21 +146,27 @@ function App() {
       </div>
 
       {/* Botões Flutuantes - WhatsApp e Carrinho */}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-2">
-        <div 
-          className="cursor-pointer hover:scale-110 transition-transform bg-yellow-100 rounded-full p-1 shadow-lg"
+      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-3">
+        <button 
+          className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 bg-white rounded-full p-1.5 shadow-lg hover:shadow-xl border-2 border-blue-500"
           onMouseEnter={() => setIsCartHovered(true)}
           onMouseLeave={() => setIsCartHovered(false)}
           onClick={handleCartClick}
         >
-          <Lottie options={cartOptions} height={80} width={80} />
-        </div>
-        <div
-          className="cursor-pointer hover:scale-110 transition-transform"
+          <Lottie options={cartOptions} height={55} width={55} />
+          
+          {/* Badge "Loja" */}
+          <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
+            LOJA
+          </span>
+        </button>
+        
+        <button
+          className="cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 rounded-full shadow-lg hover:shadow-xl"
           onClick={handleWhatsAppClick}
         >
-          <Lottie options={defaultOptions} height={100} width={100} />
-        </div>
+          <Lottie options={defaultOptions} height={75} width={75} />
+        </button>
       </div>
 
       {/* CHAMADA FINAL */}
