@@ -13,6 +13,7 @@ import Whats from "./assets/whats";
 import CartIcon from "./assets/animations/CartIcon.json";
 import ReactiveButton from "reactive-button";
 import Lottie from "react-lottie";
+import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 function App() {
@@ -148,15 +149,15 @@ function App() {
       {/* Botões Flutuantes - WhatsApp e Carrinho */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-3">
         <button 
-          className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 bg-white rounded-full p-1.5 shadow-lg hover:shadow-xl border-2 border-blue-500"
+          className="relative group cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 bg-white rounded-full p-2 shadow-lg hover:shadow-xl border-2 border-blue-500 flex items-center justify-center"
           onMouseEnter={() => setIsCartHovered(true)}
           onMouseLeave={() => setIsCartHovered(false)}
           onClick={handleCartClick}
         >
-          <Lottie options={cartOptions} height={55} width={55} />
-          
+          <ShoppingCart size={28} className="text-blue-600" />
+
           {/* Badge "Loja" */}
-          <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-lg animate-pulse">
+          <span className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-lg">
             LOJA
           </span>
         </button>
