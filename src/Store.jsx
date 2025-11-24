@@ -8,10 +8,7 @@ import StoreAuthButton from './assets/store/StoreAuthButton';
 import { products, categories } from './data/products';
 
 // Configure sua chave pública do Stripe via variável de ambiente
-const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || 
-  'pk_test_51S9BDKBaXdEeB1LMXmHJ4EkXMyU6CVUNJEPWBa5FccaFlvyzBYtHImA0EpDGE7pMWG22yO3yxTVuPxXyUwAEmNVR00bwXyISbu'
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const Store = () => {
   const [cart, setCart] = useState([]);

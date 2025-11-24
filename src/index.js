@@ -17,6 +17,11 @@ import Social from "./Social";
 import Store from "./Store";
 import Admin from "./Admin";
 import ProtectedRoute from "./ProtectedRoute";
+import StoreLogin from "./store/StorePages/storeLogin";
+import StoreRegister from "./store/StorePages/storeRegister";
+import StoreCheckout from "./store/StorePages/storeCheckout";
+import StoreCart from "./store/StorePages/storeCart";
+import StoreProductsPage from "./store/StorePages/storeProductsPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -44,6 +49,12 @@ root.render(
             </ProtectedRoute>
           } />
           <Route path="/social" element={<Social />} />
+          {/* Store Pages */}
+          <Route path="/storelogin" element={<StoreLogin />} />
+          <Route path="/storeregister" element={<StoreRegister />} />
+          <Route path="/storecheckout" element={<StoreCheckout />} />
+          <Route path="/storecart" element={<StoreCart />} />
+          <Route path="/storeproducts" element={<StoreProductsPage />} />
         </Routes>
       </BrowserRouter>
   </React.StrictMode>
