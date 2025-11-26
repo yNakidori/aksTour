@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
-import CustomerAuth from '../CustomerAuth';
 
 const CheckoutModal = ({ 
   isOpen, 
@@ -71,7 +70,7 @@ const CheckoutModal = ({
           {!showPayment ? (
             <div>
               <h3 className="text-lg font-semibold mb-4">Identifique-se</h3>
-              <CustomerAuth onAuthSuccess={handleAuthSuccess} isCheckout={true} />
+            
             </div>
           ) : (
             <Elements stripe={stripePromise}>
