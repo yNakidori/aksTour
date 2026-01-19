@@ -70,21 +70,7 @@ const CreateCard = () => {
     }
   };
 
-  // Exemplo de função para iniciar edição (você pode adaptar para seu fluxo)
-  const handleEdit = (card) => {
-    setEditingCard(card);
-    setFormData({
-      image: null,
-      imageUrl: card.image,
-      destination: card.destination,
-      accommodation: card.accommodation,
-      price: card.price,
-      features: card.features,
-      customFields: card.customFields,
-    });
-    setSuccess("");
-    setError("");
-  };
+  // Função de edição pode ser adicionada ao fluxo onde for necessário.
 
   return (
     <div className="mt-20">

@@ -1,5 +1,4 @@
 import grecia from "../../assets/images/cards/grecia.png";
-import caribe from "../../assets/images/cards/caribe.png";
 import disney from "../../assets/images/cards/disney/disney.png";
 import d1 from "../../assets/images/cards/disney/d1.png";
 import d2 from "../../assets/images/cards/disney/d2.png";

@@ -3,7 +3,6 @@ import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import rio from "./assets/images/rio.jpg";
 import NationalCard from "./assets/destinys/nationalCard";
-import CustomNationalCard from "./assets/destinys/customNationalCard";
 import Services from "./assets/destinys/services";
 import Whats from "./assets/whats.json";
 import Lottie from "react-lottie";

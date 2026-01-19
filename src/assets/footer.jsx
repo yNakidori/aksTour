@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/akslogo.png";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom"; // Link não utilizado
 
 const Footer = () => {
   const [showModal, setShowModal] = useState(null);
@@ -59,7 +59,7 @@ const Footer = () => {
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2025
-            <a href="" className="hover:underline">
+            <a href="/" className="hover:underline">
               AKSTUR™
             </a>
             . Todos os direitos reservados.
