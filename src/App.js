@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./assets/navbar";
-import TravelCarousel from "./assets/carousel";
+import BannerCarousel from "./assets/BannerCarousel";
 import CardsBar from "./assets/homepage/cardsBar";
 import AccommodationList from "./assets/admin/AccommodationList";
 import Savan from "./assets/homepage/savan";
@@ -32,9 +32,9 @@ function App() {
 
   return (
     <div className=" ">
-      <TravelCarousel />
+      <BannerCarousel />
       <Navbar />
-      <div className="container mx-auto">
+      <div className="container mx-auto pt-20">
         <CardsBar />
       </div>
 

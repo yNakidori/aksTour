@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/images/aksLogo.jpg";
+import logo from "../assets/akslogo.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

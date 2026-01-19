@@ -1,18 +1,36 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/aksLogo.jpg";
+import logo from "../assets/akslogo.png";
 import "./navbar.css";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // NOVO
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleDropdownClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
-    <nav className="navbar rounded-b-2xl">
+    <nav
+      className={`navbar fixed top-0 left-0 right-0 z-50 backdrop-blur-md shadow-lg rounded-b-2xl transition-all duration-300 ${
+        isScrolled ? "bg-white/95 scrolled" : "bg-black/40"
+      }`}
+    >
       <div className="navbar-container">
         <img src={logo} alt="Logo" className="logo" />
 
