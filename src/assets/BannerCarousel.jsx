@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+ import React, { useRef, useState, useEffect } from "react";
 import Slider from "react-slick";
 import { ArrowDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";

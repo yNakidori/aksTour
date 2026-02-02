@@ -90,3 +90,13 @@ code {
   width: 0;
   animation: typing 3s steps(30, end) forwards;
 }
+
+/* Esconder scrollbar mas manter funcionalidade */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
