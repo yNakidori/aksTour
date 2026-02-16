@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 
+// Palette matching footer (from provided image)
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
 const Social = () => {
   const [loading, setLoading] = useState(true);
 
@@ -71,26 +79,35 @@ const Social = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 flex items-center justify-center">
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: palette.pale }}
+      >
         <div className="text-center">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-600 rounded-full animate-spin mx-auto mb-4"></div>
             <div
-              className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-purple-600 rounded-full animate-spin mx-auto"
               style={{
-                animationDirection: "reverse",
-                animationDuration: "0.8s",
+                width: 64,
+                height: 64,
+                borderWidth: 4,
+                borderStyle: "solid",
+                borderColor: palette.subtle,
+                borderTopColor: palette.gold,
+                borderRadius: "50%",
               }}
+              className="mx-auto mb-4 animate-spin"
             ></div>
           </div>
-          <p className="text-gray-600 text-lg">Carregando Instagram...</p>
+          <p className="text-lg" style={{ color: palette.navy }}>
+            Carregando Instagram...
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+    <div className="min-h-screen" style={{ backgroundColor: palette.pale }}>
       <Navbar />
 
       <div className="pt-20 pb-12">
@@ -98,7 +115,12 @@ const Social = () => {
           {/* Header da página */}
           <div className="text-center mb-12">
             <div className="relative inline-block mb-6">
-              <div className="w-32 h-32 bg-gradient-to-tr from-purple-600 via-pink-600 to-orange-500 rounded-full p-1 mx-auto">
+              <div
+                className="w-32 h-32 rounded-full p-1 mx-auto"
+                style={{
+                  background: `linear-gradient(135deg, ${palette.navy}, ${palette.gold})`,
+                }}
+              >
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
                   <svg
                     className="w-16 h-16 text-gray-800"
@@ -126,15 +148,24 @@ const Social = () => {
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-4">
+            <h1
+              className="text-4xl md:text-5xl font-bold mb-4"
+              style={{ color: palette.navy }}
+            >
               @_akstur
             </h1>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-6">
+            <p
+              className="text-lg max-w-2xl mx-auto mb-6"
+              style={{ color: palette.navy }}
+            >
               🌍 Agência de Turismo | ✈️ Realizando sonhos pelo mundo | 📸
               Compartilhando aventuras incríveis
             </p>
 
-            <div className="flex items-center justify-center space-x-8 text-sm text-gray-600">
+            <div
+              className="flex items-center justify-center space-x-8 text-sm"
+              style={{ color: palette.navy }}
+            >
               <div className="text-center">
                 <div className="font-bold text-xl text-gray-800">
                   {instagramPosts.length}
@@ -157,8 +188,10 @@ const Social = () => {
             {instagramPosts.map((post, index) => (
               <div
                 key={post.id}
-                className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+                className="group relative rounded-2xl overflow-hidden transition-all duration-500 transform hover:-translate-y-2"
                 style={{
+                  backgroundColor: palette.pale,
+                  boxShadow: "0 10px 30px rgba(14,44,69,0.08)",
                   animationDelay: `${index * 100}ms`,
                   animation: `fadeInUp 0.6s ease-out forwards`,
                   opacity: 0,
@@ -173,7 +206,10 @@ const Social = () => {
                   />
 
                   {/* Overlay com informações */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+                    style={{ backgroundColor: "rgba(14,44,69,0.65)" }}
+                  >
                     <div className="text-white text-center p-4">
                       <div className="flex items-center justify-center space-x-6 mb-3">
                         <div className="flex items-center">
@@ -211,14 +247,23 @@ const Social = () => {
                 </div>
 
                 <div className="p-5">
-                  <p className="text-gray-800 text-sm line-clamp-2 mb-3">
+                  <p
+                    className="text-sm line-clamp-2 mb-3"
+                    style={{ color: palette.navy }}
+                  >
                     {post.caption}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs text-gray-500">
+                  <div
+                    className="flex items-center justify-between text-xs"
+                    style={{ color: palette.subtle }}
+                  >
                     <span>há {post.time}</span>
                     <div className="flex items-center space-x-3">
-                      <button className="hover:text-red-500 transition-colors">
+                      <button
+                        className="transition-colors"
+                        style={{ color: palette.navy }}
+                      >
                         <svg
                           className="w-4 h-4"
                           fill="currentColor"
@@ -231,7 +276,10 @@ const Social = () => {
                           />
                         </svg>
                       </button>
-                      <button className="hover:text-blue-500 transition-colors">
+                      <button
+                        className="transition-colors"
+                        style={{ color: palette.navy }}
+                      >
                         <svg
                           className="w-4 h-4"
                           fill="currentColor"
@@ -252,18 +300,28 @@ const Social = () => {
           </div>
 
           {/* Call to action */}
-          <div className="text-center mt-12 p-8 bg-white/70 backdrop-blur-sm rounded-3xl border border-white/30">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          <div
+            className="text-center mt-12 p-8 rounded-3xl border"
+            style={{
+              backgroundColor: palette.navy,
+              borderColor: "rgba(183,142,70,0.12)",
+            }}
+          >
+            <h3
+              className="text-2xl font-bold mb-4"
+              style={{ color: palette.pale }}
+            >
               Siga-nos no Instagram!
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="mb-6" style={{ color: palette.subtle }}>
               Não perca nenhuma aventura e inspire-se com destinos incríveis
             </p>
             <a
               href="https://instagram.com/_akstur"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 text-white px-8 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center px-8 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              style={{ backgroundColor: palette.gold, color: palette.navy }}
             >
               <svg
                 className="w-5 h-5 mr-2"

@@ -5,10 +5,21 @@ import logo from "../assets/akslogo.png";
 const Footer = () => {
   const [showModal, setShowModal] = useState(null);
 
+  // Palette derived from provided image
+  const palette = {
+    navy: "#0E2C45",
+    gold: "#B78E46",
+    pale: "#F6FBF8",
+    subtle: "#E6F0EC",
+  };
+
   const closeModal = () => setShowModal(null);
 
   return (
-    <footer className="" style={{ backgroundColor: "#102a43" }}>
+    <footer
+      className=""
+      style={{ backgroundColor: palette.navy, color: palette.pale }}
+    >
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
@@ -16,14 +27,18 @@ const Footer = () => {
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3 lg:grid-cols-4">
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-orange-400">
+              <h2
+                className="mb-6 text-sm font-semibold uppercase"
+                style={{ color: palette.gold }}
+              >
                 Acompanhe a AKSTUR
               </h2>
-              <ul className="text-gray-500 dark:text-gray-300 font-medium">
+              <ul className="font-medium" style={{ color: palette.subtle }}>
                 <li className="mb-4">
                   <a
                     href="https://www.instagram.com/_akstur?igsh=MTBrcDR4M2ZvYmtpNg=="
                     className="hover:underline"
+                    style={{ color: palette.pale }}
                   >
                     Instagram
                   </a>
@@ -31,10 +46,13 @@ const Footer = () => {
               </ul>
             </div>
             <div className="ml-6">
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-orange-400 ">
+              <h2
+                className="mb-6 text-sm font-semibold uppercase"
+                style={{ color: palette.gold }}
+              >
                 Legal
               </h2>
-              <ul className="text-gray-500 dark:text-gray-300 font-medium">
+              <ul className="font-medium" style={{ color: palette.subtle }}>
                 <li className="mb-4">
                   <button
                     className="hover:underline"
@@ -55,11 +73,21 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-300 lg:my-8" />
+        <hr
+          className="my-6 sm:mx-auto lg:my-8"
+          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+        />
         <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          <span
+            className="text-sm sm:text-center"
+            style={{ color: palette.subtle }}
+          >
             © 2025
-            <a href="/" className="hover:underline">
+            <a
+              href="/"
+              className="hover:underline"
+              style={{ color: palette.pale }}
+            >
               AKSTUR™
             </a>
             . Todos os direitos reservados.
@@ -73,7 +101,8 @@ const Footer = () => {
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-2xl relative"
+            className="rounded-lg shadow-lg p-6 w-11/12 max-w-2xl relative"
+            style={{ backgroundColor: palette.pale, color: palette.navy }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -84,10 +113,13 @@ const Footer = () => {
             </button>
             {showModal === "privacy" && (
               <div>
-                <h2 className="text-xl font-bold mb-4">
+                <h2
+                  className="text-xl font-bold mb-4"
+                  style={{ color: palette.navy }}
+                >
                   Políticas de Privacidade
                 </h2>
-                <p className="text-gray-700 mb-4">
+                <p className="mb-4" style={{ color: palette.navy }}>
                   Nós da AKSTUR respeitamos sua privacidade e estamos
                   comprometidos em protegê-la. As informações coletadas são
                   utilizadas para melhorar sua experiência em nossos serviços.
@@ -99,8 +131,13 @@ const Footer = () => {
             )}
             {showModal === "terms" && (
               <div>
-                <h2 className="text-xl font-bold mb-4">Termos de Uso</h2>
-                <p className="text-gray-700 mb-4">
+                <h2
+                  className="text-xl font-bold mb-4"
+                  style={{ color: palette.navy }}
+                >
+                  Termos de Uso
+                </h2>
+                <p className="mb-4" style={{ color: palette.navy }}>
                   Ao utilizar nossos serviços, você concorda em cumprir todas as
                   leis e regulamentos aplicáveis. É proibido utilizar a
                   plataforma para qualquer atividade ilegal ou não autorizada.

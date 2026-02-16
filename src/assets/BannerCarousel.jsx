@@ -1,4 +1,4 @@
- import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Slider from "react-slick";
 import { ArrowDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,23 @@ import mapa from "../assets/images/mapa.png";
 const BannerCarousel = () => {
   const sliderRef = useRef(null);
   const navigate = useNavigate();
-  const [banners, setBanners] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [banners, setBanners] = useState(() => {
+    try {
+      const raw = localStorage.getItem("mainBanner_banners");
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const [loading, setLoading] = useState(() => {
+    try {
+      return !localStorage.getItem("mainBanner_banners");
+    } catch (e) {
+      return true;
+    }
+  });
+  const [loadedImages, setLoadedImages] = useState({});
 
   const handleDestinyClick = () => navigate("/destinys/internacionais");
   const handleServicesClick = () => navigate("/services");
@@ -21,11 +36,54 @@ const BannerCarousel = () => {
     loadBanners();
   }, []);
 
+  // Preload important images (first and next) for better UX
+  useEffect(() => {
+    if (!banners || banners.length === 0) return;
+
+    // Preload first image with <link rel="preload"> for faster initial paint
+    const firstUrl = banners[0]?.imageUrl;
+    let link;
+    if (firstUrl) {
+      try {
+        link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = firstUrl;
+        document.head.appendChild(link);
+
+        // also create an Image to ensure load event fires and we can mark it loaded
+        const img = new Image();
+        img.src = firstUrl;
+        img.onload = () => setLoadedImages((p) => ({ ...p, 0: true }));
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // Prefetch next one or two images
+    banners.slice(1, 3).forEach((b) => {
+      if (b && b.imageUrl) {
+        const pre = new Image();
+        pre.src = b.imageUrl;
+      }
+    });
+
+    return () => {
+      if (link && link.parentNode) link.parentNode.removeChild(link);
+    };
+  }, [banners]);
+
   const loadBanners = async () => {
     try {
       const docSnap = await getDoc(doc(db, "settings", "mainBanner"));
       if (docSnap.exists() && docSnap.data().banners) {
-        setBanners(docSnap.data().banners);
+        const remote = docSnap.data().banners;
+        setBanners(remote);
+        try {
+          localStorage.setItem("mainBanner_banners", JSON.stringify(remote));
+        } catch (e) {
+          // ignore storage errors
+        }
       }
     } catch (error) {
       console.error("Erro ao carregar banners:", error);
@@ -46,6 +104,16 @@ const BannerCarousel = () => {
     arrows: false,
     pauseOnHover: false,
     cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
+    afterChange: (current) => {
+      // prefetch next image whenever slide changes
+      if (!banners || banners.length === 0) return;
+      const next = (current + 1) % banners.length;
+      const url = banners[next]?.imageUrl;
+      if (url) {
+        const pre = new Image();
+        pre.src = url;
+      }
+    },
   };
 
   const scrollToNextSection = () => {
@@ -80,12 +148,18 @@ const BannerCarousel = () => {
               <img
                 src={banner.imageUrl}
                 alt={`Banner ${index + 1}`}
+                loading={index === 0 ? "eager" : "lazy"}
+                onLoad={() => setLoadedImages((p) => ({ ...p, [index]: true }))}
                 className="w-full h-screen object-cover animate-ken-burns"
               />
             </div>
 
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40">
               <div className="flex justify-center items-center h-full relative">
+                {/* Placeholder while image loads (black background, no text) */}
+                {!loadedImages[index] && (
+                  <div className="absolute inset-0 z-0 bg-black" />
+                )}
                 {/* Texto central */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white p-4 z-10 text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] max-w-4xl">
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold">

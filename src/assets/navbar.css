@@ -50,6 +50,12 @@
   position: relative;
 }
 
+/* Ensure the menu items (including dropdown toggle) are vertically aligned */
+.nav-links li {
+  display: flex;
+  align-items: center;
+}
+
 /* Estilo base dos links */
 .nav-links a,
 .nav-links span {
@@ -59,20 +65,15 @@
   position: relative;
   cursor: pointer;
   transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
 }
 
-/* Cor do texto quando no topo (sobre carrossel escuro) */
-.navbar:not(.scrolled) .nav-links a,
-.navbar:not(.scrolled) .nav-links span,
-.navbar:not(.scrolled) .mobile-toggle {
+/* Texto: sempre branco para contraste com navbar escuro */
+.nav-links a,
+.nav-links span,
+.mobile-toggle {
   color: white;
-}
-
-/* Cor do texto quando scrollado (sobre fundo claro) */
-.navbar.scrolled .nav-links a,
-.navbar.scrolled .nav-links span,
-.navbar.scrolled .mobile-toggle {
-  color: #1e40af;
 }
 
 /* Sublinhado animado */
@@ -97,34 +98,67 @@
 }
 
 /* Dropdown */
+.dropdown-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  line-height: 1;
+}
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  background: rgba(121, 155, 230, 0.95);
-  backdrop-filter: blur(10px);
   list-style: none;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   margin: 0;
   display: none;
   flex-direction: column;
-  min-width: 150px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  z-index: 60;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  transform-origin: top left;
+  transform: translateY(6px) scale(0.98);
+  opacity: 0;
+  overflow: hidden;
 }
 
+/* Colors: match navbar tint. Default = dark */
 .dropdown-menu li {
   padding: 0.5rem 1rem;
 }
 
 .dropdown-menu li a {
-  color: white;
+  color: #fff;
   display: block;
   width: 100%;
+  text-decoration: none;
 }
 
 .dropdown.open .dropdown-menu {
   display: flex;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* When navbar is scrolled (light background), show light dropdown */
+.dropdown-menu {
+  /* keep dropdown dark to match navbar */
+  background: rgba(6, 8, 10, 0.88);
+}
+
+.dropdown-menu a:hover {
+  opacity: 0.9;
 }
 
 /* Responsividade */

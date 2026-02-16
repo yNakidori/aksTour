@@ -448,11 +448,11 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col min-h-14">
                     <span className="text-xs text-gray-500 mb-1">
                       Valores promocionais
                     </span>
-                    <span className="text-xl font-bold text-blue-600">
+                    <span className="text-xl font-bold text-blue-600 max-h-14 overflow-hidden line-clamp-2 break-words whitespace-normal">
                       R$ {card.price}
                     </span>
                   </div>
@@ -559,11 +559,11 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col min-h-14">
                     <span className="text-xs text-gray-500 mb-1">
                       Valores promocionais
                     </span>
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className="text-2xl font-bold text-blue-600 max-h-16 overflow-hidden line-clamp-2 break-words whitespace-normal">
                       R$ {card.price}
                     </span>
                   </div>
