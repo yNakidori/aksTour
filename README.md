@@ -1,4 +1,3 @@
-Page-Retrabalhar-Tela-de-Admin-#5
 # AKSTUR Viagens
 
 Bem-vindo ao projeto **AKSTUR Viagens**, uma aplicação web desenvolvida com React para oferecer pacotes de viagens, serviços e informações sobre destinos turísticos. Este projeto foi criado para proporcionar uma experiência interativa e visualmente atraente para os usuários que desejam explorar e planejar suas próximas viagens.

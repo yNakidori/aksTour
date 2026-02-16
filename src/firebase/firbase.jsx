@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAT4JAO1Iy_XjY6zIG3wHalofKIdbORtmk",
-  authDomain: "akstur-f10de.firebaseapp.com",
-  projectId: "akstur-f10de",
-  storageBucket: "akstur-f10de.firebasestorage.app",
-  messagingSenderId: "1073542217458",
-  appId: "1:1073542217458:web:49a23d0870fbcec76fda6b",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

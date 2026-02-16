@@ -7,7 +7,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase/firbase";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  deleteObject,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import Swal from "sweetalert2";
 import Pagination from "../Pagination";
 
@@ -17,7 +23,28 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 6;
+  const [cardsPerPage, setCardsPerPage] = useState(6);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    function updateCardsPerPage() {
+      // Define as quebras de grid do Tailwind usadas no componente
+      let columns = 1;
+      const width = window.innerWidth;
+      if (width >= 1280) columns = 4; // xl:grid-cols-4
+      else if (width >= 1024) columns = 3; // lg:grid-cols-3
+      else if (width >= 768) columns = 2; // md:grid-cols-2
+      // Quantas linhas cabem na tela? (ajuste conforme altura desejada)
+      const cardHeight = 340; // px, estimado (inclui imagem, texto, padding)
+      const availableHeight = window.innerHeight - 300; // 300px para header/footer
+      const rows = Math.max(1, Math.floor(availableHeight / cardHeight));
+      setCardsPerPage(columns * rows);
+    }
+    updateCardsPerPage();
+    window.addEventListener("resize", updateCardsPerPage);
+    return () => window.removeEventListener("resize", updateCardsPerPage);
+  }, []);
 
   // Cálculos para paginação (depois do filtro)
   const filteredCards = cards.filter((card) => {
@@ -150,28 +177,80 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   // Função para iniciar a edição de uma oferta
   const handleEdit = (card) => {
     setEditingCard(card);
+    setSelectedImage(null);
     setEditModalOpen(true);
+  };
+
+  // Função para upload de imagem
+  const handleImageUpload = async (file) => {
+    if (!file) return null;
+
+    setUploadingImage(true);
+    try {
+      const storage = getStorage();
+      const timestamp = Date.now();
+      const imageRef = ref(
+        storage,
+        `internationalOffers/${timestamp}_${file.name}`
+      );
+
+      const snapshot = await uploadBytes(imageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      return downloadURL;
+    } catch (error) {
+      console.error("Erro ao fazer upload da imagem:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Erro no upload",
+        text: "Não foi possível fazer upload da imagem.",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        color: "white",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   // Função para salvar as alterações de uma oferta
   const saveEdit = async () => {
     if (editingCard) {
       try {
+        let imageUrl = editingCard.Image;
+
+        // Se uma nova imagem foi selecionada, fazer upload
+        if (selectedImage) {
+          // Deletar imagem antiga se existir
+          if (editingCard.Image) {
+            await deleteImageFromStorage(editingCard.Image);
+          }
+
+          // Upload da nova imagem
+          imageUrl = await handleImageUpload(selectedImage);
+          if (!imageUrl) return; // Se falhou o upload, não continua
+        }
+
         await updateDoc(doc(db, "internationalOffers", editingCard.id), {
           destiny: editingCard.destiny,
           date: editingCard.date,
           price: editingCard.price,
-          Image: editingCard.Image,
+          Image: imageUrl,
         });
 
         setCards((prevCards) =>
           prevCards.map((card) =>
-            card.id === editingCard.id ? editingCard : card
+            card.id === editingCard.id
+              ? { ...editingCard, Image: imageUrl }
+              : card
           )
         );
 
         setEditModalOpen(false);
         setEditingCard(null);
+        setSelectedImage(null);
         Swal.fire({
           icon: "success",
           title: "Sucesso",
@@ -436,20 +515,97 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Imagem
+                </label>
+
+                {/* Preview da imagem atual */}
+                {editingCard?.Image && (
+                  <div className="mb-3">
+                    <p className="text-xs text-gray-500 mb-2">Imagem atual:</p>
+                    <img
+                      src={editingCard.Image}
+                      alt="Preview atual"
+                      className="w-full h-32 object-cover rounded-lg border"
+                    />
+                  </div>
+                )}
+
+                {/* Preview da nova imagem selecionada */}
+                {selectedImage && (
+                  <div className="mb-3">
+                    <p className="text-xs text-gray-500 mb-2">Nova imagem:</p>
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="Preview nova"
+                      className="w-full h-32 object-cover rounded-lg border border-green-300"
+                    />
+                  </div>
+                )}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setSelectedImage(file);
+                    }
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {selectedImage
+                    ? "Nova imagem selecionada"
+                    : "Selecione uma nova imagem (opcional)"}
+                </p>
+              </div>
             </div>
 
             <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
               <button
-                onClick={() => setEditModalOpen(false)}
-                className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                onClick={() => {
+                  setEditModalOpen(false);
+                  setSelectedImage(null);
+                }}
+                disabled={uploadingImage}
+                className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50"
               >
                 Cancelar
               </button>
               <button
                 onClick={saveEdit}
-                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg"
+                disabled={uploadingImage}
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg transition-all font-medium shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
               >
-                Salvar Alterações
+                {uploadingImage ? (
+                  <>
+                    <svg
+                      className="animate-spin w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span>Salvando...</span>
+                  </>
+                ) : (
+                  <span>Salvar Alterações</span>
+                )}
               </button>
             </div>
           </div>

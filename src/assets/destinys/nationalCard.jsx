@@ -25,7 +25,26 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [imageFile, setImageFile] = useState(null);
-  const cardsPerPage = 6;
+  const [cardsPerPage, setCardsPerPage] = useState(6);
+
+  useEffect(() => {
+    function updateCardsPerPage() {
+      // Define as quebras de grid do Tailwind usadas no componente
+      let columns = 1;
+      const width = window.innerWidth;
+      if (width >= 1280) columns = 4; // xl:grid-cols-4
+      else if (width >= 1024) columns = 3; // lg:grid-cols-3
+      else if (width >= 768) columns = 2; // md:grid-cols-2
+      // Quantas linhas cabem na tela? (ajuste conforme altura desejada)
+      const cardHeight = 340; // px, estimado (inclui imagem, texto, padding)
+      const availableHeight = window.innerHeight - 300; // 300px para header/footer
+      const rows = Math.max(1, Math.floor(availableHeight / cardHeight));
+      setCardsPerPage(columns * rows);
+    }
+    updateCardsPerPage();
+    window.addEventListener("resize", updateCardsPerPage);
+    return () => window.removeEventListener("resize", updateCardsPerPage);
+  }, []);
 
   // Cálculos para paginação (depois do filtro)
   const filteredCards = cards.filter((card) => {
@@ -345,7 +364,6 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
                 alt={card.destiny}
                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
-
               {/* Badge do tipo */}
               {card.package && (
                 <div className="absolute top-3 left-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
