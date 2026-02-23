@@ -26,6 +26,26 @@ const BusRouteCard = ({ isAdmin = false }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
   const cardsPerPage = 8;
 
+  const formatPrice = (p) => {
+    if (p === null || p === undefined) return "";
+    const s = String(p).trim();
+    let num;
+    try {
+      if (s.includes(",")) {
+        num = parseFloat(s.replace(/\./g, "").replace(",", "."));
+      } else {
+        num = parseFloat(s);
+      }
+    } catch (e) {
+      return `R$ ${s}`;
+    }
+    if (!Number.isFinite(num)) return `R$ ${s}`;
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(num);
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     mainImageUrl: "",
@@ -49,7 +69,7 @@ const BusRouteCard = ({ isAdmin = false }) => {
     const whatsappNumber = "5511957700305";
     const message = `Olá! Gostaria de conhecer essa oferta para ${routeName}`;
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      message
+      message,
     )}`;
     window.open(whatsappLink, "_blank");
   };
@@ -204,8 +224,8 @@ const BusRouteCard = ({ isAdmin = false }) => {
 
         setCards((prevCards) =>
           prevCards.map((card) =>
-            card.id === editingCard.id ? { ...card, ...formData } : card
-          )
+            card.id === editingCard.id ? { ...card, ...formData } : card,
+          ),
         );
 
         setEditModalOpen(false);
@@ -377,7 +397,7 @@ const BusRouteCard = ({ isAdmin = false }) => {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-blue-600">
-                    R$ {card.price}
+                    {formatPrice(card.price)}
                   </span>
                   <span className="text-xs text-gray-500">por pessoa</span>
                 </div>
