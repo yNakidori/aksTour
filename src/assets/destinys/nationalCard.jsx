@@ -271,7 +271,11 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
         storage,
         `nationalOffers/${Date.now()}_${compressed.name}`,
       );
-      const snapshot = await uploadBytes(storageRef, compressed);
+      const metadata = {
+        contentType: compressed.type || "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      const snapshot = await uploadBytes(storageRef, compressed, metadata);
       const url = await getDownloadURL(snapshot.ref);
       return url;
     } catch (error) {

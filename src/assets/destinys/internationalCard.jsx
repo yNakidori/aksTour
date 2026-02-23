@@ -248,7 +248,11 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
         `internationalOffers/${timestamp}_${compressed.name}`,
       );
 
-      const snapshot = await uploadBytes(imageRef, compressed);
+      const metadata = {
+        contentType: compressed.type || "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      const snapshot = await uploadBytes(imageRef, compressed, metadata);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       return downloadURL;
