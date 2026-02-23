@@ -18,6 +18,33 @@ import Swal from "sweetalert2";
 import Pagination from "../Pagination";
 
 const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
+  // Small image wrapper that shows a skeleton until the image finishes loading
+  const CardImage = ({
+    src,
+    alt,
+    imgClass = "w-full h-48 object-cover",
+    wrapperClass = "relative",
+  }) => {
+    const [loaded, setLoaded] = useState(false);
+
+    return (
+      <div className={wrapperClass}>
+        {!loaded && (
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse" />
+        )}
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+          onLoad={() => setLoaded(true)}
+          className={`${imgClass} block transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
+        />
+      </div>
+    );
+  };
+
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingCard, setEditingCard] = useState(null);
@@ -63,9 +90,18 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Scroll suave para o topo da lista
-    if (listTopRef.current) {
-      listTopRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Only scroll when the anchor is outside the viewport to avoid small jumps.
+    try {
+      const el = listTopRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      if (!fullyVisible) {
+        // use 'nearest' so the browser chooses the minimal scroll needed
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    } catch (e) {
+      // defensive: if window is undefined (SSR) or other error, do nothing
     }
   };
 
@@ -190,14 +226,52 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const handleImageUpload = async (file) => {
     if (!file) return null;
 
+    // Client-side image compression to reduce upload size and speed up
+    const compressImage = (file, maxWidth = 1600, quality = 0.7) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const scale = Math.min(1, maxWidth / img.width);
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const compressedFile = new File([blob], file.name, {
+                  type: blob.type,
+                  lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+              } else {
+                resolve(file);
+              }
+            },
+            "image/jpeg",
+            quality,
+          );
+          URL.revokeObjectURL(url);
+        };
+        img.onerror = (e) => {
+          URL.revokeObjectURL(url);
+          reject(e);
+        };
+        img.src = url;
+      });
+    };
+
     setUploadingImage(true);
     try {
       const storage = getStorage();
+      const compressed = await compressImage(file, 1600, 0.75);
       const storageRef = ref(
         storage,
-        `nationalOffers/${Date.now()}_${file.name}`,
+        `nationalOffers/${Date.now()}_${compressed.name}`,
       );
-      const snapshot = await uploadBytes(storageRef, file);
+      const snapshot = await uploadBytes(storageRef, compressed);
       const url = await getDownloadURL(snapshot.ref);
       return url;
     } catch (error) {
@@ -371,10 +445,11 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-xl shadow-lg overflow-hidden flex-shrink-0 w-[85vw] snap-center active:scale-95 transition-transform duration-200"
             >
               <div className="relative">
-                <img
+                <CardImage
                   src={card.Image}
                   alt={card.destiny}
-                  className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  imgClass="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  wrapperClass="relative"
                 />
                 {/* Badge do tipo */}
                 {card.package && (
@@ -481,10 +556,11 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="relative">
-                <img
+                <CardImage
                   src={card.Image}
                   alt={card.destiny}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  imgClass="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  wrapperClass="relative"
                 />
                 {/* Badge do tipo */}
                 {card.package && (
@@ -648,10 +724,11 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Imagem Atual
                 </label>
-                <img
+                <CardImage
                   src={editingCard?.Image}
                   alt={editingCard?.destiny}
-                  className="w-full h-32 object-cover rounded-lg border"
+                  imgClass="w-full h-32 object-cover rounded-lg border"
+                  wrapperClass="relative"
                 />
               </div>
 
