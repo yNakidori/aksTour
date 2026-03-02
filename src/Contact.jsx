@@ -2,17 +2,26 @@ import React from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import InstagramPost from "./assets/contact/instagramPost";
-import {
-  Typography,
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Paper,
-} from "@mui/material";
 import Swal from "sweetalert2";
+
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "12px 16px",
+  borderRadius: "10px",
+  border: `1px solid ${palette.navy}22`,
+  backgroundColor: "white",
+  color: palette.navy,
+  fontSize: "0.95rem",
+  outline: "none",
+  transition: "border-color 0.2s",
+};
 
 const Contact = () => {
   const onSubmit = async (event) => {
@@ -41,140 +50,292 @@ const Contact = () => {
     }
   };
 
+  const highlights = [
+    {
+      emoji: "⏱️",
+      title: "Atendimento rápido",
+      desc: "Respondemos em até 24 horas úteis.",
+    },
+    {
+      emoji: "🧭",
+      title: "Guiamos sua jornada",
+      desc: "Oferecemos suporte em todas as etapas da sua viagem.",
+    },
+    {
+      emoji: "🤝",
+      title: "Equipe dedicada",
+      desc: "Nosso time é apaixonado por transformar experiências em memórias.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-blue-200 to-purple-300">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: palette.pale }}
+    >
       <Navbar />
-      <div className="flex mt-12 flex-col items-center justify-center py-16 px-6">
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Card de Informações */}
-          <Card className="shadow-lg bg-white/90 rounded-2xl">
-            <CardContent className="p-8">
-              <Typography
-                variant="h4"
-                fontWeight="bold"
-                className="mb-6 text-gray-800"
-              >
-                Entre em contato
-              </Typography>
-              <Typography variant="body1" className="mb-4 text-gray-600">
-                Estamos aqui para ajudar! Preencha o formulário ou nos envie uma
-                mensagem.
-              </Typography>
-              <Typography variant="body1" className="mb-2">
-                <strong>Email:</strong> contato@akstur.com.br
-              </Typography>
 
-              <Typography variant="body1">
-                <strong>Instagram:</strong> <InstagramPost />
-              </Typography>
-            </CardContent>
-          </Card>
-
-          {/* Formulário */}
-          <Card className="shadow-xl bg-white rounded-2xl">
-            <CardContent className="p-10">
-              <form onSubmit={onSubmit} className="space-y-6">
-                <Typography
-                  variant="h5"
-                  fontWeight="bold"
-                  className="mb-6 text-gray-800"
-                >
-                  Envie sua mensagem
-                </Typography>
-
-                <TextField
-                  label="Nome Completo"
-                  name="name"
-                  fullWidth
-                  variant="outlined"
-                  required
-                  className="bg-gray-100 rounded-md"
-                />
-
-                <TextField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  fullWidth
-                  variant="outlined"
-                  required
-                  className="bg-gray-100 rounded-md"
-                />
-
-                <TextField
-                  label="Mensagem"
-                  name="message"
-                  multiline
-                  rows={4}
-                  fullWidth
-                  variant="outlined"
-                  required
-                  className="bg-gray-100 rounded-md"
-                />
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 transition-all text-white font-semibold rounded-md shadow-md"
-                >
-                  Enviar
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <Container className="py-12">
-        <Typography
-          variant="h4"
-          fontWeight="bold"
-          align="center"
-          color="primary"
-          gutterBottom
+      {/* Hero */}
+      <section
+        className="py-20 px-6 text-center"
+        style={{ backgroundColor: palette.navy }}
+      >
+        <span
+          className="inline-block mb-4 px-4 py-1.5 rounded-full text-sm font-medium tracking-wide uppercase border"
+          style={{
+            borderColor: `${palette.gold}55`,
+            backgroundColor: `${palette.gold}20`,
+            color: palette.gold,
+          }}
         >
-          Estamos aqui para você
-        </Typography>
-        <Grid container spacing={4} mt={4}>
-          {[
-            {
-              emoji: "⏱️",
-              title: "Atendimento rápido",
-              desc: "Respondemos em até 24 horas úteis.",
-            },
-            {
-              emoji: "🧭",
-              title: "Guiamos sua jornada",
-              desc: "Oferecemos suporte em todas as etapas da sua viagem.",
-            },
-            {
-              emoji: "🤝",
-              title: "Equipe dedicada",
-              desc: "Nosso time é apaixonado por transformar experiências em memórias.",
-            },
-          ].map((item, i) => (
-            <Grid item xs={12} md={4} key={i}>
-              <Paper
-                elevation={3}
-                sx={{ p: 4, textAlign: "center", borderRadius: 4 }}
+          Fale Conosco
+        </span>
+        <h1
+          className="text-4xl sm:text-5xl font-extrabold mb-4"
+          style={{ color: palette.pale }}
+        >
+          Entre em <span style={{ color: palette.gold }}>contato</span>
+        </h1>
+        <p
+          className="text-lg max-w-xl mx-auto"
+          style={{ color: palette.subtle }}
+        >
+          Estamos prontos para responder suas dúvidas e ajudar a planejar sua
+          próxima viagem.
+        </p>
+      </section>
+
+      {/* Main content */}
+      <section className="py-20 px-6" style={{ backgroundColor: palette.pale }}>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Info card */}
+          <div
+            className="rounded-2xl p-10 flex flex-col justify-between border"
+            style={{
+              backgroundColor: palette.navy,
+              borderColor: `${palette.gold}30`,
+              boxShadow: "0 10px 40px rgba(14,44,69,0.12)",
+            }}
+          >
+            <div>
+              <h2
+                className="text-3xl font-bold mb-4"
+                style={{ color: palette.pale }}
               >
-                <Typography variant="h3">{item.emoji}</Typography>
-                <Typography
-                  variant="h6"
-                  fontWeight="bold"
-                  mt={2}
-                  color="primary"
+                Informações de contato
+              </h2>
+              <p
+                className="mb-8 leading-relaxed"
+                style={{ color: palette.subtle }}
+              >
+                Preencha o formulário ou entre em contato diretamente por um dos
+                canais abaixo.
+              </p>
+
+              <div className="space-y-5">
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    style={{
+                      backgroundColor: `${palette.gold}22`,
+                      border: `1px solid ${palette.gold}44`,
+                    }}
+                  >
+                    📧
+                  </div>
+                  <div>
+                    <p
+                      className="text-xs uppercase tracking-widest font-semibold mb-0.5"
+                      style={{ color: palette.gold }}
+                    >
+                      Email
+                    </p>
+                    <p className="text-sm" style={{ color: palette.pale }}>
+                      contato@akstur.com.br
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    style={{
+                      backgroundColor: `${palette.gold}22`,
+                      border: `1px solid ${palette.gold}44`,
+                    }}
+                  >
+                    📸
+                  </div>
+                  <div>
+                    <p
+                      className="text-xs uppercase tracking-widest font-semibold mb-0.5"
+                      style={{ color: palette.gold }}
+                    >
+                      Instagram
+                    </p>
+                    <div style={{ color: palette.pale }}>
+                      <InstagramPost />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="mt-10 pt-8 border-t"
+              style={{ borderColor: `${palette.pale}15` }}
+            >
+              <p
+                className="text-xs uppercase tracking-widest font-semibold mb-3"
+                style={{ color: palette.gold }}
+              >
+                Horário de atendimento
+              </p>
+              <p className="text-sm" style={{ color: palette.subtle }}>
+                Segunda a Sexta: 9h – 18h
+              </p>
+              <p className="text-sm" style={{ color: palette.subtle }}>
+                Sábado: 9h – 13h
+              </p>
+            </div>
+          </div>
+
+          {/* Form card */}
+          <div
+            className="rounded-2xl p-10 border"
+            style={{
+              backgroundColor: "white",
+              borderColor: `${palette.navy}15`,
+              boxShadow: "0 4px 24px rgba(14,44,69,0.07)",
+            }}
+          >
+            <h2
+              className="text-2xl font-bold mb-8"
+              style={{ color: palette.navy }}
+            >
+              Envie sua mensagem
+            </h2>
+            <form onSubmit={onSubmit} className="space-y-5">
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1.5"
+                  style={{ color: palette.navy }}
+                >
+                  Nome completo
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Seu nome"
+                  style={inputStyle}
+                  onFocus={(e) => (e.target.style.borderColor = palette.gold)}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = `${palette.navy}22`)
+                  }
+                />
+              </div>
+
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1.5"
+                  style={{ color: palette.navy }}
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="seu@email.com"
+                  style={inputStyle}
+                  onFocus={(e) => (e.target.style.borderColor = palette.gold)}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = `${palette.navy}22`)
+                  }
+                />
+              </div>
+
+              <div>
+                <label
+                  className="block text-sm font-medium mb-1.5"
+                  style={{ color: palette.navy }}
+                >
+                  Mensagem
+                </label>
+                <textarea
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Como podemos ajudar?"
+                  style={{ ...inputStyle, resize: "none" }}
+                  onFocus={(e) => (e.target.style.borderColor = palette.gold)}
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = `${palette.navy}22`)
+                  }
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-xl font-semibold text-base transition-all duration-200 hover:opacity-90"
+                style={{ backgroundColor: palette.gold, color: palette.pale }}
+              >
+                Enviar mensagem
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Highlights */}
+      <section
+        className="py-16 px-6"
+        style={{ backgroundColor: palette.subtle }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold" style={{ color: palette.navy }}>
+              Estamos aqui para você
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {highlights.map((item, i) => (
+              <div
+                key={i}
+                className="rounded-2xl p-8 text-center border transition-all duration-300"
+                style={{
+                  backgroundColor: "white",
+                  borderColor: `${palette.navy}15`,
+                  boxShadow: "0 4px 20px rgba(14,44,69,0.06)",
+                }}
+              >
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5 border"
+                  style={{
+                    backgroundColor: `${palette.gold}18`,
+                    borderColor: `${palette.gold}40`,
+                  }}
+                >
+                  {item.emoji}
+                </div>
+                <h3
+                  className="text-lg font-semibold mb-2"
+                  style={{ color: palette.navy }}
                 >
                   {item.title}
-                </Typography>
-                <Typography variant="body1" color="textSecondary" mt={1}>
+                </h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: `${palette.navy}99` }}
+                >
                   {item.desc}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
