@@ -9,6 +9,52 @@ import Whats from "./assets/whats";
 import Lottie from "react-lottie";
 import BusRouteCard from "./assets/bus/BusRouteCard";
 
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
+const benefits = [
+  {
+    icon: "🚌",
+    titulo: "Conforto e Segurança",
+    desc: "Ônibus modernos, confortáveis e com motoristas experientes em todas as rotas.",
+  },
+  {
+    icon: "💰",
+    titulo: "Preço que Cabe no Bolso",
+    desc: "Viagens acessíveis com opções para todos os perfis e orçamentos.",
+  },
+  {
+    icon: "🕐",
+    titulo: "Horários Flexíveis",
+    desc: "Escolha o melhor dia e horário para você e deixe o resto com a gente.",
+  },
+];
+
+const destinations = [
+  {
+    nome: "Campos do Jordão",
+    img: campos,
+    desc: "A Suíça brasileira com clima ameno e charme nas montanhas.",
+    tag: "Montanhas",
+  },
+  {
+    nome: "Aparecida",
+    img: aparecida,
+    desc: "O maior centro de fé do Brasil, perfeito para um bate-volta espiritual.",
+    tag: "Religioso",
+  },
+  {
+    nome: "Santos",
+    img: santos,
+    desc: "Praias, museus e história a apenas 1h30 da capital.",
+    tag: "Praia",
+  },
+];
+
 const Bus = () => {
   const defaultOptions = {
     loop: true,
@@ -27,119 +73,217 @@ const Bus = () => {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: palette.pale }}
+    >
       <Navbar />
 
-      {/* Banner */}
-      <div className="relative">
+      {/* Hero */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <img
           src={bus}
           alt="Ônibus de viagem"
-          className="w-full h-auto object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30 flex items-center justify-center">
-          <h1 className="text-white text-4xl md:text-6xl font-bold drop-shadow-lg">
-            Viajar de ônibus nunca foi tão fácil
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to bottom, ${palette.navy}cc 0%, ${palette.navy}99 60%, ${palette.navy}ee 100%)`,
+          }}
+        />
+        <div className="relative max-w-4xl mx-auto text-center px-6">
+          <span
+            className="inline-block mb-4 px-4 py-1.5 rounded-full text-sm font-medium tracking-wide uppercase border"
+            style={{
+              borderColor: `${palette.gold}55`,
+              backgroundColor: `${palette.gold}20`,
+              color: palette.gold,
+            }}
+          >
+            Viagens Rodoviárias
+          </span>
+          <h1
+            className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight"
+            style={{ color: palette.pale }}
+          >
+            Viajar de ônibus nunca{" "}
+            <span style={{ color: palette.gold }}>foi tão fácil</span>
           </h1>
+          <p
+            className="text-lg max-w-2xl mx-auto leading-relaxed"
+            style={{ color: palette.subtle }}
+          >
+            A AKS leva você com conforto e praticidade para destinos incríveis a
+            poucas horas de São Paulo.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4 justify-center">
+            <button
+              onClick={handleWhatsAppClick}
+              className="px-8 py-3.5 rounded-xl font-semibold text-base transition-all duration-200 hover:opacity-90 shadow-lg"
+              style={{ backgroundColor: palette.gold, color: palette.pale }}
+            >
+              Solicitar Viagem
+            </button>
+            <a
+              href="#routes"
+              className="px-8 py-3.5 rounded-xl font-medium text-base transition-all duration-200 border"
+              style={{ borderColor: `${palette.pale}40`, color: palette.pale }}
+            >
+              Ver Rotas
+            </a>
+          </div>
         </div>
-      </div>
-
-      {/* Intro */}
-      <section className="container mx-auto px-6 py-10 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          Destinos pertinho de São Paulo
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Quer escapar da rotina sem ir longe? A AKS leva você com conforto e
-          praticidade para destinos incríveis a poucas horas de São Paulo.
-        </p>
       </section>
 
       {/* Destinos */}
-      <section className="container mx-auto px-6 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              nome: "Campos do Jordão",
-              img: campos,
-              desc: "A Suíça brasileira com clima ameno e charme nas montanhas.",
-            },
-            {
-              nome: "Aparecida",
-              img: aparecida,
-              desc: "O maior centro de fé do Brasil, perfeito para um bate-volta espiritual.",
-            },
-            {
-              nome: "Santos",
-              img: santos,
-              desc: "Praias, museus e história a apenas 1h30 da capital.",
-            },
-          ].map((destino, index) => (
-            <div key={index} className="bg-white p-6 rounded-xl shadow-md">
-              <img
-                src={destino.img}
-                alt={destino.nome}
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
-                {destino.nome}
-              </h3>
-              <p className="text-gray-600">{destino.desc}</p>
-            </div>
-          ))}
+      <section
+        className="py-20 px-6"
+        style={{ backgroundColor: palette.subtle }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: palette.gold }}
+            >
+              Pertinho de São Paulo
+            </span>
+            <h2
+              className="text-4xl font-bold mt-3"
+              style={{ color: palette.navy }}
+            >
+              Destinos em Destaque
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {destinations.map((destino, index) => (
+              <div
+                key={index}
+                className="group rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  backgroundColor: "white",
+                  borderColor: `${palette.navy}15`,
+                  boxShadow: "0 4px 24px rgba(14,44,69,0.08)",
+                }}
+              >
+                <div className="relative overflow-hidden h-48">
+                  <img
+                    src={destino.img}
+                    alt={destino.nome}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span
+                    className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide"
+                    style={{
+                      backgroundColor: `${palette.gold}ee`,
+                      color: "white",
+                    }}
+                  >
+                    {destino.tag}
+                  </span>
+                </div>
+                <div className="p-6">
+                  <h3
+                    className="text-lg font-bold mb-1"
+                    style={{ color: palette.navy }}
+                  >
+                    {destino.nome}
+                  </h3>
+                  <div
+                    className="w-10 h-0.5 rounded-full mb-3"
+                    style={{ backgroundColor: palette.gold }}
+                  />
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: `${palette.navy}99` }}
+                  >
+                    {destino.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Ofertas Rodoviárias
-          </h2>
-          <p className="text-gray-600 mb-10">
-            Confira nossas ofertas de viagens rodoviárias e aproveite para
-            conhecer novos destinos com conforto e segurança.
-          </p>
+      {/* Ofertas Rodoviárias */}
+      <section
+        id="routes"
+        className="py-20 px-6"
+        style={{ backgroundColor: palette.pale }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: palette.gold }}
+            >
+              Confira nossas rotas
+            </span>
+            <h2
+              className="text-4xl font-bold mt-3"
+              style={{ color: palette.navy }}
+            >
+              Ofertas Rodoviárias
+            </h2>
+          </div>
           <BusRouteCard />
         </div>
       </section>
 
       {/* Benefícios */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-10">
-            Por que escolher a AKSTUR?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/833/833593.png",
-                titulo: "Conforto e Segurança",
-                desc: "Nossos parceiros oferecem ônibus modernos, confortáveis e com motoristas experientes.",
-              },
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/929/929564.png",
-                titulo: "Preço que Cabe no Bolso",
-                desc: "Viagens acessíveis com opções para todos os perfis.",
-              },
-              {
-                img: "https://cdn-icons-png.flaticon.com/512/3135/3135706.png",
-                titulo: "Horários Flexíveis",
-                desc: "Escolha o melhor dia e horário para você e deixe o resto com a gente.",
-              },
-            ].map((beneficio, index) => (
+      <section
+        className="py-20 px-6"
+        style={{ backgroundColor: palette.subtle }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <span
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: palette.gold }}
+            >
+              Nossas vantagens
+            </span>
+            <h2
+              className="text-4xl font-bold mt-3"
+              style={{ color: palette.navy }}
+            >
+              Por que escolher a AKSTUR?
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {benefits.map((b, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center bg-gray-50 p-6 rounded-lg shadow"
+                className="group rounded-2xl p-8 border transition-all duration-300"
+                style={{
+                  backgroundColor: "white",
+                  borderColor: `${palette.navy}15`,
+                  boxShadow: "0 4px 20px rgba(14,44,69,0.06)",
+                }}
               >
-                <img
-                  src={beneficio.img}
-                  alt={beneficio.titulo}
-                  className="w-16 h-16 mb-4"
-                />
-                <h3 className="text-lg font-bold text-gray-800">
-                  {beneficio.titulo}
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300 border"
+                  style={{
+                    backgroundColor: `${palette.gold}18`,
+                    borderColor: `${palette.gold}40`,
+                  }}
+                >
+                  {b.icon}
+                </div>
+                <h3
+                  className="text-lg font-semibold mb-3"
+                  style={{ color: palette.navy }}
+                >
+                  {b.titulo}
                 </h3>
-                <p className="text-gray-600 mt-2">{beneficio.desc}</p>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: `${palette.navy}99` }}
+                >
+                  {b.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -147,26 +291,104 @@ const Bus = () => {
       </section>
 
       {/* Como Funciona */}
-      <section className="container mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Como funciona?
-        </h2>
-        <ol className="text-gray-700 space-y-3 text-lg max-w-xl mx-auto list-decimal list-inside">
-          <li>Você escolhe seu destino e datas.</li>
-          <li>Enviamos as opções de horários e valores via WhatsApp.</li>
-          <li>
-            Após confirmação, cuidamos de tudo para você embarcar tranquilo.
-          </li>
-        </ol>
+      <section className="py-20 px-6" style={{ backgroundColor: palette.pale }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <span
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: palette.gold }}
+            >
+              Simples e rápido
+            </span>
+            <h2
+              className="text-4xl font-bold mt-3"
+              style={{ color: palette.navy }}
+            >
+              Como funciona?
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                step: "01",
+                title: "Escolha o destino",
+                desc: "Selecione seu destino e as datas que preferir.",
+              },
+              {
+                step: "02",
+                title: "Receba as opções",
+                desc: "Enviamos horários e valores disponíveis via WhatsApp.",
+              },
+              {
+                step: "03",
+                title: "Embarque tranquilo",
+                desc: "Após a confirmação, cuidamos de tudo para você.",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="rounded-2xl p-8 border text-center"
+                style={{
+                  backgroundColor: "white",
+                  borderColor: `${palette.navy}15`,
+                  boxShadow: "0 4px 20px rgba(14,44,69,0.06)",
+                }}
+              >
+                <span
+                  className="text-4xl font-extrabold"
+                  style={{ color: `${palette.gold}55` }}
+                >
+                  {item.step}
+                </span>
+                <h3
+                  className="text-lg font-semibold mt-3 mb-2"
+                  style={{ color: palette.navy }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: `${palette.navy}99` }}
+                >
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Promoção */}
-      <section className="bg-yellow-100 py-12 text-center">
-        <h2 className="text-3xl font-bold text-gray-800">🎁 Promoções</h2>
-        <p className="text-lg mt-4 text-gray-700">
-          Descontos para viagens curtas saindo de São Paulo. Fale com a gente
-          agora!
-        </p>
+      {/* CTA */}
+      <section
+        className="py-20 px-6"
+        style={{ backgroundColor: palette.subtle }}
+      >
+        <div
+          className="max-w-3xl mx-auto text-center rounded-3xl px-8 py-16 border"
+          style={{
+            backgroundColor: palette.navy,
+            borderColor: `${palette.gold}35`,
+            boxShadow: "0 20px 60px rgba(14,44,69,0.15)",
+          }}
+        >
+          <h2
+            className="text-4xl font-bold mb-4"
+            style={{ color: palette.pale }}
+          >
+            🎁 Promoções Especiais
+          </h2>
+          <p className="mb-8 text-lg" style={{ color: palette.subtle }}>
+            Descontos para viagens curtas saindo de São Paulo. Fale com a gente
+            agora e garanta sua oferta!
+          </p>
+          <button
+            onClick={handleWhatsAppClick}
+            className="px-10 py-4 rounded-xl font-bold text-base transition-all duration-200 hover:opacity-90"
+            style={{ backgroundColor: palette.gold, color: palette.pale }}
+          >
+            Falar no WhatsApp
+          </button>
+        </div>
       </section>
 
       {/* WhatsApp Flutuante */}

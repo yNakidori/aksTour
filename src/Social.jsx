@@ -173,11 +173,11 @@ const Social = () => {
                 <div>publicações</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-xl text-gray-800">2.8k</div>
+                <div className="font-bold text-xl text-gray-800">363</div>
                 <div>seguidores</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-xl text-gray-800">340</div>
+                <div className="font-bold text-xl text-gray-800">58</div>
                 <div>seguindo</div>
               </div>
             </div>

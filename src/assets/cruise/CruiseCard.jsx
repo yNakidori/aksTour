@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 import msc from "../images/cruise/msc.png";
 import costa from "../images/cruise/costa.png";
 import cunard from "../images/cruise/cunard.png";
@@ -12,57 +11,109 @@ import princess from "../images/cruise/princess.png";
 import regent from "../images/cruise/regent.png";
 import royal from "../images/cruise/royal.png";
 
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
+const whatsappNumber = "5511957700305";
+
 const CruiseCard = () => {
   const cruises = [
-    { id: 1, image: msc, title: "MSC Cruzeiros" },
-    { id: 2, image: costa, title: "Costa Cruzeiros" },
-    { id: 3, image: cunard, title: "Cunard Line" },
-    { id: 4, image: norwegian, title: "Norwegian Cruise Line" },
-    { id: 5, image: princess, title: "Princess Cruises" },
-    { id: 6, image: regent, title: "Regent Seven Seas Cruises" },
-    { id: 7, image: royal, title: "Royal Caribbean" },
+    { id: 1, image: msc, title: "MSC Cruzeiros", tag: "Popular" },
+    { id: 2, image: costa, title: "Costa Cruzeiros", tag: "Mediterrâneo" },
+    { id: 3, image: cunard, title: "Cunard Line", tag: "Luxo" },
+    {
+      id: 4,
+      image: norwegian,
+      title: "Norwegian Cruise Line",
+      tag: "Aventura",
+    },
+    { id: 5, image: princess, title: "Princess Cruises", tag: "Romance" },
+    { id: 6, image: regent, title: "Regent Seven Seas", tag: "Ultra Luxo" },
+    { id: 7, image: royal, title: "Royal Caribbean", tag: "Família" },
   ];
 
+  const handleInterest = (title) => {
+    const msg = encodeURIComponent(
+      `Olá! Tenho interesse no cruzeiro: ${title}`,
+    );
+    window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, "_blank");
+  };
+
   return (
-    <div className="my-8 md:my-12 mb-4 px-2 md:px-0">
+    <div className="pb-4">
       <Swiper
         slidesPerView={1}
         breakpoints={{
-          480: { slidesPerView: 1, spaceBetween: 20 },
-          640: { slidesPerView: 1, spaceBetween: 25 },
-          768: { slidesPerView: 2, spaceBetween: 30 },
-          1024: { slidesPerView: 3, spaceBetween: 30 },
+          640: { slidesPerView: 1, spaceBetween: 24 },
+          768: { slidesPerView: 2, spaceBetween: 24 },
+          1024: { slidesPerView: 3, spaceBetween: 28 },
         }}
-        centeredSlides={true}
-        spaceBetween={20}
+        centeredSlides={false}
+        spaceBetween={24}
         loop={true}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-          dynamicBullets: true,
-        }}
+        autoplay={{ delay: 3200, disableOnInteraction: false }}
+        pagination={{ clickable: true, dynamicBullets: true }}
         modules={[Pagination, Autoplay]}
-        className="mySwiper pb-12"
+        className="pb-12"
       >
         {cruises.map((cruise) => (
           <SwiperSlide key={cruise.id}>
-            <div className="flex flex-col items-center p-4 md:p-6 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl shadow-2xl transition-transform transform hover:scale-105 active:scale-95 mx-2 h-[400px] sm:h-[450px] md:h-[500px]">
-              <div className="w-full overflow-hidden rounded-lg md:rounded-xl flex-shrink-0">
+            <div
+              className="group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1"
+              style={{
+                backgroundColor: "white",
+                borderColor: `${palette.navy}15`,
+                boxShadow: "0 4px 24px rgba(14,44,69,0.08)",
+              }}
+            >
+              {/* Imagem */}
+              <div className="relative overflow-hidden h-52">
                 <img
                   src={cruise.image}
                   alt={cruise.title}
-                  className="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-300 hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                {/* Tag */}
+                <span
+                  className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide"
+                  style={{
+                    backgroundColor: `${palette.gold}ee`,
+                    color: "white",
+                  }}
+                >
+                  {cruise.tag}
+                </span>
               </div>
-              <div className="mt-3 md:mt-4 w-full px-3 md:px-6 py-2 md:py-3 text-center text-lg sm:text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 uppercase tracking-wide flex-grow flex items-center justify-center min-h-[80px] md:min-h-[90px]">
-                {cruise.title}
+
+              {/* Conteúdo */}
+              <div className="flex flex-col flex-grow p-6">
+                <h3
+                  className="text-lg font-bold mb-1 leading-snug"
+                  style={{ color: palette.navy }}
+                >
+                  {cruise.title}
+                </h3>
+                <div
+                  className="w-10 h-0.5 rounded-full mb-4"
+                  style={{ backgroundColor: palette.gold }}
+                />
+                <div className="flex-grow" />
+                <button
+                  onClick={() => handleInterest(cruise.title)}
+                  className="mt-4 w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-90 border"
+                  style={{
+                    backgroundColor: palette.navy,
+                    color: palette.pale,
+                    borderColor: `${palette.navy}00`,
+                  }}
+                >
+                  Tenho Interesse
+                </button>
               </div>
-              <button className="mt-3 md:mt-4 px-5 md:px-6 py-2 md:py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm md:text-base font-semibold rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 active:scale-95 flex-shrink-0">
-                Tenho Interesse
-              </button>
             </div>
           </SwiperSlide>
         ))}
