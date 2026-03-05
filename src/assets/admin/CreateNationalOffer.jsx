@@ -19,7 +19,7 @@ const CreateNationalOffer = () => {
 
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-  const [uploading, setUploading] = useState(false);
+  const [, setUploading] = useState(false);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
