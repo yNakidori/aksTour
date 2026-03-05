@@ -16,6 +16,7 @@ import {
 import { db } from "../../firebase/firbase";
 import Swal from "sweetalert2";
 import Pagination from "../Pagination";
+import { compressImage } from "../../utils/compressImage";
 
 const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   // Small image wrapper that shows a skeleton until the image finishes loading
@@ -37,7 +38,6 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
           alt={alt}
           loading="lazy"
           decoding="async"
-          fetchPriority="low"
           onLoad={() => setLoaded(true)}
           className={`${imgClass} block transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
         />
@@ -226,47 +226,10 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const handleImageUpload = async (file) => {
     if (!file) return null;
 
-    // Client-side image compression to reduce upload size and speed up
-    const compressImage = (file, maxWidth = 1600, quality = 0.7) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const scale = Math.min(1, maxWidth / img.width);
-          canvas.width = Math.round(img.width * scale);
-          canvas.height = Math.round(img.height * scale);
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                const compressedFile = new File([blob], file.name, {
-                  type: blob.type,
-                  lastModified: Date.now(),
-                });
-                resolve(compressedFile);
-              } else {
-                resolve(file);
-              }
-            },
-            "image/jpeg",
-            quality,
-          );
-          URL.revokeObjectURL(url);
-        };
-        img.onerror = (e) => {
-          URL.revokeObjectURL(url);
-          reject(e);
-        };
-        img.src = url;
-      });
-    };
-
     setUploadingImage(true);
     try {
       const storage = getStorage();
-      const compressed = await compressImage(file, 1600, 0.75);
+      const compressed = await compressImage(file, 800, 0.65);
       const storageRef = ref(
         storage,
         `nationalOffers/${Date.now()}_${compressed.name}`,

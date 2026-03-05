@@ -114,8 +114,8 @@ const Bus = () => {
             className="text-lg max-w-2xl mx-auto leading-relaxed"
             style={{ color: palette.subtle }}
           >
-            A AKS leva você com conforto e praticidade para destinos incríveis a
-            poucas horas de São Paulo.
+            A AKSTUR leva você com conforto e praticidade para destinos
+            incríveis a poucas horas de São Paulo.
           </p>
           <div className="mt-10 flex flex-wrap gap-4 justify-center">
             <button

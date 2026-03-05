@@ -16,10 +16,12 @@ import {
 } from "firebase/storage";
 import Swal from "sweetalert2";
 import Pagination from "../Pagination";
+import { compressImage } from "../../utils/compressImage";
 
 const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState({});
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -201,47 +203,10 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const handleImageUpload = async (file) => {
     if (!file) return null;
 
-    // compress image client-side to reduce upload/download times
-    const compressImage = (file, maxWidth = 1600, quality = 0.75) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const scale = Math.min(1, maxWidth / img.width);
-          canvas.width = Math.round(img.width * scale);
-          canvas.height = Math.round(img.height * scale);
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                const compressedFile = new File([blob], file.name, {
-                  type: blob.type,
-                  lastModified: Date.now(),
-                });
-                resolve(compressedFile);
-              } else {
-                resolve(file);
-              }
-            },
-            "image/jpeg",
-            quality,
-          );
-          URL.revokeObjectURL(url);
-        };
-        img.onerror = (e) => {
-          URL.revokeObjectURL(url);
-          reject(e);
-        };
-        img.src = url;
-      });
-    };
-
     setUploadingImage(true);
     try {
       const storage = getStorage();
-      const compressed = await compressImage(file, 1600, 0.75);
+      const compressed = await compressImage(file, 800, 0.65);
       const timestamp = Date.now();
       const imageRef = ref(
         storage,
@@ -417,13 +382,23 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-xl shadow-lg overflow-hidden flex-shrink-0 w-[85vw] snap-center active:scale-95 transition-transform duration-200"
             >
               <div className="relative">
+                {/* Skeleton placeholder */}
+                {!loadedImages[card.id] && (
+                  <div className="w-full h-44 sm:h-48 bg-gray-200 animate-pulse" />
+                )}
                 <img
                   src={card.Image}
                   alt={card.destiny}
                   loading="lazy"
                   decoding="async"
-                  fetchPriority="low"
-                  className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  onLoad={() =>
+                    setLoadedImages((prev) => ({ ...prev, [card.id]: true }))
+                  }
+                  className={`w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-all duration-300 ${
+                    loadedImages[card.id]
+                      ? "opacity-100"
+                      : "opacity-0 absolute inset-0"
+                  }`}
                 />
 
                 {/* Badge do tipo */}
@@ -531,13 +506,23 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="relative">
+                {/* Skeleton placeholder */}
+                {!loadedImages[card.id] && (
+                  <div className="w-full h-48 bg-gray-200 animate-pulse" />
+                )}
                 <img
                   src={card.Image}
                   alt={card.destiny}
                   loading="lazy"
                   decoding="async"
-                  fetchPriority="low"
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  onLoad={() =>
+                    setLoadedImages((prev) => ({ ...prev, [card.id]: true }))
+                  }
+                  className={`w-full h-48 object-cover group-hover:scale-105 transition-all duration-300 ${
+                    loadedImages[card.id]
+                      ? "opacity-100"
+                      : "opacity-0 absolute inset-0"
+                  }`}
                 />
 
                 {/* Badge do tipo */}

@@ -4,6 +4,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db, storage } from "../../firebase/firbase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Swal from "sweetalert2";
+import { compressImage } from "../../utils/compressImage";
 
 export default function CreateBusForm() {
   const [form, setForm] = useState({
@@ -18,18 +19,28 @@ export default function CreateBusForm() {
 
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
     setForm((prev) => ({ ...prev, mainImage: file }));
-    if (file) {
-      const storageRef = ref(storage, `buses/${file.name}`);
-      await uploadBytes(storageRef, file);
+    try {
+      const compressed = await compressImage(file, 800, 0.65);
+      const timestamp = Date.now();
+      const storageRef = ref(storage, `buses/${timestamp}_${compressed.name}`);
+      const metadata = {
+        contentType: "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      await uploadBytes(storageRef, compressed, metadata);
       const url = await getDownloadURL(storageRef);
-      setForm((prev) => ({
-        ...prev,
-        mainImageUrl: url,
-      }));
+      setForm((prev) => ({ ...prev, mainImageUrl: url }));
+    } catch (err) {
+      setError("Erro ao fazer upload da imagem.");
+    } finally {
+      setUploading(false);
     }
   };
 
