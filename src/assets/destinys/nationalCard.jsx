@@ -17,6 +17,7 @@ import { db } from "../../firebase/firbase";
 import Swal from "sweetalert2";
 import Pagination from "../Pagination";
 import { compressImage } from "../../utils/compressImage";
+import { preloadCardImagesWhenIdle } from "../../utils/imageCache";
 
 const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   // Small image wrapper that shows a skeleton until the image finishes loading
@@ -88,6 +89,15 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const endIndex = startIndex + cardsPerPage;
   const currentCards = filteredCards.slice(startIndex, endIndex);
 
+  useEffect(() => {
+    // Preloads current and next page images to make revisits feel instant.
+    const nearTermCards = filteredCards.slice(
+      startIndex,
+      endIndex + cardsPerPage,
+    );
+    preloadCardImagesWhenIdle(nearTermCards.map((card) => card.Image));
+  }, [filteredCards, startIndex, endIndex, cardsPerPage]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     // Only scroll when the anchor is outside the viewport to avoid small jumps.
@@ -120,6 +130,7 @@ const NationalCard = ({ isAdmin = false, filterType = "all" }) => {
         }));
 
         setCards(cardData);
+        preloadCardImagesWhenIdle(cardData.map((card) => card.Image));
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {

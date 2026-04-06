@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import cruise from "./assets/images/cruise/cruzeiro.mp4";
 import CruiseCard from "./assets/cruise/CruiseCard";
-import Whats from "./assets/whats.json";
-import Lottie from "react-lottie";
+import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 
 const palette = {
   navy: "#0E2C45",
@@ -53,20 +52,10 @@ const cruiseTypes = [
 ];
 
 const Cruise = () => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Whats,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
-  const whatsappNumber = "5511957700305";
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá!`;
+  const assistantRef = useRef(null);
 
   const handleWhatsAppClick = () => {
-    window.open(whatsappLink, "_blank");
+    assistantRef.current?.openChat();
   };
 
   return (
@@ -330,13 +319,7 @@ const Cruise = () => {
         </div>
       </section>
 
-      {/* Botão WhatsApp */}
-      <div
-        className="fixed bottom-5 right-5 z-50"
-        onClick={handleWhatsAppClick}
-      >
-        <Lottie options={defaultOptions} height={100} width={100} />
-      </div>
+      <WhatsAppAssistant ref={assistantRef} />
 
       <Footer />
     </div>

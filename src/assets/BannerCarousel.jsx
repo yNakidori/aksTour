@@ -8,12 +8,14 @@ import { db } from "../firebase/firbase";
 import passaporte from "../assets/images/passaporte.png";
 import mapa from "../assets/images/mapa.png";
 
+const BANNER_CACHE_KEY = "mainBanner_banners";
+
 const BannerCarousel = () => {
   const sliderRef = useRef(null);
   const navigate = useNavigate();
   const [banners, setBanners] = useState(() => {
     try {
-      const raw = localStorage.getItem("mainBanner_banners");
+      const raw = localStorage.getItem(BANNER_CACHE_KEY);
       return raw ? JSON.parse(raw) : [];
     } catch (e) {
       return [];
@@ -22,7 +24,7 @@ const BannerCarousel = () => {
 
   const [loading, setLoading] = useState(() => {
     try {
-      return !localStorage.getItem("mainBanner_banners");
+      return !localStorage.getItem(BANNER_CACHE_KEY);
     } catch (e) {
       return true;
     }
@@ -40,7 +42,7 @@ const BannerCarousel = () => {
   useEffect(() => {
     if (!banners || banners.length === 0) return;
 
-    // Preload first image with <link rel="preload"> for faster initial paint
+    // Preload first image with high fetch priority for faster first paint
     const firstUrl = banners[0]?.imageUrl;
     let link;
     if (firstUrl) {
@@ -49,10 +51,13 @@ const BannerCarousel = () => {
         link.rel = "preload";
         link.as = "image";
         link.href = firstUrl;
+        link.fetchPriority = "high";
         document.head.appendChild(link);
 
         // also create an Image to ensure load event fires and we can mark it loaded
         const img = new Image();
+        img.fetchPriority = "high";
+        img.decoding = "async";
         img.src = firstUrl;
         img.onload = () => setLoadedImages((p) => ({ ...p, 0: true }));
       } catch (e) {
@@ -64,6 +69,7 @@ const BannerCarousel = () => {
     banners.slice(1, 3).forEach((b) => {
       if (b && b.imageUrl) {
         const pre = new Image();
+        pre.decoding = "async";
         pre.src = b.imageUrl;
       }
     });
@@ -80,7 +86,7 @@ const BannerCarousel = () => {
         const remote = docSnap.data().banners;
         setBanners(remote);
         try {
-          localStorage.setItem("mainBanner_banners", JSON.stringify(remote));
+          localStorage.setItem(BANNER_CACHE_KEY, JSON.stringify(remote));
         } catch (e) {
           // ignore storage errors
         }
@@ -149,6 +155,8 @@ const BannerCarousel = () => {
                 src={banner.imageUrl}
                 alt={`Banner ${index + 1}`}
                 loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                decoding="async"
                 onLoad={() => setLoadedImages((p) => ({ ...p, [index]: true }))}
                 className="w-full h-screen object-cover animate-ken-burns"
               />

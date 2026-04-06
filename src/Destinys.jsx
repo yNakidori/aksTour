@@ -10,19 +10,9 @@ import buenosaires from "./assets/images/buenosaires.png";
 import lisboa from "./assets/images/lisboa.png";
 import cancun from "./assets/images/cancun.png";
 import paris from "./assets/images/paris.png";
-import Whats from "./assets/whats";
-import Lottie from "react-lottie";
+import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 
 const Destinys = () => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Whats,
-    rendererSettings: {
-      preservAspectRatio: "xMidYMid slice",
-    },
-  };
-
   const places = [
     {
       imageUrl: orlando,
@@ -153,9 +143,7 @@ const Destinys = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-5 right-5 z-50">
-        <Lottie options={defaultOptions} height={100} width={100} />
-      </div>
+      <WhatsAppAssistant />
       <Footer />
     </div>
   );

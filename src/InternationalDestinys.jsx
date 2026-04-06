@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import Navbar from "./assets/navbar";
 import Footer from "./assets/footer";
 import turquia from "./assets/images/turquia.jpg";
 import InternationalCard from "./assets/destinys/internationalCard";
 import Services from "./assets/destinys/services";
-import Whats from "./assets/whats.json";
-import Lottie from "react-lottie";
+import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 
 const palette = {
   navy: "#0E2C45",
@@ -15,20 +14,10 @@ const palette = {
 };
 
 const InternationalDestinys = () => {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Whats,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
-  const whatsappNumber = "5511957700305";
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Olá! Quero conhecer os destinos internacionais.`;
+  const assistantRef = useRef(null);
 
   const handleWhatsAppClick = () => {
-    window.open(whatsappLink, "_blank");
+    assistantRef.current?.openChat();
   };
 
   return (
@@ -222,12 +211,7 @@ const InternationalDestinys = () => {
         </div>
       </section>
 
-      <div
-        className="fixed bottom-5 right-5 z-50 cursor-pointer"
-        onClick={handleWhatsAppClick}
-      >
-        <Lottie options={defaultOptions} height={100} width={100} />
-      </div>
+      <WhatsAppAssistant ref={assistantRef} />
 
       <Footer />
     </div>
