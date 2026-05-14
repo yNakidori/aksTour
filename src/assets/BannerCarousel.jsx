@@ -7,6 +7,7 @@ import { db } from "../firebase/firbase";
 
 import passaporte from "../assets/images/passaporte.png";
 import mapa from "../assets/images/mapa.png";
+import mainBannerFallback from "../assets/images/mainbanner.jpg";
 
 const BANNER_CACHE_KEY = "mainBanner_banners";
 
@@ -82,17 +83,35 @@ const BannerCarousel = () => {
   const loadBanners = async () => {
     try {
       const docSnap = await getDoc(doc(db, "settings", "mainBanner"));
+      let remoteBanners = [];
       if (docSnap.exists() && docSnap.data().banners) {
-        const remote = docSnap.data().banners;
-        setBanners(remote);
-        try {
-          localStorage.setItem(BANNER_CACHE_KEY, JSON.stringify(remote));
-        } catch (e) {
-          // ignore storage errors
-        }
+        remoteBanners = docSnap.data().banners;
+      }
+
+      // Criar banner local como fallback (sempre primeiro)
+      const localBanner = {
+        imageUrl: mainBannerFallback,
+        text: "Bem-vindo ao nosso tour!",
+        isLocal: true,
+      };
+
+      // Combinar banner local com os do Firebase
+      const allBanners = [localBanner, ...remoteBanners];
+      setBanners(allBanners);
+      try {
+        localStorage.setItem(BANNER_CACHE_KEY, JSON.stringify(allBanners));
+      } catch (e) {
+        // ignore storage errors
       }
     } catch (error) {
       console.error("Erro ao carregar banners:", error);
+      // Fallback: mostrar apenas o banner local se Firebase falhar
+      const localBanner = {
+        imageUrl: mainBannerFallback,
+        text: "Bem-vindo ao nosso tour!",
+        isLocal: true,
+      };
+      setBanners([localBanner]);
     } finally {
       setLoading(false);
     }
