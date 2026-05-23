@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import destinations from "./destinationsData";
 
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
 const CardsBar = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -35,20 +42,31 @@ const CardsBar = () => {
   };
 
   return (
-    <div className="text-center mt-14 mb-20">
+    <div className="pt-10 pb-20">
       {/* Header Section */}
-      <div className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <div className="mb-14 text-center">
+        <span
+          className="text-sm font-semibold uppercase tracking-widest"
+          style={{ color: palette.gold }}
+        >
+          Bem-vindo
+        </span>
+        <h1
+          className="text-4xl md:text-5xl font-bold mt-3 mb-4"
+          style={{ color: palette.navy }}
+        >
           Destinos Populares
         </h1>
-        <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
-        <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+        <p
+          className="text-lg max-w-2xl mx-auto"
+          style={{ color: `${palette.navy}aa` }}
+        >
           Descubra os destinos mais procurados e crie memórias inesquecíveis
         </p>
       </div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
         {destinations.map((dest, i) => (
           <motion.div
             key={i}
@@ -58,7 +76,12 @@ const CardsBar = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
             viewport={{ once: true }}
-            className="group relative cursor-pointer rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 bg-white border border-yellow-400"
+            className="group relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-500"
+            style={{
+              backgroundColor: "white",
+              border: `1px solid ${palette.navy}15`,
+              boxShadow: "0 4px 20px rgba(14,44,69,0.06)",
+            }}
             onClick={() => handleCardClick(dest)}
           >
             {/* Card Image */}
@@ -69,12 +92,12 @@ const CardsBar = () => {
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300"></div>
-
-              {/* Badge "Em alta" */}
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-2 rounded-full shadow-lg animate-pulse">
-                🔥 Em Alta!
-              </div>
+              <div
+                className="absolute inset-0 opacity-60 group-hover:opacity-40 transition-opacity duration-300"
+                style={{
+                  background: `linear-gradient(to top, ${palette.navy}cc 0%, transparent 50%, ${palette.navy}44 100%)`,
+                }}
+              ></div>
 
               {/* Overlay com informações */}
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform group-hover:translate-y-0 transition-transform duration-300">
@@ -99,12 +122,21 @@ const CardsBar = () => {
             {/* Card Body */}
             <div className="p-6">
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-blue-600">
+                <span
+                  className="text-lg font-bold"
+                  style={{ color: palette.gold }}
+                >
                   {dest.price}
                 </span>
               </div>
 
-              <button className="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-2xl font-semibold transition-all duration-300 transform group-hover:scale-105 shadow-md hover:shadow-lg">
+              <button
+                className="w-full mt-4 py-3 rounded-xl font-semibold transition-all duration-300 transform group-hover:scale-105"
+                style={{
+                  backgroundColor: palette.gold,
+                  color: palette.pale,
+                }}
+              >
                 Ver Detalhes
               </button>
             </div>
@@ -128,7 +160,11 @@ const CardsBar = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.5, opacity: 0, y: 50 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full mx-auto shadow-2xl border border-white/20 max-h-[90vh] overflow-y-auto relative"
+              className="rounded-3xl max-w-6xl w-full mx-auto shadow-2xl max-h-[90vh] overflow-y-auto relative"
+              style={{
+                backgroundColor: "white",
+                border: `1px solid ${palette.navy}15`,
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -239,21 +275,40 @@ const CardsBar = () => {
                 {/* Seção de Informações */}
                 <div className="p-8 space-y-6">
                   {/* Description */}
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                  <div
+                    className="p-6 rounded-2xl border"
+                    style={{
+                      backgroundColor: `${palette.gold}15`,
+                      borderColor: `${palette.gold}40`,
+                    }}
+                  >
+                    <p
+                      className="text-lg leading-relaxed"
+                      style={{ color: `${palette.navy}bb` }}
+                    >
                       {selectedCard.description}
                     </p>
                   </div>
 
                   {/* Features Grid - Apenas Suporte e Pagamento Seguro */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex items-center space-x-3 p-4 bg-purple-50 rounded-2xl border border-purple-100">
-                      <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                    <div
+                      className="flex items-center space-x-3 p-4 rounded-2xl border"
+                      style={{
+                        backgroundColor: `${palette.gold}15`,
+                        borderColor: `${palette.gold}40`,
+                      }}
+                    >
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: palette.gold }}
+                      >
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-5 h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: palette.pale }}
                         >
                           <path
                             strokeLinecap="round"
@@ -264,22 +319,38 @@ const CardsBar = () => {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p
+                          className="font-semibold"
+                          style={{ color: palette.navy }}
+                        >
                           Suporte 24/7
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p
+                          className="text-sm"
+                          style={{ color: `${palette.navy}99` }}
+                        >
                           Estamos aqui por você
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-3 p-4 bg-orange-50 rounded-2xl border border-orange-100">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                    <div
+                      className="flex items-center space-x-3 p-4 rounded-2xl border"
+                      style={{
+                        backgroundColor: `${palette.gold}15`,
+                        borderColor: `${palette.gold}40`,
+                      }}
+                    >
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: palette.gold }}
+                      >
                         <svg
-                          className="w-5 h-5 text-white"
+                          className="w-5 h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: palette.pale }}
                         >
                           <path
                             strokeLinecap="round"
@@ -290,10 +361,16 @@ const CardsBar = () => {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p
+                          className="font-semibold"
+                          style={{ color: palette.navy }}
+                        >
                           Pagamento seguro
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p
+                          className="text-sm"
+                          style={{ color: `${palette.navy}99` }}
+                        >
                           Dados protegidos
                         </p>
                       </div>
@@ -301,16 +378,25 @@ const CardsBar = () => {
                   </div>
 
                   {/* Price and Booking Section - Sem avaliações */}
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white">
+                  <div
+                    className="rounded-3xl p-8 text-white"
+                    style={{ backgroundColor: palette.navy }}
+                  >
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
                       <div className="text-center md:text-left">
-                        <p className="text-blue-100 text-sm mb-1">
+                        <p
+                          style={{ color: palette.subtle }}
+                          className="text-sm mb-1"
+                        >
                           A partir de
                         </p>
-                        <div className="text-4xl md:text-5xl font-bold mb-2">
+                        <div
+                          className="text-4xl md:text-5xl font-bold mb-2"
+                          style={{ color: palette.gold }}
+                        >
                           {selectedCard.price}
                         </div>
-                        <p className="text-blue-100">por pessoa</p>
+                        <p style={{ color: palette.subtle }}>por pessoa</p>
                       </div>
 
                       <motion.button
@@ -318,7 +404,11 @@ const CardsBar = () => {
                         whileTap={{ scale: 0.95 }}
                         onClick={handleWhatsAppClick}
                         disabled={isLoading}
-                        className="bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/30 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed min-w-[250px] justify-center"
+                        className="font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed min-w-[250px] justify-center"
+                        style={{
+                          backgroundColor: palette.gold,
+                          color: palette.pale,
+                        }}
                       >
                         {isLoading ? (
                           <div className="flex items-center space-x-2">
