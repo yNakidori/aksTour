@@ -14,39 +14,39 @@ const palette = {
 
 const eventTypes = [
   {
-    title: "Festivais e Shows",
+    title: "Passeios Culturais",
     description:
-      "Grandes atracoes musicais, experiencias imersivas e toda a energia dos eventos mais esperados do ano.",
-    icon: "MUSICA",
+      "Roteiros imersivos em museus, centros historicos e experiencias culturais guiadas.",
+    icon: "CULT",
   },
   {
-    title: "Feiras e Exposicoes",
+    title: "Excursões e Tours",
     description:
-      "Negocios, inovacao, gastronomia e cultura reunidos em encontros que conectam pessoas e tendencias.",
-    icon: "EXPO",
+      "Saidas organizadas com transporte e guia para pontos turisticos e atracoes locais.",
+    icon: "TOUR",
   },
   {
-    title: "Eventos Esportivos",
+    title: "Passeios Esportivos",
     description:
-      "Viva o clima das competicoes de perto com pacotes organizados e suporte completo do inicio ao fim.",
+      "Vivencie eventos esportivos e atividades ao ar livre com organizacao e suporte.",
     icon: "SPORT",
   },
   {
-    title: "Congressos e Imersoes",
+    title: "Workshops e Imersoes",
     description:
-      "Participe dos principais encontros profissionais com logistica estrategica e atendimento personalizado.",
-    icon: "TALK",
+      "Experiencias educativas e imersivas com curadoria e logistica completa.",
+    icon: "LEARN",
   },
   {
     title: "Experiencias Premium",
     description:
-      "Acesso diferenciado, roteiros especiais e conforto para transformar cada evento em uma memoria unica.",
+      "Roteiros exclusivos, acesso VIP e conforto para transformar cada passeio em uma memoria unica.",
     icon: "VIP",
   },
   {
     title: "Bate-volta Organizado",
     description:
-      "Saidas rapidas e praticas para curtir grandes eventos sem se preocupar com transporte e planejamento.",
+      "Saidas rapidas e praticas para aproveitar atracoes proximas sem se preocupar com transporte.",
     icon: "TRIP",
   },
 ];
@@ -75,7 +75,7 @@ const Events = () => {
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <img
           src={backgroundHero}
-          alt="Eventos em destaque"
+          alt="Passeios em destaque"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div
@@ -93,21 +93,21 @@ const Events = () => {
               color: palette.gold,
             }}
           >
-            Agenda 2026
+            Roteiros 2026
           </span>
           <h1
             className="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight"
             style={{ color: palette.pale }}
           >
             Viva os Melhores{" "}
-            <span style={{ color: palette.gold }}>Eventos</span>
+            <span style={{ color: palette.gold }}>Passeios</span>
           </h1>
           <p
             className="text-lg max-w-2xl mx-auto leading-relaxed"
             style={{ color: palette.subtle }}
           >
-            Festivais, feiras, shows e experiencias unicas com a curadoria da
-            nossa equipe para voce viajar sem preocupacoes.
+            Passeios, excursões e experiencias unicas com a curadoria da nossa
+            equipe para voce viajar sem preocupacoes.
           </p>
           <div className="mt-10 flex flex-wrap gap-4 justify-center">
             <button
@@ -118,11 +118,11 @@ const Events = () => {
               Solicitar Orcamento
             </button>
             <a
-              href="#eventos"
+              href="#passeios"
               className="px-8 py-3.5 rounded-xl font-medium text-base transition-all duration-200 border"
               style={{ borderColor: `${palette.pale}40`, color: palette.pale }}
             >
-              Ver Eventos
+              Ver Passeios
             </a>
           </div>
         </div>
@@ -144,23 +144,23 @@ const Events = () => {
               className="text-4xl font-bold mt-3 mb-6 leading-tight"
               style={{ color: palette.navy }}
             >
-              Eventos com organizacao premium
+              Ingressos e passeios com organização premium
             </h2>
             <p
               className="leading-relaxed mb-4"
               style={{ color: `${palette.navy}bb` }}
             >
               Cuidamos de cada detalhe da sua experiencia, desde o planejamento
-              da viagem ate a entrada no evento. Tudo pensado para voce
+              da viagem ate a entrada no passeio. Tudo pensado para voce
               aproveitar com seguranca, conforto e praticidade.
             </p>
             <p
               className="leading-relaxed"
               style={{ color: `${palette.navy}bb` }}
             >
-              Seja para curtir um grande show, participar de uma feira
-              importante ou viver uma experiencia cultural exclusiva, voce conta
-              com suporte completo em todas as etapas.
+              Seja para aproveitar um passeio imperdivel, participar de uma
+              excursao organizada ou viver uma experiencia cultural exclusiva,
+              voce conta com suporte completo em todas as etapas.
             </p>
             <ul className="space-y-3 mt-6">
               {includedBenefits.map((item) => (
@@ -216,7 +216,7 @@ const Events = () => {
               className="text-4xl font-bold mt-3"
               style={{ color: palette.navy }}
             >
-              Tipos de Eventos
+              Tipos de Passeios
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -259,7 +259,7 @@ const Events = () => {
       </section>
 
       <section
-        id="eventos"
+        id="passeios"
         className="py-20 px-6"
         style={{ backgroundColor: palette.subtle }}
       >
@@ -275,7 +275,7 @@ const Events = () => {
               className="text-4xl font-bold mt-3"
               style={{ color: palette.navy }}
             >
-              Eventos em Destaque
+              Passeios em Destaque
             </h2>
           </div>
           <EventTicketCard />
@@ -295,7 +295,7 @@ const Events = () => {
             className="text-4xl font-bold mb-4"
             style={{ color: palette.pale }}
           >
-            Pronto para o proximo evento?
+            Pronto para o proximo passeio?
           </h2>
           <p className="mb-8 text-lg" style={{ color: palette.subtle }}>
             Fale com nosso time e monte o pacote ideal para curtir sua proxima

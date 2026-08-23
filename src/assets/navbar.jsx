@@ -125,7 +125,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link to="/events">Eventos</Link>
+            <Link to="/events">Ingressos</Link>
           </li>
           <li>
             <Link to="/cruise">Cruzeiros</Link>
