@@ -133,9 +133,9 @@ const Navbar = () => {
           <li>
             <Link to="/bus">Rodoviário</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/services">Serviços</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/contact">Contato</Link>
           </li>

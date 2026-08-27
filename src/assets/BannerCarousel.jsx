@@ -7,7 +7,7 @@ import { db } from "../firebase/firbase";
 
 import passaporte from "../assets/images/passaporte.png";
 import mapa from "../assets/images/mapa.png";
-import mainBannerFallback from "../assets/images/mainbanner.jpg";
+import mainBannerFallback from "../assets/images/banner.png";
 
 const BANNER_CACHE_KEY = "mainBanner_banners";
 
@@ -91,7 +91,7 @@ const BannerCarousel = () => {
       // Criar banner local como fallback (sempre primeiro)
       const localBanner = {
         imageUrl: mainBannerFallback,
-        text: "Bem-vindo ao nosso tour!",
+        text: "Seu próximo destino começa com o visto certo!",
         isLocal: true,
       };
 
@@ -249,7 +249,7 @@ const BannerCarousel = () => {
       {/* Ícone de rolagem */}
       <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white justify-center items-center flex font-poppins">
-          Conheça nossos pacotes
+          Solicite seu visto
         </p>
         <div
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"
