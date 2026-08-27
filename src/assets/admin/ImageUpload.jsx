@@ -1,16 +1,29 @@
 import React from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/firbase";
+import { compressImage } from "../../utils/compressImage";
 
 const ImageUpload = ({ formData, setFormData }) => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     setFormData((prev) => ({ ...prev, image: file }));
-    if (file) {
-      const storageRef = ref(storage, `pricingCards/${file.name}`);
-      await uploadBytes(storageRef, file);
+    try {
+      const compressed = await compressImage(file, 800, 0.65);
+      const timestamp = Date.now();
+      const storageRef = ref(
+        storage,
+        `pricingCards/${timestamp}_${compressed.name}`,
+      );
+      const metadata = {
+        contentType: "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      await uploadBytes(storageRef, compressed, metadata);
       const url = await getDownloadURL(storageRef);
       setFormData((prev) => ({ ...prev, imageUrl: url }));
+    } catch (err) {
+      console.error("Erro ao fazer upload da imagem.", err);
     }
   };
 

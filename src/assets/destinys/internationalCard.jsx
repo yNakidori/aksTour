@@ -16,10 +16,13 @@ import {
 } from "firebase/storage";
 import Swal from "sweetalert2";
 import Pagination from "../Pagination";
+import { compressImage } from "../../utils/compressImage";
+import { preloadCardImagesWhenIdle } from "../../utils/imageCache";
 
 const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState({});
   const [editingCard, setEditingCard] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,11 +64,29 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
   const endIndex = startIndex + cardsPerPage;
   const currentCards = filteredCards.slice(startIndex, endIndex);
 
+  useEffect(() => {
+    // Preloads current and next page images to make revisits feel instant.
+    const nearTermCards = filteredCards.slice(
+      startIndex,
+      endIndex + cardsPerPage,
+    );
+    preloadCardImagesWhenIdle(nearTermCards.map((card) => card.Image));
+  }, [filteredCards, startIndex, endIndex, cardsPerPage]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Scroll suave para o topo da lista
-    if (listTopRef.current) {
-      listTopRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Only scroll when the anchor is outside the viewport to avoid small jumps.
+    try {
+      const el = listTopRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      if (!fullyVisible) {
+        // use 'nearest' so the browser chooses the minimal scroll needed
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    } catch (e) {
+      // defensive: if window is undefined (SSR) or other error, do nothing
     }
   };
 
@@ -86,6 +107,7 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
         }));
 
         setCards(cardData);
+        preloadCardImagesWhenIdle(cardData.map((card) => card.Image));
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
@@ -195,13 +217,18 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
     setUploadingImage(true);
     try {
       const storage = getStorage();
+      const compressed = await compressImage(file, 800, 0.65);
       const timestamp = Date.now();
       const imageRef = ref(
         storage,
-        `internationalOffers/${timestamp}_${file.name}`,
+        `internationalOffers/${timestamp}_${compressed.name}`,
       );
 
-      const snapshot = await uploadBytes(imageRef, file);
+      const metadata = {
+        contentType: compressed.type || "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      const snapshot = await uploadBytes(imageRef, compressed, metadata);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       return downloadURL;
@@ -366,10 +393,23 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-xl shadow-lg overflow-hidden flex-shrink-0 w-[85vw] snap-center active:scale-95 transition-transform duration-200"
             >
               <div className="relative">
+                {/* Skeleton placeholder */}
+                {!loadedImages[card.id] && (
+                  <div className="w-full h-44 sm:h-48 bg-gray-200 animate-pulse" />
+                )}
                 <img
                   src={card.Image}
                   alt={card.destiny}
-                  className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  decoding="async"
+                  onLoad={() =>
+                    setLoadedImages((prev) => ({ ...prev, [card.id]: true }))
+                  }
+                  className={`w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-all duration-300 ${
+                    loadedImages[card.id]
+                      ? "opacity-100"
+                      : "opacity-0 absolute inset-0"
+                  }`}
                 />
 
                 {/* Badge do tipo */}
@@ -477,10 +517,23 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
               className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="relative">
+                {/* Skeleton placeholder */}
+                {!loadedImages[card.id] && (
+                  <div className="w-full h-48 bg-gray-200 animate-pulse" />
+                )}
                 <img
                   src={card.Image}
                   alt={card.destiny}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  decoding="async"
+                  onLoad={() =>
+                    setLoadedImages((prev) => ({ ...prev, [card.id]: true }))
+                  }
+                  className={`w-full h-48 object-cover group-hover:scale-105 transition-all duration-300 ${
+                    loadedImages[card.id]
+                      ? "opacity-100"
+                      : "opacity-0 absolute inset-0"
+                  }`}
                 />
 
                 {/* Badge do tipo */}
@@ -698,6 +751,9 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
                     <img
                       src={editingCard.Image}
                       alt="Preview atual"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                       className="w-full h-32 object-cover rounded-lg border"
                     />
                   </div>
@@ -710,6 +766,9 @@ const InternationalCard = ({ isAdmin = false, filterType = "all" }) => {
                     <img
                       src={URL.createObjectURL(selectedImage)}
                       alt="Preview nova"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                       className="w-full h-32 object-cover rounded-lg border border-green-300"
                     />
                   </div>

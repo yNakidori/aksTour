@@ -4,6 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/firbase";
 import { TextField, Button } from "@mui/material";
 import { PhotoIcon } from "@heroicons/react/20/solid";
+import { compressImage } from "../../utils/compressImage";
 
 const CreateInternationalOffer = () => {
   const [formData, setFormData] = useState({
@@ -18,15 +19,31 @@ const CreateInternationalOffer = () => {
 
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
     setFormData((prev) => ({ ...prev, Image: file }));
-    if (file) {
-      const storageRef = ref(storage, `internationalOffers/${file.name}`);
-      await uploadBytes(storageRef, file);
+    try {
+      const compressed = await compressImage(file, 800, 0.65);
+      const timestamp = Date.now();
+      const storageRef = ref(
+        storage,
+        `internationalOffers/${timestamp}_${compressed.name}`,
+      );
+      const metadata = {
+        contentType: "image/jpeg",
+        cacheControl: "public, max-age=31536000, immutable",
+      };
+      await uploadBytes(storageRef, compressed, metadata);
       const url = await getDownloadURL(storageRef);
       setFormData((prev) => ({ ...prev, imageUrl: url }));
+    } catch (err) {
+      setError("Erro ao fazer upload da imagem.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -175,8 +192,14 @@ const CreateInternationalOffer = () => {
             </div>
           </div>
         </div>
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          Criar Oferta
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={uploading}
+        >
+          {uploading ? "Enviando imagem..." : "Criar Oferta"}
         </Button>
       </form>
     </div>

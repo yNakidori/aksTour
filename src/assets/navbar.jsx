@@ -125,7 +125,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link to="/events">Eventos</Link>
+            <Link to="/events">Ingressos</Link>
           </li>
           <li>
             <Link to="/cruise">Cruzeiros</Link>
@@ -133,9 +133,9 @@ const Navbar = () => {
           <li>
             <Link to="/bus">Rodoviário</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/services">Serviços</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/contact">Contato</Link>
           </li>

@@ -50,7 +50,7 @@ const Admin = () => {
       }));
       setCards(fetchedCards);
       setSelectedCards(
-        fetchedCards.filter((card) => card.active).map((card) => card.id)
+        fetchedCards.filter((card) => card.active).map((card) => card.id),
       );
     };
     fetchCards();
@@ -249,7 +249,7 @@ const Admin = () => {
                       d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
                     />
                   </svg>
-                  <span>Eventos</span>
+                  <span>Ingressos</span>
                 </div>
               </Tab>
               <Tab>
@@ -496,7 +496,9 @@ const Admin = () => {
                           </svg>
                         </div>
                         <div>
-                          <h3 className="text-2xl font-bold mb-1">Eventos</h3>
+                          <h3 className="text-2xl font-bold mb-1">
+                            Passeios e ingressos
+                          </h3>
                           <p className="text-rose-100 text-sm">
                             Shows, festivais e eventos
                           </p>

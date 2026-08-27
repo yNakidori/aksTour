@@ -7,13 +7,16 @@ import { db } from "../firebase/firbase";
 
 import passaporte from "../assets/images/passaporte.png";
 import mapa from "../assets/images/mapa.png";
+import mainBannerFallback from "../assets/images/banner.png";
+
+const BANNER_CACHE_KEY = "mainBanner_banners";
 
 const BannerCarousel = () => {
   const sliderRef = useRef(null);
   const navigate = useNavigate();
   const [banners, setBanners] = useState(() => {
     try {
-      const raw = localStorage.getItem("mainBanner_banners");
+      const raw = localStorage.getItem(BANNER_CACHE_KEY);
       return raw ? JSON.parse(raw) : [];
     } catch (e) {
       return [];
@@ -22,7 +25,7 @@ const BannerCarousel = () => {
 
   const [loading, setLoading] = useState(() => {
     try {
-      return !localStorage.getItem("mainBanner_banners");
+      return !localStorage.getItem(BANNER_CACHE_KEY);
     } catch (e) {
       return true;
     }
@@ -40,7 +43,7 @@ const BannerCarousel = () => {
   useEffect(() => {
     if (!banners || banners.length === 0) return;
 
-    // Preload first image with <link rel="preload"> for faster initial paint
+    // Preload first image with high fetch priority for faster first paint
     const firstUrl = banners[0]?.imageUrl;
     let link;
     if (firstUrl) {
@@ -49,10 +52,13 @@ const BannerCarousel = () => {
         link.rel = "preload";
         link.as = "image";
         link.href = firstUrl;
+        link.fetchPriority = "high";
         document.head.appendChild(link);
 
         // also create an Image to ensure load event fires and we can mark it loaded
         const img = new Image();
+        img.fetchPriority = "high";
+        img.decoding = "async";
         img.src = firstUrl;
         img.onload = () => setLoadedImages((p) => ({ ...p, 0: true }));
       } catch (e) {
@@ -64,6 +70,7 @@ const BannerCarousel = () => {
     banners.slice(1, 3).forEach((b) => {
       if (b && b.imageUrl) {
         const pre = new Image();
+        pre.decoding = "async";
         pre.src = b.imageUrl;
       }
     });
@@ -76,17 +83,35 @@ const BannerCarousel = () => {
   const loadBanners = async () => {
     try {
       const docSnap = await getDoc(doc(db, "settings", "mainBanner"));
+      let remoteBanners = [];
       if (docSnap.exists() && docSnap.data().banners) {
-        const remote = docSnap.data().banners;
-        setBanners(remote);
-        try {
-          localStorage.setItem("mainBanner_banners", JSON.stringify(remote));
-        } catch (e) {
-          // ignore storage errors
-        }
+        remoteBanners = docSnap.data().banners;
+      }
+
+      // Criar banner local como fallback (sempre primeiro)
+      const localBanner = {
+        imageUrl: mainBannerFallback,
+        text: "Seu próximo destino começa com o visto certo!",
+        isLocal: true,
+      };
+
+      // Combinar banner local com os do Firebase
+      const allBanners = [localBanner, ...remoteBanners];
+      setBanners(allBanners);
+      try {
+        localStorage.setItem(BANNER_CACHE_KEY, JSON.stringify(allBanners));
+      } catch (e) {
+        // ignore storage errors
       }
     } catch (error) {
       console.error("Erro ao carregar banners:", error);
+      // Fallback: mostrar apenas o banner local se Firebase falhar
+      const localBanner = {
+        imageUrl: mainBannerFallback,
+        text: "Bem-vindo ao nosso tour!",
+        isLocal: true,
+      };
+      setBanners([localBanner]);
     } finally {
       setLoading(false);
     }
@@ -149,6 +174,8 @@ const BannerCarousel = () => {
                 src={banner.imageUrl}
                 alt={`Banner ${index + 1}`}
                 loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                decoding="async"
                 onLoad={() => setLoadedImages((p) => ({ ...p, [index]: true }))}
                 className="w-full h-screen object-cover animate-ken-burns"
               />
@@ -222,7 +249,7 @@ const BannerCarousel = () => {
       {/* Ícone de rolagem */}
       <div className="bg-black opacity-55 w-full h-20 absolute bottom-0">
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white justify-center items-center flex font-poppins">
-          Conheça nossos pacotes
+          Solicite seu visto
         </p>
         <div
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce"

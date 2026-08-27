@@ -28,6 +28,13 @@ const amenitiesIcons = {
   "Cozinha equipada": "🍳",
 };
 
+const palette = {
+  navy: "#0E2C45",
+  gold: "#B78E46",
+  pale: "#F6FBF8",
+  subtle: "#E6F0EC",
+};
+
 export default function AccommodationList({ isAdmin = false }) {
   const [accommodations, setAccommodations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -287,8 +294,13 @@ export default function AccommodationList({ isAdmin = false }) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="text-gray-600 font-medium">Carregando acomodações...</p>
+          <div
+            className="animate-spin rounded-full h-12 w-12 border-b-2"
+            style={{ borderColor: palette.gold }}
+          ></div>
+          <p className="font-medium" style={{ color: palette.navy }}>
+            Carregando acomodações...
+          </p>
         </div>
       </div>
     );
@@ -299,10 +311,11 @@ export default function AccommodationList({ isAdmin = false }) {
       <div className="text-center py-12">
         <div className="flex flex-col items-center space-y-4">
           <svg
-            className="w-16 h-16 text-gray-400"
+            className="w-16 h-16"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            style={{ color: `${palette.navy}66` }}
           >
             <path
               strokeLinecap="round"
@@ -311,10 +324,10 @@ export default function AccommodationList({ isAdmin = false }) {
               d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2M7 7h10M7 11h6"
             />
           </svg>
-          <h3 className="text-xl font-semibold text-gray-700">
+          <h3 className="text-xl font-semibold" style={{ color: palette.navy }}>
             Nenhuma acomodação encontrada
           </h3>
-          <p className="text-gray-500">
+          <p style={{ color: `${palette.navy}99` }}>
             Em breve teremos opções de hospedagem disponíveis!
           </p>
         </div>
@@ -360,7 +373,15 @@ export default function AccommodationList({ isAdmin = false }) {
                   <>
                     <button
                       onClick={() => handleDelete(acc.id)}
-                      className="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 backdrop-blur-sm hover:bg-red-500 hover:text-white p-2.5 md:p-2 rounded-full transition-all duration-200 shadow-lg active:scale-90"
+                      className="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 backdrop-blur-sm hover:text-white p-2.5 md:p-2 rounded-full transition-all duration-200 shadow-lg active:scale-90"
+                      style={{ color: palette.navy }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = palette.gold)
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor =
+                          "rgba(255,255,255,0.9)")
+                      }
                       title="Excluir acomodação"
                     >
                       <svg
@@ -377,7 +398,15 @@ export default function AccommodationList({ isAdmin = false }) {
                     </button>
                     <button
                       onClick={() => handleEdit(acc)}
-                      className="absolute top-2 right-14 md:top-3 md:right-14 bg-white/90 backdrop-blur-sm hover:bg-blue-500 hover:text-white p-2.5 md:p-2 rounded-full transition-all duration-200 shadow-lg active:scale-90"
+                      className="absolute top-2 right-14 md:top-3 md:right-14 bg-white/90 backdrop-blur-sm hover:text-white p-2.5 md:p-2 rounded-full transition-all duration-200 shadow-lg active:scale-90"
+                      style={{ color: palette.navy }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = palette.navy)
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor =
+                          "rgba(255,255,255,0.9)")
+                      }
                       title="Editar acomodação"
                     >
                       <svg
@@ -399,15 +428,22 @@ export default function AccommodationList({ isAdmin = false }) {
               </div>
 
               <div className="p-4 md:p-5">
-                <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                <h3
+                  className="text-lg md:text-xl font-bold mb-2 transition-colors line-clamp-2"
+                  style={{ color: palette.navy }}
+                >
                   {acc.name}
                 </h3>
 
-                <div className="flex items-center text-gray-600 mb-2 md:mb-3">
+                <div
+                  className="flex items-center mb-2 md:mb-3"
+                  style={{ color: `${palette.navy}99` }}
+                >
                   <svg
-                    className="w-4 h-4 mr-2 text-blue-500"
+                    className="w-4 h-4 mr-2"
                     fill="currentColor"
                     viewBox="0 0 20 20"
+                    style={{ color: palette.gold }}
                   >
                     <path
                       fillRule="evenodd"
@@ -419,7 +455,10 @@ export default function AccommodationList({ isAdmin = false }) {
                 </div>
 
                 {acc.description && (
-                  <p className="text-xs md:text-sm text-gray-600 mb-2 md:mb-3 line-clamp-2">
+                  <p
+                    className="text-xs md:text-sm mb-2 md:mb-3 line-clamp-2"
+                    style={{ color: `${palette.navy}99` }}
+                  >
                     {acc.description}
                   </p>
                 )}
@@ -430,13 +469,20 @@ export default function AccommodationList({ isAdmin = false }) {
                       <span
                         key={amenity}
                         title={amenity}
-                        className="text-sm bg-gray-100 px-2 py-1 rounded-full"
+                        className="text-sm px-2 py-1 rounded-full"
+                        style={{
+                          backgroundColor: `${palette.gold}15`,
+                          color: palette.gold,
+                        }}
                       >
                         {amenitiesIcons[amenity] || "🏨"}
                       </span>
                     ))}
                     {acc.amenities.length > 3 && (
-                      <span className="text-xs text-gray-500 self-center">
+                      <span
+                        className="text-xs self-center"
+                        style={{ color: `${palette.navy}99` }}
+                      >
                         +{acc.amenities.length - 3} mais
                       </span>
                     )}
@@ -445,11 +491,17 @@ export default function AccommodationList({ isAdmin = false }) {
 
                 <div className="flex items-center justify-between mt-2">
                   <div className="flex flex-col">
-                    <span className="text-base md:text-lg font-bold text-blue-600">
+                    <span
+                      className="text-base md:text-lg font-bold"
+                      style={{ color: palette.gold }}
+                    >
                       {acc.price}
                     </span>
                     {acc.days && (
-                      <span className="text-xs text-gray-500">
+                      <span
+                        className="text-xs"
+                        style={{ color: `${palette.navy}99` }}
+                      >
                         {acc.days} dias
                       </span>
                     )}
@@ -462,7 +514,9 @@ export default function AccommodationList({ isAdmin = false }) {
 
         {/* Indicadores de navegação para mobile */}
         <div className="md:hidden flex justify-center items-center gap-2 mt-2 mb-4">
-          <span className="text-xs text-gray-500">Deslize para ver mais →</span>
+          <span className="text-xs" style={{ color: `${palette.navy}99` }}>
+            Deslize para ver mais →
+          </span>
         </div>
 
         {/* Desktop: grid tradicional */}
@@ -471,6 +525,9 @@ export default function AccommodationList({ isAdmin = false }) {
             <div
               key={acc.id}
               className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+              style={{
+                border: `1px solid ${palette.navy}15`,
+              }}
             >
               <div className="relative">
                 <img
@@ -480,7 +537,10 @@ export default function AccommodationList({ isAdmin = false }) {
                 />
 
                 {/* Badge da avaliação */}
-                <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center space-x-1">
+                <div
+                  className="absolute top-3 left-3 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center space-x-1"
+                  style={{ backgroundColor: palette.gold }}
+                >
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
@@ -496,7 +556,15 @@ export default function AccommodationList({ isAdmin = false }) {
                   <>
                     <button
                       onClick={() => handleDelete(acc.id)}
-                      className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm hover:bg-red-500 hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg"
+                      className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg"
+                      style={{ color: palette.navy }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = palette.gold)
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor =
+                          "rgba(255,255,255,0.9)")
+                      }
                       title="Excluir acomodação"
                     >
                       <svg
@@ -513,7 +581,15 @@ export default function AccommodationList({ isAdmin = false }) {
                     </button>
                     <button
                       onClick={() => handleEdit(acc)}
-                      className="absolute top-3 right-14 bg-white/90 backdrop-blur-sm hover:bg-blue-500 hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg"
+                      className="absolute top-3 right-14 bg-white/90 backdrop-blur-sm hover:text-white p-2 rounded-full transition-all duration-200 shadow-lg"
+                      style={{ color: palette.navy }}
+                      onMouseEnter={(e) =>
+                        (e.target.style.backgroundColor = palette.navy)
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.backgroundColor =
+                          "rgba(255,255,255,0.9)")
+                      }
                       title="Editar acomodação"
                     >
                       <svg
@@ -535,15 +611,22 @@ export default function AccommodationList({ isAdmin = false }) {
               </div>
 
               <div className="p-5">
-                <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                <h3
+                  className="text-xl font-bold mb-2 transition-colors line-clamp-2"
+                  style={{ color: palette.navy }}
+                >
                   {acc.name}
                 </h3>
 
-                <div className="flex items-center text-gray-600 mb-3">
+                <div
+                  className="flex items-center mb-3"
+                  style={{ color: `${palette.navy}99` }}
+                >
                   <svg
-                    className="w-4 h-4 mr-2 text-blue-500"
+                    className="w-4 h-4 mr-2"
                     fill="currentColor"
                     viewBox="0 0 20 20"
+                    style={{ color: palette.gold }}
                   >
                     <path
                       fillRule="evenodd"
@@ -555,7 +638,10 @@ export default function AccommodationList({ isAdmin = false }) {
                 </div>
 
                 {acc.description && (
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                  <p
+                    className="text-sm mb-3 line-clamp-2"
+                    style={{ color: `${palette.navy}99` }}
+                  >
                     {acc.description}
                   </p>
                 )}
@@ -566,13 +652,20 @@ export default function AccommodationList({ isAdmin = false }) {
                       <span
                         key={amenity}
                         title={amenity}
-                        className="text-sm bg-gray-100 px-2 py-1 rounded-full"
+                        className="text-sm px-2 py-1 rounded-full"
+                        style={{
+                          backgroundColor: `${palette.gold}15`,
+                          color: palette.gold,
+                        }}
                       >
                         {amenitiesIcons[amenity] || "🏨"}
                       </span>
                     ))}
                     {acc.amenities.length > 3 && (
-                      <span className="text-xs text-gray-500 self-center">
+                      <span
+                        className="text-xs self-center"
+                        style={{ color: `${palette.navy}99` }}
+                      >
                         +{acc.amenities.length - 3} mais
                       </span>
                     )}
@@ -581,11 +674,17 @@ export default function AccommodationList({ isAdmin = false }) {
 
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">
-                    <span className="text-lg font-bold text-blue-600">
+                    <span
+                      className="text-lg font-bold"
+                      style={{ color: palette.gold }}
+                    >
                       {acc.price}
                     </span>
                     {acc.days && (
-                      <span className="text-xs text-gray-500">
+                      <span
+                        className="text-xs"
+                        style={{ color: `${palette.navy}99` }}
+                      >
                         {acc.days} dias
                       </span>
                     )}
@@ -604,12 +703,14 @@ export default function AccommodationList({ isAdmin = false }) {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="p-2 rounded-lg bg-white shadow disabled:opacity-30 disabled:cursor-not-allowed active:scale-90 transition-all"
+            style={{ borderColor: `${palette.navy}15` }}
           >
             <svg
               className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              style={{ color: palette.navy }}
             >
               <path
                 strokeLinecap="round"
@@ -619,19 +720,24 @@ export default function AccommodationList({ isAdmin = false }) {
               />
             </svg>
           </button>
-          <span className="text-sm font-medium text-gray-700 px-3">
+          <span
+            className="text-sm font-medium px-3"
+            style={{ color: palette.navy }}
+          >
             {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="p-2 rounded-lg bg-white shadow disabled:opacity-30 disabled:cursor-not-allowed active:scale-90 transition-all"
+            style={{ borderColor: `${palette.navy}15` }}
           >
             <svg
               className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              style={{ color: palette.navy }}
             >
               <path
                 strokeLinecap="round"
@@ -654,19 +760,34 @@ export default function AccommodationList({ isAdmin = false }) {
       {/* Modal de edição modernizado */}
       {openModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-2 md:p-4">
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[95vh] md:max-h-[90vh] overflow-y-auto">
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 md:p-6">
+          <div
+            className="rounded-xl md:rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[95vh] md:max-h-[90vh] overflow-y-auto"
+            style={{
+              backgroundColor: "white",
+              border: `1px solid ${palette.navy}15`,
+            }}
+          >
+            <div
+              className="text-white p-4 md:p-6"
+              style={{ backgroundColor: palette.navy }}
+            >
               <h2 className="text-xl md:text-2xl font-bold">
                 Editar Acomodação
               </h2>
-              <p className="text-blue-100 mt-1 text-sm md:text-base">
+              <p
+                className="mt-1 text-sm md:text-base"
+                style={{ color: palette.subtle }}
+              >
                 Atualize as informações da acomodação
               </p>
             </div>
 
             <div className="p-4 md:p-6 space-y-3 md:space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: palette.navy }}
+                >
                   Nome da Acomodação
                 </label>
                 <input
@@ -675,22 +796,32 @@ export default function AccommodationList({ isAdmin = false }) {
                   value={editForm.name}
                   onChange={handleEditChange}
                   placeholder="Nome da acomodação"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                  style={{
+                    border: `1px solid ${palette.navy}30`,
+                    focusRing: palette.gold,
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: palette.navy }}
+                >
                   Imagem
                 </label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                  style={{
+                    border: `1px solid ${palette.navy}30`,
+                  }}
                 />
                 {imageUploading && (
-                  <p className="text-sm text-blue-600 mt-1">
+                  <p className="text-sm mt-1" style={{ color: palette.gold }}>
                     Fazendo upload da imagem...
                   </p>
                 )}
@@ -698,8 +829,11 @@ export default function AccommodationList({ isAdmin = false }) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Avaliação
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: palette.navy }}
+                  >
+                    Ava\u0301liao
                   </label>
                   <input
                     type="number"
@@ -710,12 +844,18 @@ export default function AccommodationList({ isAdmin = false }) {
                     value={editForm.rating}
                     onChange={handleEditChange}
                     placeholder="4.5"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                    style={{
+                      border: `1px solid ${palette.navy}30`,
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    className="block text-sm font-medium mb-2"
+                    style={{ color: palette.navy }}
+                  >
                     Dias
                   </label>
                   <input
@@ -724,14 +864,20 @@ export default function AccommodationList({ isAdmin = false }) {
                     value={editForm.days}
                     onChange={handleEditChange}
                     placeholder="3"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                    style={{
+                      border: `1px solid ${palette.navy}30`,
+                    }}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Preço
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: palette.navy }}
+                >
+                  Pre\u00e7o
                 </label>
                 <input
                   type="text"
@@ -739,13 +885,19 @@ export default function AccommodationList({ isAdmin = false }) {
                   value={editForm.price}
                   onChange={handleEditChange}
                   placeholder="R$ 150 por noite"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                  style={{
+                    border: `1px solid ${palette.navy}30`,
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Localização
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: palette.navy }}
+                >
+                  Localiza\u00e7\u00e3o
                 </label>
                 <input
                   type="text"
@@ -753,36 +905,54 @@ export default function AccommodationList({ isAdmin = false }) {
                   value={editForm.location}
                   onChange={handleEditChange}
                   placeholder="Cidade, Estado"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all"
+                  style={{
+                    border: `1px solid ${palette.navy}30`,
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Descrição
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: palette.navy }}
+                >
+                  Descri\u00e7\u00e3o
                 </label>
                 <textarea
                   name="description"
                   value={editForm.description}
                   onChange={handleEditChange}
-                  placeholder="Descrição detalhada da acomodação..."
+                  placeholder="Descri\u00e7\u00e3o detalhada da acomoda\u00e7\u00e3o..."
                   rows="3"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  className="w-full rounded-lg px-4 py-2 focus:ring-2 focus:border-transparent transition-all resize-none"
+                  style={{
+                    border: `1px solid ${palette.navy}30`,
+                  }}
                 ></textarea>
               </div>
             </div>
 
-            <div className="bg-gray-50 px-4 md:px-6 py-3 md:py-4 flex justify-end space-x-2 md:space-x-3">
+            <div
+              className="px-4 md:px-6 py-3 md:py-4 flex justify-end space-x-2 md:space-x-3"
+              style={{ backgroundColor: palette.subtle }}
+            >
               <button
                 onClick={() => setOpenModal(false)}
-                className="px-3 md:px-4 py-2 text-sm md:text-base text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 active:scale-95 transition-all font-medium"
+                className="px-3 md:px-4 py-2 text-sm md:text-base rounded-lg active:scale-95 transition-all font-medium border"
+                style={{
+                  color: palette.navy,
+                  backgroundColor: "white",
+                  borderColor: `${palette.navy}30`,
+                }}
               >
                 Cancelar
               </button>
               <button
                 onClick={handleEditSave}
                 disabled={imageUploading}
-                className="px-4 md:px-6 py-2 text-sm md:text-base bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg active:scale-95 transition-all font-medium shadow-md hover:shadow-lg disabled:opacity-50"
+                className="px-4 md:px-6 py-2 text-sm md:text-base text-white rounded-lg active:scale-95 transition-all font-medium shadow-md hover:shadow-lg disabled:opacity-50"
+                style={{ backgroundColor: palette.gold }}
               >
                 {imageUploading ? "Salvando..." : "Salvar Alterações"}
               </button>
