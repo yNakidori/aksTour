@@ -8,7 +8,6 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
-  const dropdownButtonRef = useRef(null);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -23,9 +22,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleDropdownClick = () => {
-    setIsDropdownOpen((s) => !s);
-  };
+  // const handleDropdownClick = () => {
+  //   setIsDropdownOpen((s) => !s);
+  // };
 
   // Close dropdown on outside click or Esc
   useEffect(() => {
@@ -51,8 +50,8 @@ const Navbar = () => {
     };
   }, [isDropdownOpen]);
 
-  const isMobileDevice = () =>
-    window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+  // const isMobileDevice = () =>
+  //   window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
 
   return (
     <nav
