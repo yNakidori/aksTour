@@ -192,10 +192,13 @@ const Contact = () => {
                 Horário de atendimento
               </p>
               <p className="text-sm" style={{ color: palette.subtle }}>
-                Segunda a Sexta: 9h – 18h
+                Segunda a Sexta: 8h – 18h
               </p>
               <p className="text-sm" style={{ color: palette.subtle }}>
-                Sábado: 9h – 13h
+                Sábado: 9h – 18h
+              </p>
+              <p className="text-sm" style={{ color: palette.subtle }}>
+                Domingo: 9h – 13h
               </p>
             </div>
           </div>

@@ -51,7 +51,6 @@ const Navbar = () => {
     };
   }, [isDropdownOpen]);
 
-  // Helper: determine if device is mobile (for hover behavior)
   const isMobileDevice = () =>
     window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
 
@@ -77,7 +76,19 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
 
-          <li
+          <li>
+            <Link to="/services">Serviços</Link>
+          </li>
+
+          <li>
+            <Link to="/about">Sobre</Link>
+          </li>
+
+          <li>
+            <Link to="/contact">Contato</Link>
+          </li>
+
+          {/* <li
             className={`dropdown ${isDropdownOpen ? "open" : ""}`}
             ref={dropdownRef}
             onMouseEnter={() => !isMobileDevice() && setIsDropdownOpen(true)}
@@ -122,9 +133,9 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-          </li>
+          </li> */}
 
-          <li>
+          {/* <li>
             <Link to="/events">Ingressos</Link>
           </li>
           <li>
@@ -132,16 +143,11 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/bus">Rodoviário</Link>
-          </li>
-          {/* <li>
-            <Link to="/services">Serviços</Link>
           </li> */}
-          <li>
-            <Link to="/contact">Contato</Link>
-          </li>
-          <li>
+
+          {/* <li>
             <Link to="/social">Social</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>

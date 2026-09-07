@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
+import About from "./About";
 import Destinys from "./Destinys";
 import LocalDestinys from "./LocalDestinys";
 import InternationalDestinys from "./InternationalDestinys";
@@ -29,6 +30,7 @@ root.render(
           path="/destinys/internacionais"
           element={<InternationalDestinys />}
         />
+        <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
         <Route path="/cruise" element={<Cruise />} />
         <Route path="/bus" element={<Bus />} />
