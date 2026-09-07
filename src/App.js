@@ -1,5 +1,5 @@
 import "./App.css";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Navbar from "./assets/navbar";
 import Banner from "./assets/images/New_Banner.png";
 import CardsBar from "./assets/homepage/cardsBar";
@@ -20,147 +20,147 @@ const palette = {
   subtle: "#E6F0EC",
 };
 
-const services = [
-  {
-    title: "Emissão de Visto",
-    description:
-      "Cuidamos de todo o processo de solicitação do seu visto, do início ao fim. Você envia os documentos e nós lidamos com toda a burocracia junto ao consulado — rápido, seguro e sem complicações.",
-    icon: "📄",
-    featured: true,
-  },
-  {
-    title: "Análise de Documentos",
-    description:
-      "Revisamos todos os seus documentos com atenção aos mínimos detalhes, garantindo que sua solicitação seja enviada sem erros ou pendências.",
-    icon: "🔍",
-  },
-  {
-    title: "Preenchimento de Formulários",
-    description:
-      "Nossa equipe preenche todos os formulários consulares com precisão e conformidade, eliminando o risco de erros que possam atrasar ou inviabilizar seu visto.",
-    icon: "📝",
-  },
-  {
-    title: "Agendamento de Entrevista",
-    description:
-      "Cuidamos de todo o processo de agendamento junto ao consulado, economizando seu tempo e evitando complicações na marcação.",
-    icon: "📅",
-  },
-  {
-    title: "Acompanhamento do Processo",
-    description:
-      "Monitoramos cada etapa da sua solicitação e mantemos você informado até a aprovação final do visto.",
-    icon: "📡",
-  },
-  {
-    title: "Seguro Viagem",
-    description:
-      "Viaje com tranquilidade e segurança. Nossos seguros oferecem cobertura completa contra imprevistos, garantindo suporte onde quer que você esteja.",
-    icon: "🛡️",
-  },
-];
+// const services = [
+//   {
+//     title: "Emissão de Visto",
+//     description:
+//       "Cuidamos de todo o processo de solicitação do seu visto, do início ao fim. Você envia os documentos e nós lidamos com toda a burocracia junto ao consulado — rápido, seguro e sem complicações.",
+//     icon: "📄",
+//     featured: true,
+//   },
+//   {
+//     title: "Análise de Documentos",
+//     description:
+//       "Revisamos todos os seus documentos com atenção aos mínimos detalhes, garantindo que sua solicitação seja enviada sem erros ou pendências.",
+//     icon: "🔍",
+//   },
+//   {
+//     title: "Preenchimento de Formulários",
+//     description:
+//       "Nossa equipe preenche todos os formulários consulares com precisão e conformidade, eliminando o risco de erros que possam atrasar ou inviabilizar seu visto.",
+//     icon: "📝",
+//   },
+//   {
+//     title: "Agendamento de Entrevista",
+//     description:
+//       "Cuidamos de todo o processo de agendamento junto ao consulado, economizando seu tempo e evitando complicações na marcação.",
+//     icon: "📅",
+//   },
+//   {
+//     title: "Acompanhamento do Processo",
+//     description:
+//       "Monitoramos cada etapa da sua solicitação e mantemos você informado até a aprovação final do visto.",
+//     icon: "📡",
+//   },
+//   {
+//     title: "Seguro Viagem",
+//     description:
+//       "Viaje com tranquilidade e segurança. Nossos seguros oferecem cobertura completa contra imprevistos, garantindo suporte onde quer que você esteja.",
+//     icon: "🛡️",
+//   },
+// ];
 
-const guarantees = [
-  {
-    title: "Contrato direto, sem intermediários",
-    description:
-      "Você fecha um contrato de prestação de serviços diretamente com nossa empresa, com CNPJ e responsáveis identificados — sem risco de intermediários ou sócios fantasmas.",
-  },
-  {
-    title: "Processo transparente do início ao fim",
-    description:
-      "Todos os pedidos são cadastrados no seu próprio nome, e-mail e telefone. Você acompanha cada movimentação diretamente com o consulado, sem depender só da nossa palavra.",
-  },
-  {
-    title: "Você só descansa e aguarda",
-    description:
-      "Cuidamos de toda a parte burocrática enquanto você foca na sua viagem. Em alguns casos, pode ser necessária sua presença apenas no dia da entrevista.",
-  },
-  {
-    title: "Custo proporcional ao valor da viagem",
-    description:
-      "O investimento na assessoria costuma representar uma fração pequena do custo total da sua viagem — um valor justo perto da tranquilidade que você ganha.",
-  },
-];
+// const guarantees = [
+//   {
+//     title: "Contrato direto, sem intermediários",
+//     description:
+//       "Você fecha um contrato de prestação de serviços diretamente com nossa empresa, com CNPJ e responsáveis identificados — sem risco de intermediários ou sócios fantasmas.",
+//   },
+//   {
+//     title: "Processo transparente do início ao fim",
+//     description:
+//       "Todos os pedidos são cadastrados no seu próprio nome, e-mail e telefone. Você acompanha cada movimentação diretamente com o consulado, sem depender só da nossa palavra.",
+//   },
+//   {
+//     title: "Você só descansa e aguarda",
+//     description:
+//       "Cuidamos de toda a parte burocrática enquanto você foca na sua viagem. Em alguns casos, pode ser necessária sua presença apenas no dia da entrevista.",
+//   },
+//   {
+//     title: "Custo proporcional ao valor da viagem",
+//     description:
+//       "O investimento na assessoria costuma representar uma fração pequena do custo total da sua viagem — um valor justo perto da tranquilidade que você ganha.",
+//   },
+// ];
 
-const visaCountries = [
-  {
-    flag: "🇺🇸",
-    title: "Visto Americano",
-    description:
-      "Assessoria completa para visto de turismo, negócios ou trabalho, incluindo preenchimento do formulário DS-160 e preparação para a entrevista.",
-  },
-  {
-    flag: "🇨🇦",
-    title: "Visto Canadense",
-    description:
-      "Cuidamos da sua solicitação de eTA ou visto de visitante, com orientação sobre documentos e requisitos específicos do Canadá.",
-  },
-  {
-    flag: "🇦🇺",
-    title: "Visto Australiano",
-    description:
-      "Assessoria para eVisitor e demais categorias de visto, com acompanhamento de todo o processo junto às autoridades australianas.",
-  },
-  {
-    flag: "🇬🇧",
-    title: "Reino Unido",
-    description:
-      "Suporte na solicitação do Standard Visitor Visa e outras categorias, com revisão detalhada da documentação exigida.",
-  },
-  {
-    flag: "🇨🇳",
-    title: "China",
-    description:
-      "Orientação completa para visto de turismo ou negócios na China, incluindo carta convite e demais exigências consulares.",
-  },
-  {
-    flag: "🌍",
-    title: "Outros Vistos",
-    description:
-      "Atendemos solicitações para outros destinos não listados aqui. Fale com a gente e receba uma avaliação personalizada do seu caso.",
-  },
-];
+// const visaCountries = [
+//   {
+//     flag: "🇺🇸",
+//     title: "Visto Americano",
+//     description:
+//       "Assessoria completa para visto de turismo, negócios ou trabalho, incluindo preenchimento do formulário DS-160 e preparação para a entrevista.",
+//   },
+//   {
+//     flag: "🇨🇦",
+//     title: "Visto Canadense",
+//     description:
+//       "Cuidamos da sua solicitação de eTA ou visto de visitante, com orientação sobre documentos e requisitos específicos do Canadá.",
+//   },
+//   {
+//     flag: "🇦🇺",
+//     title: "Visto Australiano",
+//     description:
+//       "Assessoria para eVisitor e demais categorias de visto, com acompanhamento de todo o processo junto às autoridades australianas.",
+//   },
+//   {
+//     flag: "🇬🇧",
+//     title: "Reino Unido",
+//     description:
+//       "Suporte na solicitação do Standard Visitor Visa e outras categorias, com revisão detalhada da documentação exigida.",
+//   },
+//   {
+//     flag: "🇨🇳",
+//     title: "China",
+//     description:
+//       "Orientação completa para visto de turismo ou negócios na China, incluindo carta convite e demais exigências consulares.",
+//   },
+//   {
+//     flag: "🌍",
+//     title: "Outros Vistos",
+//     description:
+//       "Atendemos solicitações para outros destinos não listados aqui. Fale com a gente e receba uma avaliação personalizada do seu caso.",
+//   },
+// ];
 
-const faqs = [
-  {
-    question: "Quais documentos são necessários para solicitar o visto?",
-    answer:
-      "A lista varia conforme o país e o tipo de visto, mas em geral inclui passaporte válido, formulário preenchido, fotos recentes, comprovante de pagamento das taxas consulares, comprovante de renda e comprovante de residência. Após a análise do seu caso, enviamos uma lista detalhada e personalizada.",
-  },
-  {
-    question: "Como funciona o pagamento das taxas consulares?",
-    answer:
-      "As taxas consulares são pagas diretamente ao consulado do país de destino, por boleto ou cartão, conforme as regras de cada um. Nossa equipe orienta exatamente como e quando fazer esse pagamento.",
-  },
-  {
-    question: "Vocês garantem a aprovação do visto?",
-    answer:
-      "A decisão final é sempre do consulado. O que garantimos é um processo revisado com atenção, sem erros de preenchimento ou documentação, o que aumenta significativamente as chances de aprovação.",
-  },
-  {
-    question: "O que acontece se o visto for negado?",
-    answer:
-      "Analisamos o motivo da negativa junto com você e orientamos os próximos passos, incluindo a possibilidade de um novo pedido com o processo ajustado.",
-  },
-  {
-    question: "Vocês ajudam com vistos de estudante e de trabalho?",
-    answer:
-      "Sim. Além do visto de turismo, também prestamos assessoria para vistos de estudo, trabalho e nômade digital, sempre com acompanhamento especializado por tipo de solicitação.",
-  },
-];
+// const faqs = [
+//   {
+//     question: "Quais documentos são necessários para solicitar o visto?",
+//     answer:
+//       "A lista varia conforme o país e o tipo de visto, mas em geral inclui passaporte válido, formulário preenchido, fotos recentes, comprovante de pagamento das taxas consulares, comprovante de renda e comprovante de residência. Após a análise do seu caso, enviamos uma lista detalhada e personalizada.",
+//   },
+//   {
+//     question: "Como funciona o pagamento das taxas consulares?",
+//     answer:
+//       "As taxas consulares são pagas diretamente ao consulado do país de destino, por boleto ou cartão, conforme as regras de cada um. Nossa equipe orienta exatamente como e quando fazer esse pagamento.",
+//   },
+//   {
+//     question: "Vocês garantem a aprovação do visto?",
+//     answer:
+//       "A decisão final é sempre do consulado. O que garantimos é um processo revisado com atenção, sem erros de preenchimento ou documentação, o que aumenta significativamente as chances de aprovação.",
+//   },
+//   {
+//     question: "O que acontece se o visto for negado?",
+//     answer:
+//       "Analisamos o motivo da negativa junto com você e orientamos os próximos passos, incluindo a possibilidade de um novo pedido com o processo ajustado.",
+//   },
+//   {
+//     question: "Vocês ajudam com vistos de estudante e de trabalho?",
+//     answer:
+//       "Sim. Além do visto de turismo, também prestamos assessoria para vistos de estudo, trabalho e nômade digital, sempre com acompanhamento especializado por tipo de solicitação.",
+//   },
+// ];
 
 function App() {
   const assistantRef = useRef(null);
-  const [openFaq, setOpenFaq] = useState(null);
+  // const [openFaq, setOpenFaq] = useState(null);
 
   const openChat = () => {
     assistantRef.current?.openChat();
   };
 
-  const toggleFaq = (index) => {
-    setOpenFaq((prev) => (prev === index ? null : index));
-  };
+  // const toggleFaq = (index) => {
+  //   setOpenFaq((prev) => (prev === index ? null : index));
+  // };
 
   return (
     <div
