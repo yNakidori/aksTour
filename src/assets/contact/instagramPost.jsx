@@ -14,7 +14,7 @@ import ModeCommentOutlined from "@mui/icons-material/ModeCommentOutlined";
 import SendOutlined from "@mui/icons-material/SendOutlined";
 import Face from "@mui/icons-material/Face";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
-import logo from "../images/aksLogo.jpg";
+import logo from "../akslogo.png";
 import photo from "../images/photoTheme.jpg";
 
 export default function InstagramPost() {

@@ -8,7 +8,6 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef(null);
-  const dropdownButtonRef = useRef(null);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -23,9 +22,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleDropdownClick = () => {
-    setIsDropdownOpen((s) => !s);
-  };
+  // const handleDropdownClick = () => {
+  //   setIsDropdownOpen((s) => !s);
+  // };
 
   // Close dropdown on outside click or Esc
   useEffect(() => {
@@ -51,9 +50,8 @@ const Navbar = () => {
     };
   }, [isDropdownOpen]);
 
-  // Helper: determine if device is mobile (for hover behavior)
-  const isMobileDevice = () =>
-    window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+  // const isMobileDevice = () =>
+  //   window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
 
   return (
     <nav
@@ -77,7 +75,19 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
 
-          <li
+          <li>
+            <Link to="/services">Serviços</Link>
+          </li>
+
+          <li>
+            <Link to="/about">Sobre</Link>
+          </li>
+
+          <li>
+            <Link to="/contact">Contato</Link>
+          </li>
+
+          {/* <li
             className={`dropdown ${isDropdownOpen ? "open" : ""}`}
             ref={dropdownRef}
             onMouseEnter={() => !isMobileDevice() && setIsDropdownOpen(true)}
@@ -122,9 +132,9 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-          </li>
+          </li> */}
 
-          <li>
+          {/* <li>
             <Link to="/events">Ingressos</Link>
           </li>
           <li>
@@ -132,16 +142,11 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/bus">Rodoviário</Link>
-          </li>
-          {/* <li>
-            <Link to="/services">Serviços</Link>
           </li> */}
-          <li>
-            <Link to="/contact">Contato</Link>
-          </li>
-          <li>
+
+          {/* <li>
             <Link to="/social">Social</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>
