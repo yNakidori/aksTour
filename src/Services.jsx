@@ -2,13 +2,15 @@ import React, { useRef, useState } from "react";
 
 import Navbar from "./assets/navbar";
 
+import Insurance from "./assets/services/insurance";
+
 import InternationalCard from "./assets/destinys/internationalCard";
 import NationalCard from "./assets/destinys/nationalCard";
 import CruiseCard from "./assets/cruise/CruiseCard";
 import BusRouteCard from "./assets/bus/BusRouteCard";
 import EventTicketCard from "./assets/events/EventTicketCard";
 
-import bannerVistos from "./assets/images/mainbanner.jpg";
+import bannerVistos from "./assets/images/nyc.png";
 
 import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 
@@ -793,6 +795,7 @@ const Services = () => {
             </div>
           </div>
         </div>
+        <Insurance />
       </section>
 
       {/* ======================================================

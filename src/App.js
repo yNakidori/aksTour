@@ -10,6 +10,7 @@ import Featured from "./assets/homepage/featured";
 import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
+import VistoAmericano from "./assets/images/Visto_Americano.png";
 import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 import CookieConsentBanner from "./assets/generic/CookieConsentBanner";
 
@@ -362,6 +363,15 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Visto Americano - Processo */}
+        <div className="relative w-full max-w-7xl mx-auto px-6 py-10 md:py-16 lg:py-20">
+          <img
+            src={VistoAmericano}
+            alt="Etapas para aplicação do Visto Americano"
+            className="w-full h-auto rounded-3xl object-cover"
+          />
+        </div>
       </section>
 
       {/* Serviços de vistos e passaportes */}
@@ -407,6 +417,12 @@ function App() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               {[
+                {
+                  icon: "✦",
+                  title: "Primeiro Visto",
+                  description:
+                    "Assessoria para a primeira solicitação de visto, com orientação sobre documentos, preenchimento dos formulários e todas as etapas do processo.",
+                },
                 {
                   icon: "↻",
                   title: "Renovação",
