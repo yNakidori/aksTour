@@ -18,162 +18,126 @@ const defaultQuickQuestions = [
 ];
 
 const defaultIntroMessage =
-  "Olá! Eu sou o assistente da AKSTur. 👋\n\nPosso ajudar você com vistos, passaportes e autorizações de viagem. Escolha uma das opções abaixo ou escreva sua dúvida.";
+  "Olá! 👋 Sou o assistente da AKS Vistos e Viagens.\n\nEscolha uma opção abaixo ou escreva sua dúvida.";
 
 const defaultGetBotReply = (message) => {
   const normalized = message
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 
   // PRIMEIRO VISTO
   if (
     normalized.includes("primeiro visto") ||
     normalized.includes("primeira solicitacao") ||
-    normalized.includes("primeira solicitação") ||
     normalized.includes("tirar visto") ||
     normalized.includes("visto pela primeira vez")
   ) {
     return (
-      "Perfeito! Podemos orientar você na solicitação do seu primeiro visto. " +
-      "A assessoria inclui a organização das informações, conferência dos documentos " +
-      "e orientação durante as etapas do processo.\n\n" +
-      "Para começarmos, me diga qual país você pretende visitar."
+      "Claro! Podemos orientar você em todo o processo do primeiro visto, " +
+      "desde a documentação até as etapas da solicitação.\n\n" +
+      "Qual país você pretende visitar?"
     );
   }
 
   // RENOVAÇÃO
-  if (
-    normalized.includes("renovacao") ||
-    normalized.includes("renovar") ||
-    normalized.includes("renovação")
-  ) {
+  if (normalized.includes("renovacao") || normalized.includes("renovar")) {
     return (
-      "Claro! Trabalhamos com assessoria para renovação de vistos e documentos. " +
-      "Podemos verificar a documentação necessária e orientar você sobre as etapas.\n\n" +
-      "Qual visto ou documento você deseja renovar?"
+      "Claro! Podemos auxiliar na renovação do seu visto, " +
+      "orientando sobre documentos e etapas do processo.\n\n" +
+      "Para saber mais sobre o seu caso, continue pelo WhatsApp."
     );
   }
 
-  // NEGATIVA
+  // VISTO NEGADO
   if (
-    normalized.includes("negado") ||
+    normalized.includes("visto negado") ||
+    normalized.includes("visto foi negado") ||
     normalized.includes("negativa") ||
     normalized.includes("recusado") ||
     normalized.includes("recusa")
   ) {
     return (
-      "Entendi. Podemos orientar uma nova solicitação após uma negativa, " +
-      "avaliando os pontos que precisam ser ajustados antes de iniciar um novo processo.\n\n" +
-      "Se quiser, me conte qual visto foi negado e, se souber, quando ocorreu a negativa."
+      "Entendi. Podemos orientar você sobre uma nova solicitação após uma negativa.\n\n" +
+      "Para analisar seu caso com mais detalhes, continue pelo WhatsApp."
     );
   }
 
   // eTA UNIÃO EUROPEIA
-  if (
-    normalized.includes("eta europa") ||
-    normalized.includes("eta uniao") ||
-    normalized.includes("eta união") ||
-    normalized.includes("uniao europeia") ||
-    normalized.includes("união europeia")
-  ) {
+  if (normalized.includes("eta uniao") || normalized.includes("eta europa")) {
     return (
-      "Ótimo! 🇪🇺\n\n" +
-      "Podemos orientar você sobre a autorização eletrônica de viagem para a União Europeia, " +
-      "conforme as regras aplicáveis ao seu caso.\n\n" +
-      "Você já sabe para qual país da União Europeia pretende viajar?"
+      "Podemos orientar você sobre a autorização eletrônica de viagem " +
+      "para a União Europeia, conforme as regras aplicáveis ao seu destino.\n\n" +
+      "Para saber mais, continue pelo WhatsApp."
     );
   }
 
   // eTA CANADÁ
-  if (
-    normalized.includes("eta canada") ||
-    normalized.includes("eta canadá") ||
-    normalized.includes("canada") ||
-    normalized.includes("canadá")
-  ) {
+  if (normalized.includes("eta canada")) {
     return (
-      "Claro! 🇨🇦\n\n" +
-      "Oferecemos assessoria para a autorização eletrônica de viagem do Canadá, " +
-      "com orientação sobre os requisitos e informações necessárias.\n\n" +
-      "Você pretende viajar para o Canadá em breve?"
+      "Podemos orientar você sobre a eTA do Canadá e os requisitos " +
+      "necessários para a sua viagem.\n\n" +
+      "Para saber mais, continue pelo WhatsApp."
     );
   }
 
   // UK ETA
-  if (
-    normalized.includes("uk eta") ||
-    normalized.includes("eta reino unido") ||
-    normalized.includes("reino unido") ||
-    normalized.includes("inglaterra")
-  ) {
+  if (normalized.includes("uk eta") || normalized.includes("eta reino unido")) {
     return (
-      "Perfeito! 🇬🇧\n\n" +
-      "Podemos orientar você sobre a autorização eletrônica de viagem do Reino Unido " +
-      "e os requisitos aplicáveis ao seu caso.\n\n" +
-      "Você já possui uma data aproximada para a viagem?"
+      "Podemos orientar você sobre a autorização eletrônica de viagem " +
+      "do Reino Unido e os requisitos aplicáveis.\n\n" +
+      "Para saber mais, continue pelo WhatsApp."
     );
   }
 
   // PASSAPORTE
-  if (
-    normalized.includes("passaporte") ||
-    normalized.includes("passaporte brasileiro")
-  ) {
+  if (normalized.includes("passaporte")) {
     return (
-      "Claro! 🛂\n\n" +
-      "Também oferecemos suporte para a solicitação do passaporte brasileiro, " +
-      "com orientação sobre documentação e etapas do processo.\n\n" +
-      "Você precisa solicitar um passaporte pela primeira vez ou renovar?"
+      "Podemos auxiliar na solicitação do passaporte brasileiro, " +
+      "com orientação sobre documentação e etapas.\n\n" +
+      "Para continuar, fale com nosso consultor pelo WhatsApp."
     );
   }
 
-  // SERVIÇOS GERAIS
+  // HOSPEDAGEM
   if (
-    normalized.includes("promocao") ||
-    normalized.includes("promocões") ||
-    normalized.includes("oferta")
-  ) {
-    return (
-      "Temos opções de viagens nacionais e internacionais. " +
-      "Se você quiser, posso direcionar seu atendimento para passagens ou pacotes."
-    );
-  }
-
-  if (
-    normalized.includes("hosped") ||
     normalized.includes("hotel") ||
-    normalized.includes("acomod")
+    normalized.includes("hospedagem") ||
+    normalized.includes("hosped")
   ) {
     return (
-      "Perfeito. Também podemos ajudar com hospedagens. " +
-      "Me diga a cidade e as datas aproximadas da sua viagem."
+      "Podemos ajudar você a encontrar opções de hospedagem para sua viagem.\n\n" +
+      "Para consultar opções e valores, continue pelo WhatsApp."
     );
   }
 
+  // CRUZEIROS
   if (normalized.includes("cruzeiro")) {
     return (
-      "Excelente escolha! 🚢\n\n" +
-      "Trabalhamos com opções de cruzeiros nacionais e internacionais. " +
-      "Você procura uma viagem curta ou longa?"
+      "Temos opções de cruzeiros nacionais e internacionais.\n\n" +
+      "Para conhecer as opções disponíveis para o seu perfil, continue pelo WhatsApp."
     );
   }
 
+  // ATENDENTE
   if (
     normalized.includes("atendente") ||
+    normalized.includes("consultor") ||
     normalized.includes("humano") ||
     normalized.includes("pessoa")
   ) {
     return (
-      "Claro. Posso organizar sua solicitação aqui e, em seguida, " +
-      "encaminhar o histórico para nosso atendimento no WhatsApp."
+      "Claro! Vamos continuar seu atendimento pelo WhatsApp.\n\n" +
+      "Clique em “Continuar no WhatsApp” para falar com um consultor."
     );
   }
 
+  // QUALQUER DESTINO OU DÚVIDA NÃO RECONHECIDA
   return (
-    "Entendi. Posso ajudar principalmente com vistos, passaportes e autorizações " +
-    "de viagem.\n\n" +
-    "Escolha uma das opções acima ou me conte brevemente o que você precisa."
+    "Entendi! Para saber mais sobre as opções para o seu destino, " +
+    "vamos continuar no WhatsApp, onde um consultor poderá tirar " +
+    "todas as suas dúvidas e auxiliar no processo necessário."
   );
 };
 
@@ -255,7 +219,7 @@ const WhatsAppAssistant = forwardRef(function WhatsAppAssistant(
       .join("\n");
 
     const whatsappText = encodeURIComponent(
-      `Olá! Segue meu histórico do atendimento:\n\n${conversation}`,
+      `Olá! Gostaria de continuar meu atendimento com um consultor.\n\nHistórico:\n${conversation}`,
     );
 
     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
@@ -273,17 +237,44 @@ const WhatsAppAssistant = forwardRef(function WhatsAppAssistant(
   return (
     <>
       {isChatOpen && (
-        <div className="fixed bottom-24 right-5 z-50 w-[92vw] max-w-sm rounded-2xl bg-white shadow-2xl border border-gray-200 overflow-hidden">
+        <div
+          className="
+            fixed
+            bottom-24
+            right-5
+            z-50
+            w-[92vw]
+            max-w-sm
+            max-h-[calc(100vh-120px)]
+            rounded-2xl
+            bg-white
+            shadow-2xl
+            border
+            border-gray-200
+            overflow-hidden
+            flex
+            flex-col
+          "
+        >
           {/* HEADER */}
           <div
-            className="px-4 py-3 flex items-center justify-between"
+            className="
+              px-4
+              py-3
+              flex
+              items-center
+              justify-between
+              shrink-0
+            "
             style={{
               backgroundColor: "#0E2C45",
               color: "#F6FBF8",
             }}
           >
             <div>
-              <h3 className="font-bold">AKSTur Atendimento</h3>
+              <h3 className="font-bold text-sm">
+                AKS Vistos e Viagens Atendimento
+              </h3>
 
               <p className="text-xs opacity-80" style={{ color: "#E6F0EC" }}>
                 Vistos, passaportes e viagens
@@ -293,108 +284,174 @@ const WhatsAppAssistant = forwardRef(function WhatsAppAssistant(
             <button
               type="button"
               onClick={closeChat}
-              className="text-white text-lg leading-none hover:opacity-70"
+              className="text-white text-xl leading-none hover:opacity-70 ml-3"
               aria-label="Fechar atendimento"
             >
               ×
             </button>
           </div>
 
-          {/* MENSAGENS */}
-          <div className="max-h-80 overflow-y-auto p-3 space-y-2 bg-slate-50">
-            {chatMessages.map((msg, index) => (
-              <div
-                key={`${msg.from}-${index}`}
-                className={`flex ${
-                  msg.from === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm whitespace-pre-line ${
-                    msg.from === "user"
-                      ? "text-white"
-                      : "bg-white text-gray-800 border border-gray-200"
-                  }`}
-                  style={
-                    msg.from === "user"
-                      ? {
-                          backgroundColor: "#B78E46",
-                        }
-                      : {}
-                  }
-                >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* OPÇÕES */}
-          <div className="px-3 pt-3 bg-white">
-            <p
-              className="text-xs font-semibold uppercase tracking-wide mb-2"
-              style={{ color: "#0E2C45" }}
+          {/* CONTEÚDO */}
+          <div className="flex flex-col min-h-0">
+            {/* MENSAGENS */}
+            <div
+              className="
+                overflow-y-auto
+                px-3
+                pt-3
+                pb-2
+                space-y-2
+                max-h-[260px]
+              "
             >
-              Serviços de vistos e passaportes
-            </p>
-
-            <div className="flex flex-wrap gap-2 mb-3">
-              {quickQuestions.map((question) => (
-                <button
-                  key={question}
-                  type="button"
-                  onClick={() => handleQuickQuestion(question)}
-                  className="text-xs px-3 py-2 rounded-full border transition-all hover:-translate-y-0.5"
-                  style={{
-                    backgroundColor: "#F6FBF8",
-                    color: "#0E2C45",
-                    borderColor: "#B78E4655",
-                  }}
+              {chatMessages.map((msg, index) => (
+                <div
+                  key={`${msg.from}-${index}`}
+                  className={`flex ${
+                    msg.from === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  {question}
-                </button>
+                  <div
+                    className={`
+                      max-w-[88%]
+                      px-3
+                      py-2.5
+                      rounded-2xl
+                      text-sm
+                      whitespace-pre-line
+                      leading-relaxed
+                      ${
+                        msg.from === "user"
+                          ? "text-white"
+                          : "bg-white text-gray-800 border border-gray-200"
+                      }
+                    `}
+                    style={
+                      msg.from === "user"
+                        ? {
+                            backgroundColor: "#B78E46",
+                          }
+                        : {}
+                    }
+                  >
+                    {msg.text}
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
 
-          {/* INPUT */}
-          <div className="px-3 py-2 bg-white border-t border-gray-100">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={chatInput}
-                onChange={(event) => setChatInput(event.target.value)}
-                onKeyDown={handleChatInputKeyDown}
-                placeholder="Digite sua dúvida..."
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none"
-                style={{
-                  borderColor: "#0E2C4530",
-                }}
-              />
+            {/* OPÇÕES */}
+            <div className="px-3 pt-2 pb-3 bg-white shrink-0">
+              <p
+                className="text-xs font-semibold uppercase tracking-wide mb-2"
+                style={{ color: "#0E2C45" }}
+              >
+                Serviços de vistos e passaportes
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {quickQuestions.map((question) => (
+                  <button
+                    key={question}
+                    type="button"
+                    onClick={() => handleQuickQuestion(question)}
+                    className="
+                      text-xs
+                      px-3
+                      py-2
+                      rounded-full
+                      border
+                      transition-all
+                      hover:-translate-y-0.5
+                    "
+                    style={{
+                      backgroundColor: "#F6FBF8",
+                      color: "#0E2C45",
+                      borderColor: "#B78E4655",
+                    }}
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* RODAPÉ */}
+            <div
+              className="
+                px-3
+                pt-2
+                pb-3
+                bg-white
+                border-t
+                border-gray-100
+                shrink-0
+              "
+            >
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(event) => setChatInput(event.target.value)}
+                  onKeyDown={handleChatInputKeyDown}
+                  placeholder="Digite sua dúvida..."
+                  className="
+                    flex-1
+                    min-w-0
+                    border
+                    border-gray-300
+                    rounded-lg
+                    px-3
+                    py-2
+                    text-sm
+                    focus:outline-none
+                  "
+                  style={{
+                    borderColor: "#0E2C4530",
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={handleSendChat}
+                  className="
+                    px-3
+                    py-2
+                    rounded-lg
+                    text-white
+                    text-sm
+                    font-semibold
+                  "
+                  style={{
+                    backgroundColor: "#0E2C45",
+                  }}
+                >
+                  Enviar
+                </button>
+              </div>
 
               <button
                 type="button"
-                onClick={handleSendChat}
-                className="px-3 py-2 rounded-lg text-white text-sm font-semibold"
+                onClick={forwardConversationToWhatsApp}
+                className="
+                  w-full
+                  mt-2
+                  px-3
+                  py-2.5
+                  rounded-lg
+                  text-white
+                  text-sm
+                  font-semibold
+                  transition-opacity
+                  hover:opacity-90
+                "
                 style={{
-                  backgroundColor: "#0E2C45",
+                  backgroundColor: "#25D366",
                 }}
               >
-                Enviar
+                Continuar no WhatsApp
               </button>
             </div>
-
-            {/* WHATSAPP */}
-            <button
-              type="button"
-              onClick={forwardConversationToWhatsApp}
-              className="w-full mt-2 px-3 py-2.5 rounded-lg text-white text-sm font-semibold transition-opacity hover:opacity-90"
-              style={{
-                backgroundColor: "#25D366",
-              }}
-            >
-              Continuar no WhatsApp
-            </button>
           </div>
         </div>
       )}

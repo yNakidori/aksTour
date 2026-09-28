@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import About from "./About";
+import About from "./About.jsx";
 import Destinys from "./Destinys";
 import LocalDestinys from "./LocalDestinys";
 import InternationalDestinys from "./InternationalDestinys";

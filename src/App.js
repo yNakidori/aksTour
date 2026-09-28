@@ -13,6 +13,8 @@ import Footer from "./assets/footer";
 import VistoAmericano from "./assets/images/Visto_Americano.png";
 import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 import CookieConsentBanner from "./assets/generic/CookieConsentBanner";
+import TravelDocsExplorer from "./assets/generic/TraveldocExplorer";
+import ServicesSection from "./assets/generic/ServicesSection";
 
 const palette = {
   navy: "#0E2C45",
@@ -171,7 +173,7 @@ function App() {
       <Navbar />
 
       {/* Banner principal */}
-      <section className="w-full overflow-hidden bg-white">
+      <section className="w-full overflow-hidden bg-white pt-[64px]">
         <img
           src={Banner}
           alt="Vistos e Passaportes — Assessoria especializada"
@@ -227,7 +229,7 @@ function App() {
                   boxShadow: "0 10px 25px rgba(14,44,69,0.16)",
                 }}
               >
-                Falar com um especialista →
+                Fale conosco →
               </button>
 
               <a
@@ -256,112 +258,7 @@ function App() {
             </div>
           </div>
 
-          {/* Visual claro da capa */}
-          <div className="relative min-h-[360px] md:min-h-[430px] flex items-center justify-center">
-            <div
-              className="absolute w-72 h-72 md:w-96 md:h-96 rounded-full blur-3xl opacity-60"
-              style={{ backgroundColor: `${palette.gold}22` }}
-            />
-
-            <div
-              className="relative w-full max-w-[500px] rounded-[32px] p-5 md:p-7 border"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.78)",
-                borderColor: "rgba(14,44,69,0.10)",
-                boxShadow: "0 25px 60px rgba(14,44,69,0.12)",
-                backdropFilter: "blur(12px)",
-              }}
-            >
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <p
-                    className="text-xs font-bold uppercase tracking-widest"
-                    style={{ color: palette.gold }}
-                  >
-                    VisaFast
-                  </p>
-                  <p
-                    className="text-sm font-semibold mt-1"
-                    style={{ color: palette.navy }}
-                  >
-                    Documentação de viagem
-                  </p>
-                </div>
-                <div
-                  className="w-11 h-11 rounded-full flex items-center justify-center border"
-                  style={{
-                    backgroundColor: `${palette.navy}08`,
-                    borderColor: `${palette.navy}12`,
-                  }}
-                >
-                  🌍
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div
-                  className="col-span-2 rounded-2xl p-5 md:p-6"
-                  style={{ backgroundColor: palette.navy }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="w-16 h-20 rounded-lg flex items-center justify-center text-3xl border"
-                      style={{
-                        backgroundColor: "#F5EFE3",
-                        borderColor: `${palette.gold}55`,
-                      }}
-                    >
-                      📘
-                    </div>
-                    <div>
-                      <p
-                        className="text-xs uppercase tracking-wider"
-                        style={{ color: `${palette.pale}99` }}
-                      >
-                        Assessoria
-                      </p>
-                      <p
-                        className="text-xl md:text-2xl font-bold mt-1"
-                        style={{ color: palette.pale }}
-                      >
-                        Vistos & Passaportes
-                      </p>
-                      <p
-                        className="text-xs mt-2"
-                        style={{ color: `${palette.subtle}bb` }}
-                      >
-                        Do primeiro documento ao acompanhamento da solicitação.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {[
-                  ["🇺🇸", "Vistos"],
-                  ["🛂", "Passaportes"],
-                  ["✈️", "Autorizações"],
-                  ["✓", "Documentos"],
-                ].map(([icon, label]) => (
-                  <div
-                    key={label}
-                    className="rounded-2xl p-4 border"
-                    style={{
-                      backgroundColor: "white",
-                      borderColor: `${palette.navy}10`,
-                    }}
-                  >
-                    <span className="text-xl">{icon}</span>
-                    <p
-                      className="text-sm font-semibold mt-2"
-                      style={{ color: palette.navy }}
-                    >
-                      {label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <TravelDocsExplorer />
         </div>
 
         {/* Visto Americano - Processo */}
@@ -375,137 +272,7 @@ function App() {
       </section>
 
       {/* Serviços de vistos e passaportes */}
-      <section
-        id="visa-passports"
-        className="py-16 md:py-20 px-6"
-        style={{ backgroundColor: palette.pale }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-[0.8fr_1.7fr] gap-10 lg:gap-16 items-start">
-            <div className="lg:sticky lg:top-24">
-              <span
-                className="text-sm font-semibold uppercase tracking-widest"
-                style={{ color: palette.gold }}
-              >
-                Vistos & Passaportes
-              </span>
-              <h2
-                className="text-3xl md:text-4xl font-bold mt-3 leading-tight"
-                style={{ color: palette.navy }}
-              >
-                Encontre o serviço que você precisa
-              </h2>
-              <p
-                className="mt-4 leading-relaxed"
-                style={{ color: `${palette.navy}99` }}
-              >
-                Da renovação à primeira solicitação, cuidamos da organização dos
-                documentos e orientamos você em cada etapa.
-              </p>
-
-              <button
-                onClick={openChat}
-                className="mt-7 px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-90"
-                style={{
-                  backgroundColor: palette.gold,
-                  color: palette.navy,
-                }}
-              >
-                Consultar meu caso
-              </button>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                {
-                  icon: "✦",
-                  title: "Primeiro Visto",
-                  description:
-                    "Assessoria para a primeira solicitação de visto, com orientação sobre documentos, preenchimento dos formulários e todas as etapas do processo.",
-                },
-                {
-                  icon: "↻",
-                  title: "Renovação",
-                  description:
-                    "Assessoria para renovação de documentos e vistos, com conferência da documentação necessária.",
-                },
-                {
-                  icon: "↗",
-                  title: "Nova Solicitação Pós-Negativa",
-                  description:
-                    "Orientação para uma nova solicitação após uma negativa, considerando os pontos que precisam ser ajustados.",
-                },
-                {
-                  icon: "🇪🇺",
-                  title: "eTA — União Europeia",
-                  description:
-                    "Autorização Eletrônica de Viagem para a União Europeia, válida por 5 anos, conforme as regras aplicáveis.",
-                },
-                {
-                  icon: "🇨🇦",
-                  title: "eTA — Canadá",
-                  description:
-                    "Assessoria para a autorização eletrônica do Canadá, válida por 5 anos, conforme os requisitos oficiais.",
-                },
-                {
-                  icon: "🇬🇧",
-                  title: "UK ETA",
-                  description:
-                    "Orientação para a autorização eletrônica de viagem do Reino Unido, válida por 2 anos, conforme as regras aplicáveis.",
-                },
-                {
-                  icon: "🛂",
-                  title: "Passaporte Brasileiro",
-                  description:
-                    "Suporte na solicitação de passaporte brasileiro, com orientação sobre documentos e etapas do processo.",
-                },
-              ].map((item) => (
-                <button
-                  key={item.title}
-                  onClick={openChat}
-                  className="group text-left rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    backgroundColor: "white",
-                    borderColor: `${palette.navy}12`,
-                    boxShadow: "0 6px 24px rgba(14,44,69,0.05)",
-                  }}
-                >
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center text-xl border transition-transform duration-300 group-hover:scale-105"
-                    style={{
-                      backgroundColor: `${palette.gold}12`,
-                      borderColor: `${palette.gold}35`,
-                    }}
-                  >
-                    {item.icon}
-                  </div>
-
-                  <h3
-                    className="font-bold mt-5 mb-2"
-                    style={{ color: palette.navy }}
-                  >
-                    {item.title}
-                  </h3>
-
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ color: `${palette.navy}88` }}
-                  >
-                    {item.description}
-                  </p>
-
-                  <span
-                    className="inline-block text-xs font-bold mt-4"
-                    style={{ color: palette.gold }}
-                  >
-                    Saiba mais →
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ServicesSection onContact={openChat} />
 
       <section className="py-20 px-6" style={{ backgroundColor: palette.pale }}>
         <div className="max-w-7xl mx-auto">
