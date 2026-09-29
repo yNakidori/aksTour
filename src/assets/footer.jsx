@@ -31,7 +31,7 @@ const Footer = () => {
                 className="mb-6 text-sm font-semibold uppercase"
                 style={{ color: palette.gold }}
               >
-                Acompanhe a AKSTUR
+                Acompanhe a AKS Vistos e Viagens
               </h2>
               <ul className="font-medium" style={{ color: palette.subtle }}>
                 <li className="mb-4">
@@ -88,7 +88,7 @@ const Footer = () => {
               className="hover:underline"
               style={{ color: palette.pale }}
             >
-              AKSTUR™
+              AKS Vistos e Viagens™
             </a>
             . Todos os direitos reservados.
           </span>
@@ -120,12 +120,12 @@ const Footer = () => {
                   Políticas de Privacidade
                 </h2>
                 <p className="mb-4" style={{ color: palette.navy }}>
-                  Nós da AKSTUR respeitamos sua privacidade e estamos
-                  comprometidos em protegê-la. As informações coletadas são
-                  utilizadas para melhorar sua experiência em nossos serviços.
-                  Nenhum dado pessoal será compartilhado com terceiros sem seu
-                  consentimento, exceto quando exigido por lei. Para mais
-                  detalhes, entre em contato conosco.
+                  Nós da AKS Vistos e Viagens respeitamos sua privacidade e
+                  estamos comprometidos em protegê-la. As informações coletadas
+                  são utilizadas para melhorar sua experiência em nossos
+                  serviços. Nenhum dado pessoal será compartilhado com terceiros
+                  sem seu consentimento, exceto quando exigido por lei. Para
+                  mais detalhes, entre em contato conosco.
                 </p>
               </div>
             )}
