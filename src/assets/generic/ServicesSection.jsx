@@ -4,7 +4,8 @@ import {
   passport,
   authorizations,
   displayName,
-} from "../generic/Traveldata.jsx";
+  openWhatsApp,
+} from "./Traveldata.jsx";
 
 const palette = {
   navy: "#0E2C45",
@@ -13,10 +14,10 @@ const palette = {
   subtle: "#E6F0EC",
 };
 
-function ServiceCard({ item, onContact }) {
+function ServiceCard({ item }) {
   return (
     <button
-      onClick={() => onContact?.(item)}
+      onClick={() => openWhatsApp(item)}
       className="group text-left rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2"
       style={{
         backgroundColor: "white",
@@ -69,7 +70,7 @@ function ServiceCard({ item, onContact }) {
   );
 }
 
-function Group({ title, description, items, onContact }) {
+function Group({ title, description, items }) {
   return (
     <div>
       <h3 className="text-lg font-bold" style={{ color: palette.navy }}>
@@ -85,14 +86,14 @@ function Group({ title, description, items, onContact }) {
       )}
       <div className="grid sm:grid-cols-2 gap-4 mt-4">
         {items.map((item) => (
-          <ServiceCard key={item.id} item={item} onContact={onContact} />
+          <ServiceCard key={item.id} item={item} />
         ))}
       </div>
     </div>
   );
 }
 
-export default function ServicesSection({ onContact }) {
+export default function ServicesSection() {
   return (
     <section
       id="visa-passports"
@@ -123,7 +124,7 @@ export default function ServicesSection({ onContact }) {
             </p>
 
             <button
-              onClick={() => onContact?.()}
+              onClick={() => openWhatsApp()}
               className="mt-7 px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-90"
               style={{ backgroundColor: palette.gold, color: palette.navy }}
             >
@@ -135,13 +136,11 @@ export default function ServicesSection({ onContact }) {
             <Group
               title="Vistos e passaporte"
               items={[...visas, ...passport]}
-              onContact={onContact}
             />
             <Group
               title="Autorizações eletrônicas de viagem"
               description="Não são vistos: são autorizações pedidas online, ligadas ao passaporte. Cada país usa um nome diferente."
               items={authorizations}
-              onContact={onContact}
             />
           </div>
         </div>

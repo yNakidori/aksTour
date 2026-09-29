@@ -1,4 +1,12 @@
 import { useState } from "react";
+import {
+  Flag,
+  visas,
+  authorizations,
+  passport,
+  displayName,
+  openWhatsApp,
+} from "./Traveldata.jsx";
 
 const palette = {
   navy: "#0E2C45",
@@ -7,10 +15,6 @@ const palette = {
   subtle: "#E6F0EC",
 };
 
-/**
- * Conteúdo do explorador. Sem preços, de propósito.
- * Para adicionar um destino/serviço, basta incluir um item em `items`.
- */
 const categories = [
   {
     id: "vistos",
@@ -18,142 +22,15 @@ const categories = [
     icon: "🛂",
     intro:
       "Autorização emitida pelo consulado do país de destino. A decisão final é sempre da autoridade consular.",
-    items: [
-      {
-        id: "eua",
-        flag: "🇺🇸",
-        name: "Estados Unidos",
-        summary:
-          "Visto de turismo, negócios ou estudo. Exige formulário DS-160 e entrevista presencial no consulado.",
-        facts: [
-          ["Quem precisa", "Brasileiros que vão entrar nos EUA"],
-          ["Formato", "Formulário online + entrevista"],
-        ],
-        steps: [
-          [
-            "Análise do perfil",
-            "Entendemos o motivo da viagem e seu histórico.",
-          ],
-          ["Documentos", "Listamos e conferimos tudo o que o consulado pede."],
-          ["Formulário DS-160", "Preenchemos com você, sem inconsistências."],
-          ["Agendamento", "Reservamos data e local da entrevista."],
-          ["Preparação", "Orientamos você para o dia da entrevista."],
-        ],
-      },
-      {
-        id: "primeiro",
-        flag: "✦",
-        name: "Primeiro visto",
-        summary:
-          "Nunca solicitou? Organizamos os documentos e conduzimos cada etapa da primeira solicitação.",
-        facts: [
-          ["Quem precisa", "Quem solicita o visto pela primeira vez"],
-          ["Formato", "Varia conforme o país"],
-        ],
-        steps: [
-          ["Conversa inicial", "Definimos destino e tipo de visto."],
-          ["Documentos", "Montamos a lista personalizada."],
-          ["Formulários", "Preenchimento revisado pela nossa equipe."],
-          ["Envio", "Protocolo e acompanhamento do pedido."],
-        ],
-      },
-      {
-        id: "negativa",
-        flag: "↗",
-        name: "Após uma negativa",
-        summary:
-          "Analisamos o que pode ter pesado na decisão e ajustamos o pedido antes de uma nova solicitação.",
-        facts: [
-          ["Quem precisa", "Quem teve o visto negado"],
-          ["Formato", "Análise do caso + novo pedido"],
-        ],
-        steps: [
-          ["Análise do caso", "Revisamos o motivo informado pelo consulado."],
-          ["Ajustes", "Corrigimos documentação e informações."],
-          ["Novo pedido", "Refazemos o processo com orientação."],
-        ],
-      },
-    ],
+    items: visas,
   },
   {
     id: "autorizacoes",
     label: "Autorizações",
     icon: "✈️",
     intro:
-      "Autorizações eletrônicas de viagem: pedido 100% online, vinculado ao seu passaporte. Confira sempre a regra vigente do destino.",
-    items: [
-      {
-        id: "canada",
-        flag: "🇨🇦",
-        name: "eTA Canadá",
-        summary:
-          "Exigida do brasileiro para entrar no Canadá por via aérea. Solicitação online, ligada ao passaporte.",
-        facts: [
-          ["Validade", "Até 5 anos"],
-          ["Entrada", "Por via aérea"],
-        ],
-        steps: [
-          [
-            "Dados do passaporte",
-            "Você nos envia os dados e uma foto do documento.",
-          ],
-          ["Preenchimento", "Preenchemos o pedido online."],
-          ["Envio", "Enviamos e acompanhamos a resposta."],
-          ["Confirmação", "Você recebe a autorização por e-mail."],
-        ],
-      },
-      {
-        id: "uk",
-        flag: "🇬🇧",
-        name: "UK ETA",
-        summary:
-          "Exigida do brasileiro desde 2025 para entrar no Reino Unido. Substitui a antiga entrada sem autorização.",
-        facts: [
-          ["Validade", "Até 2 anos"],
-          ["Formato", "Solicitação online"],
-        ],
-        steps: [
-          ["Dados do passaporte", "Conferimos validade e informações."],
-          ["Preenchimento", "Cuidamos do formulário oficial."],
-          ["Envio", "Enviamos e monitoramos a análise."],
-          ["Confirmação", "Autorização vinculada ao seu passaporte."],
-        ],
-      },
-      {
-        id: "ue",
-        flag: "🇪🇺",
-        name: "União Europeia",
-        summary:
-          "Autorização eletrônica para entrar em países do espaço Schengen, conforme as regras aplicáveis.",
-        facts: [
-          ["Validade", "Até 5 anos"],
-          ["Formato", "Solicitação online"],
-        ],
-        steps: [
-          ["Dados do passaporte", "Verificamos se está dentro das exigências."],
-          ["Preenchimento", "Preenchemos o pedido com você."],
-          ["Envio", "Enviamos e acompanhamos."],
-          ["Confirmação", "Você recebe o resultado por e-mail."],
-        ],
-      },
-      {
-        id: "mexico",
-        flag: "🇲🇽",
-        name: "e-Visa México",
-        summary:
-          "Confira antes: quem tem visto americano válido está dispensado do visto mexicano. Nós verificamos o seu caso.",
-        facts: [
-          ["Dispensa", "Quem tem visto americano válido"],
-          ["Formato", "Solicitação online"],
-        ],
-        steps: [
-          ["Verificação", "Checamos se você precisa mesmo do e-Visa."],
-          ["Documentos", "Reunimos o que o portal pede."],
-          ["Solicitação", "Preenchemos e enviamos online."],
-          ["Confirmação", "Acompanhamos até a resposta."],
-        ],
-      },
-    ],
+      "Não é visto: é uma autorização eletrônica, pedida online e ligada ao seu passaporte. Cada país usa um nome diferente.",
+    items: authorizations,
   },
   {
     id: "passaporte",
@@ -161,29 +38,11 @@ const categories = [
     icon: "📘",
     intro:
       "Documento base de qualquer viagem internacional. Emitido pela Polícia Federal.",
-    items: [
-      {
-        id: "br",
-        flag: "🇧🇷",
-        name: "Passaporte brasileiro",
-        summary:
-          "Primeira via ou renovação. Orientamos sobre documentos, taxas oficiais e o agendamento.",
-        facts: [
-          ["Emissão", "Polícia Federal"],
-          ["Atenção", "Confira a validade mínima do destino"],
-        ],
-        steps: [
-          ["Situação atual", "Primeira via, renovação ou vencido?"],
-          ["Documentos", "Conferimos o que precisa levar."],
-          ["Agendamento", "Ajudamos a marcar o atendimento."],
-          ["Retirada", "Orientamos até o passaporte estar em mãos."],
-        ],
-      },
-    ],
+    items: passport,
   },
 ];
 
-export default function TravelDocsExplorer({ onContact }) {
+export default function TravelDocsExplorer() {
   const [catId, setCatId] = useState(categories[0].id);
   const [itemByCat, setItemByCat] = useState({});
 
@@ -191,7 +50,6 @@ export default function TravelDocsExplorer({ onContact }) {
   const itemId = itemByCat[catId] ?? category.items[0].id;
   const item = category.items.find((i) => i.id === itemId);
 
-  const selectCategory = (id) => setCatId(id);
   const selectItem = (id) => setItemByCat((prev) => ({ ...prev, [catId]: id }));
 
   return (
@@ -240,7 +98,7 @@ export default function TravelDocsExplorer({ onContact }) {
                 key={c.id}
                 role="tab"
                 aria-selected={active}
-                onClick={() => selectCategory(c.id)}
+                onClick={() => setCatId(c.id)}
                 className="rounded-xl px-2 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2"
                 style={{
                   backgroundColor: active ? palette.navy : "transparent",
@@ -257,7 +115,6 @@ export default function TravelDocsExplorer({ onContact }) {
           })}
         </div>
 
-        {/* Introdução da categoria */}
         <p
           key={`intro-${catId}`}
           className="tde-fade text-xs leading-relaxed mt-4"
@@ -286,7 +143,7 @@ export default function TravelDocsExplorer({ onContact }) {
                   color: palette.navy,
                 }}
               >
-                <span aria-hidden="true">{i.flag}</span>
+                <Flag code={i.code} symbol={i.symbol} size={13} />
                 {i.name}
               </button>
             );
@@ -300,16 +157,26 @@ export default function TravelDocsExplorer({ onContact }) {
           style={{ backgroundColor: palette.navy }}
         >
           <div className="flex items-center gap-3">
-            <span className="text-3xl" aria-hidden="true">
-              {item.flag}
-            </span>
+            <Flag code={item.code} symbol={item.symbol} size={24} />
             <h3
               className="text-lg md:text-xl font-bold"
               style={{ color: palette.pale }}
             >
-              {item.name}
+              {displayName(item)}
             </h3>
           </div>
+
+          {item.badge && (
+            <span
+              className="inline-block mt-2 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+              style={{
+                backgroundColor: `${palette.gold}33`,
+                color: palette.gold,
+              }}
+            >
+              {item.badge}
+            </span>
+          )}
 
           <p
             className="text-sm leading-relaxed mt-2"
@@ -317,6 +184,19 @@ export default function TravelDocsExplorer({ onContact }) {
           >
             {item.summary}
           </p>
+
+          {item.notice && (
+            <p
+              className="text-xs leading-relaxed mt-3 rounded-xl px-3 py-2 border"
+              style={{
+                color: palette.subtle,
+                borderColor: `${palette.gold}55`,
+                backgroundColor: "rgba(183,142,70,0.10)",
+              }}
+            >
+              {item.notice}
+            </p>
+          )}
 
           <dl className="grid grid-cols-2 gap-2 mt-4">
             {item.facts.map(([k, v]) => (
@@ -375,11 +255,11 @@ export default function TravelDocsExplorer({ onContact }) {
           </ol>
 
           <button
-            onClick={onContact}
+            onClick={() => openWhatsApp(item)}
             className="w-full mt-5 rounded-xl py-3 text-sm font-bold transition-opacity duration-200 hover:opacity-90 focus:outline-none focus-visible:ring-2"
             style={{ backgroundColor: palette.gold, color: palette.navy }}
           >
-            Quero ajuda com {item.name}
+            {item.cta ?? `Quero ajuda com ${displayName(item)}`}
           </button>
         </div>
       </div>

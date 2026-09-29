@@ -169,6 +169,8 @@ export const authorizations = [
       ["Confirmação", "Autorização vinculada ao seu passaporte."],
     ],
     cta: "Tirar dúvidas sobre o ETIAS",
+    whatsapp:
+      "Olá! Vim pelo site da AKS Vistos e Viagens e gostaria de tirar dúvidas sobre o ETIAS (União Europeia).",
   },
   {
     id: "australia",
@@ -242,3 +244,24 @@ export const passport = [
 /** Nome de exibição: "eTA Canadá", "ETIAS União Europeia", ou só o nome. */
 export const displayName = (item) =>
   item.acronym ? `${item.acronym} ${item.name}` : item.name;
+
+/* ---------- WhatsApp ---------- */
+
+export const WHATSAPP_NUMBER = "5511957700305";
+
+/**
+ * Abre a conversa com a empresa em outra aba, já com o texto inicial
+ * falando do serviço escolhido. Sem argumento, usa uma mensagem genérica.
+ */
+export function openWhatsApp(item) {
+  const text = item
+    ? (item.whatsapp ??
+      `Olá! Vim pelo site da AKS Vistos e Viagens e quero ajuda com ${displayName(item)}.`)
+    : "Olá! Vim pelo site da AKS Vistos e Viagens e gostaria de falar com um consultor.";
+
+  window.open(
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+    "_blank",
+    "noopener,noreferrer",
+  );
+}
