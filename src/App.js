@@ -1,6 +1,7 @@
 import "./App.css";
 import { useRef } from "react";
 import Navbar from "./assets/navbar";
+import Banner_Mobile from "./assets/images/Banner_mobile.png";
 import Banner from "./assets/images/New_Banner.png";
 import CardsBar from "./assets/homepage/cardsBar";
 import AccommodationList from "./assets/admin/AccommodationList";
@@ -10,6 +11,7 @@ import Featured from "./assets/homepage/featured";
 import Companys from "./assets/homepage/companys";
 import Clients from "./assets/homepage/clients";
 import Footer from "./assets/footer";
+import VistoAmericanoMobile from "./assets/images/Visto_Americano_Mobile.png";
 import VistoAmericano from "./assets/images/Visto_Americano.png";
 import WhatsAppAssistant from "./assets/generic/WhatsAppAssistant";
 import CookieConsentBanner from "./assets/generic/CookieConsentBanner";
@@ -174,11 +176,15 @@ function App() {
 
       {/* Banner principal */}
       <section className="w-full overflow-hidden bg-white pt-[64px]">
-        <img
-          src={Banner}
-          alt="Vistos e Passaportes — Assessoria especializada"
-          className="w-full h-auto block"
-        />
+        <picture>
+          <source media="(max-width: 767px)" srcSet={Banner_Mobile} />
+
+          <img
+            src={Banner}
+            alt="Vistos e Passaportes — Assessoria especializada"
+            className="w-full h-auto block"
+          />
+        </picture>
       </section>
 
       {/* Hero — Vistos e Passaportes */}
@@ -263,11 +269,15 @@ function App() {
 
         {/* Visto Americano - Processo */}
         <div className="relative w-full max-w-7xl mx-auto px-6 py-10 md:py-16 lg:py-20">
-          <img
-            src={VistoAmericano}
-            alt="Etapas para aplicação do Visto Americano"
-            className="w-full h-auto rounded-3xl object-cover"
-          />
+          <picture>
+            <source media="(max-width: 767px)" srcSet={VistoAmericanoMobile} />
+
+            <img
+              src={VistoAmericano}
+              alt="Etapas para aplicação do Visto Americano"
+              className="w-full h-auto rounded-3xl object-cover"
+            />
+          </picture>
         </div>
       </section>
 
