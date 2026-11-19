@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import destinations from "./destinationsData";
 
+// Mesma paleta do componente original.
 const palette = {
   navy: "#0E2C45",
   gold: "#B78E46",
@@ -9,452 +10,444 @@ const palette = {
   subtle: "#E6F0EC",
 };
 
+function ArrowIcon({ diagonal = false, size = 18 }) {
+  return diagonal ? (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  ) : (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 12h16m-7-7 7 7-7 7" />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
 const CardsBar = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const whatsappNumber = "5511957700305";
-  const whatsappLink = selectedCard
-    ? `https://wa.me/${whatsappNumber}?text=Olá! Tenho interesse em conhecer o destino: ${selectedCard.title}.`
-    : `https://wa.me/${whatsappNumber}`;
+  const images = selectedCard
+    ? selectedCard.images?.length
+      ? selectedCard.images
+      : [selectedCard.image]
+    : [];
 
-  const handleWhatsAppClick = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      window.open(whatsappLink, "_blank");
-      setIsLoading(false);
-    }, 500);
-  };
-
-  const handleCardClick = (dest) => {
+  const openDestination = (dest) => {
     setSelectedCard(dest);
     setSelectedImageIndex(0);
   };
 
-  const handleImageSelect = (index) => {
-    setSelectedImageIndex(index);
-  };
-
-  const closeModal = () => {
+  const closeDestination = () => {
     setSelectedCard(null);
     setSelectedImageIndex(0);
   };
 
-  return (
-    <div className="pt-10 pb-20">
-      {/* Header Section */}
-      <div className="mb-14 text-center">
-        <span
-          className="text-sm font-semibold uppercase tracking-widest"
-          style={{ color: palette.gold }}
-        >
-          Bem-vindo
-        </span>
-        <h1
-          className="text-4xl md:text-5xl font-bold mt-3 mb-4"
-          style={{ color: palette.navy }}
-        >
-          Destinos Populares
-        </h1>
-        <p
-          className="text-lg max-w-2xl mx-auto"
-          style={{ color: `${palette.navy}aa` }}
-        >
-          Descubra os destinos mais procurados e crie memórias inesquecíveis
-        </p>
-      </div>
+  useEffect(() => {
+    if (!selectedCard) return;
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") closeDestination();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = oldOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [selectedCard]);
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto px-4">
-        {destinations.map((dest, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
-            viewport={{ once: true }}
-            className="group relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-500"
-            style={{
-              backgroundColor: "white",
-              border: `1px solid ${palette.navy}15`,
-              boxShadow: "0 4px 20px rgba(14,44,69,0.06)",
-            }}
-            onClick={() => handleCardClick(dest)}
+  const contactViaWhatsApp = () => {
+    if (!selectedCard) return;
+    const message = `Olá! Tenho interesse em conhecer o destino: ${selectedCard.title}. Gostaria de saber mais informações.`;
+    const url = `https://wa.me/5511957700305?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <section
+      className="relative overflow-hidden py-16 md:py-24"
+      style={{ backgroundColor: palette.pale }}
+    >
+      {/* Linhas editoriais discretas, sem efeito de 'cartão genérico'. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{ backgroundColor: `${palette.navy}12` }}
+      />
+
+      <div className="relative mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
+        <header
+          className="mb-10 flex flex-col justify-between gap-7 border-b pb-8 md:mb-12 md:flex-row md:items-end"
+          style={{ borderColor: `${palette.navy}20` }}
+        >
+          <div className="max-w-2xl">
+            <div className="mb-5 flex items-center gap-3">
+              <span
+                className="h-px w-9"
+                style={{ backgroundColor: palette.gold }}
+              />
+              <span
+                className="text-[11px] font-semibold uppercase tracking-[0.28em]"
+                style={{ color: palette.gold }}
+              >
+                Explore com a AKS Tur
+              </span>
+            </div>
+            <h2
+              className="font-serif text-[clamp(2.6rem,5vw,4.5rem)] font-normal leading-[1.08] tracking-[-0.035em]"
+              style={{ color: palette.navy }}
+            >
+              Lugares que merecem{" "}
+              <span className="italic" style={{ color: palette.gold }}>
+                ser vividos.
+              </span>
+            </h2>
+            <p
+              className="mt-5 max-w-xl text-[15px] leading-7 sm:text-base"
+              style={{ color: `${palette.navy}B8` }}
+            >
+              Uma seleção de destinos para transformar sua próxima viagem em uma
+              experiência memorável.
+            </p>
+          </div>
+          <div
+            className="flex shrink-0 items-center gap-3 pb-1 text-xs font-medium uppercase tracking-[0.18em]"
+            style={{ color: palette.navy }}
           >
-            {/* Card Image */}
-            <div className="relative overflow-hidden">
+            <span
+              className="text-xl font-serif"
+              style={{ color: palette.gold }}
+            >
+              {String(destinations.length).padStart(2, "0")}
+            </span>
+            Destinos para descobrir
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
+          {destinations.map((dest, index) => (
+            <motion.button
+              type="button"
+              key={dest.id ?? `${dest.title}-${index}`}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.55,
+                delay: Math.min(index, 5) * 0.07,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              onClick={() => openDestination(dest)}
+              className={`group relative isolate block h-[390px] w-full overflow-hidden text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 sm:h-[440px] ${index === 0 ? "sm:col-span-2 xl:col-span-2" : ""}`}
+              style={{
+                outlineColor: palette.gold,
+                backgroundColor: palette.navy,
+              }}
+              aria-label={`Ver detalhes de ${dest.title}`}
+            >
               <img
                 src={dest.image}
                 alt={dest.title}
-                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                loading="lazy"
+                loading={index < 3 ? "eager" : "lazy"}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.055]"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#071B2C]/95 via-[#071B2C]/20 to-[#071B2C]/10" />
               <div
-                className="absolute inset-0 opacity-60 group-hover:opacity-40 transition-opacity duration-300"
-                style={{
-                  background: `linear-gradient(to top, ${palette.navy}cc 0%, transparent 50%, ${palette.navy}44 100%)`,
-                }}
-              ></div>
+                className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{ backgroundColor: `${palette.navy}25` }}
+              />
 
-              {/* Overlay com informações */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-xl font-bold mb-1">{dest.title}</h3>
-                <div className="flex items-center text-sm opacity-90">
-                  <svg
-                    className="w-4 h-4 mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  {dest.location}
+              <div className="absolute left-6 top-6 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 sm:left-7 sm:top-7">
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: palette.gold }}
+                />
+                {index === 0
+                  ? "Em destaque"
+                  : `Destino ${String(index + 1).padStart(2, "0")}`}
+              </div>
+
+              <div className="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition-all duration-300 group-hover:border-transparent group-hover:bg-white group-hover:text-[#0E2C45] sm:right-7 sm:top-7">
+                <ArrowIcon diagonal size={18} />
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-7 md:p-8">
+                <div className="mb-3 flex items-center gap-1.5 text-xs font-medium tracking-wide text-white/75">
+                  <PinIcon /> {dest.location}
+                </div>
+                <h3
+                  className={`max-w-[440px] font-serif font-normal leading-[1.08] tracking-tight ${index === 0 ? "text-4xl md:text-5xl" : "text-[32px]"}`}
+                >
+                  {dest.title}
+                </h3>
+                <div className="mt-6 flex items-end justify-between gap-3 border-t border-white/30 pt-5">
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-[0.18em] text-white/60">
+                      A partir de
+                    </span>
+                    <span className="mt-1 block text-xl font-semibold tracking-tight sm:text-2xl">
+                      {dest.price}
+                    </span>
+                  </div>
+                  <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
+                    Explorar <ArrowIcon size={16} />
+                  </span>
                 </div>
               </div>
-            </div>
+            </motion.button>
+          ))}
+        </div>
 
-            {/* Card Body */}
-            <div className="p-6">
-              <div className="flex items-center justify-between">
-                <span
-                  className="text-lg font-bold"
-                  style={{ color: palette.gold }}
-                >
-                  {dest.price}
-                </span>
-              </div>
-
-              <button
-                className="w-full mt-4 py-3 rounded-xl font-semibold transition-all duration-300 transform group-hover:scale-105"
-                style={{
-                  backgroundColor: palette.gold,
-                  color: palette.pale,
-                }}
-              >
-                Ver Detalhes
-              </button>
-            </div>
-          </motion.div>
-        ))}
+        <div
+          className="mt-8 flex items-center gap-4 text-xs"
+          style={{ color: `${palette.navy}99` }}
+        >
+          <span
+            className="h-px w-8"
+            style={{ backgroundColor: palette.gold }}
+          />
+          Seu próximo capítulo começa aqui.
+        </div>
       </div>
 
-      {/* Modal Moderno */}
       <AnimatePresence>
         {selectedCard && (
           <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061827]/80 p-3 backdrop-blur-[6px] sm:p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeModal}
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) closeDestination();
+            }}
           >
             <motion.div
-              initial={{ scale: 0.5, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.5, opacity: 0, y: 50 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="rounded-3xl max-w-6xl w-full mx-auto shadow-2xl max-h-[90vh] overflow-y-auto relative"
-              style={{
-                backgroundColor: "white",
-                border: `1px solid ${palette.navy}15`,
-              }}
-              onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="destination-dialog-title"
+              initial={{ opacity: 0, y: 26, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 18, scale: 0.985 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="relative grid max-h-[94vh] w-full max-w-[1150px] grid-cols-1 overflow-y-auto bg-white shadow-2xl lg:max-h-[88vh] lg:grid-cols-[1.1fr_0.9fr] lg:overflow-hidden"
             >
-              {/* Close Button */}
               <button
-                onClick={closeModal}
-                className="absolute top-6 right-6 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-gray-800 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 hover:rotate-90"
+                type="button"
+                onClick={closeDestination}
+                aria-label="Fechar detalhes"
+                className="absolute right-4 top-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#0E2C45] shadow-lg transition-transform hover:rotate-90 focus-visible:outline-2 focus-visible:outline-offset-2 sm:right-6 sm:top-6"
               >
                 <svg
-                  className="w-6 h-6"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  aria-hidden="true"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path d="M5 5 19 19M19 5 5 19" />
                 </svg>
               </button>
 
-              <div className="flex flex-col">
-                {/* Seção de Imagem Principal - Movida para o topo */}
-                <div className="relative">
-                  <div className="relative h-80 overflow-hidden rounded-t-3xl">
-                    <img
-                      src={
-                        selectedCard.images &&
-                        selectedCard.images[selectedImageIndex]
-                          ? selectedCard.images[selectedImageIndex]
-                          : selectedCard.image
-                      }
-                      alt={selectedCard.title}
-                      className="w-full h-full object-cover"
+              {/* Galeria com miniaturas: elimina controles duplicados sobre a fotografia. */}
+              <div className="flex min-h-[330px] flex-col bg-[#0E2C45] lg:min-h-0">
+                <div className="relative h-[300px] overflow-hidden sm:h-[430px] lg:h-auto lg:min-h-0 lg:flex-1">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={selectedImageIndex}
+                      src={images[selectedImageIndex] || images[0]}
+                      alt={`${selectedCard.title} — imagem ${selectedImageIndex + 1}`}
+                      initial={{ opacity: 0, scale: 1.025 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.24 }}
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-
-                    {/* Status Badge */}
-                    <div className="absolute top-6 left-6 bg-green-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center">
-                      <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
-                      Disponível agora
-                    </div>
-
-                    {/* Title Overlay */}
-                    <div className="absolute bottom-6 left-6 right-6 text-white">
-                      <h2 className="text-3xl md:text-4xl font-bold mb-2">
-                        {selectedCard.title}
-                      </h2>
-                      <div className="flex items-center text-lg">
-                        <svg
-                          className="w-5 h-5 mr-2"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        {selectedCard.location}
-                      </div>
-                    </div>
-
-                    {/* Image Gallery Indicators */}
-                    {selectedCard.images && selectedCard.images.length > 1 && (
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                        {selectedCard.images.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleImageSelect(index)}
-                            className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                              index === selectedImageIndex
-                                ? "bg-white scale-125"
-                                : "bg-white/50 hover:bg-white/80"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    )}
+                  </AnimatePresence>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071B2C]/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-white sm:bottom-8 sm:left-8">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em]">
+                      Explore o destino
+                    </span>
+                    <span className="font-serif text-xl">
+                      {String(selectedImageIndex + 1).padStart(2, "0")} /{" "}
+                      {String(images.length).padStart(2, "0")}
+                    </span>
                   </div>
-
-                  {/* Thumbnail Gallery */}
-                  {selectedCard.images && selectedCard.images.length > 1 && (
-                    <div className="absolute bottom-4 left-4 right-4 flex space-x-2">
-                      {selectedCard.images.slice(0, 4).map((img, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleImageSelect(index)}
-                          className={`relative h-16 w-16 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
-                            index === selectedImageIndex
-                              ? "border-white scale-110"
-                              : "border-white/50 hover:border-white/80"
-                          }`}
-                        >
-                          <img
-                            src={img}
-                            alt={`Thumbnail ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
-
-                {/* Seção de Informações */}
-                <div className="p-8 space-y-6">
-                  {/* Description */}
-                  <div
-                    className="p-6 rounded-2xl border"
-                    style={{
-                      backgroundColor: `${palette.gold}15`,
-                      borderColor: `${palette.gold}40`,
-                    }}
-                  >
-                    <p
-                      className="text-lg leading-relaxed"
-                      style={{ color: `${palette.navy}bb` }}
-                    >
-                      {selectedCard.description}
-                    </p>
-                  </div>
-
-                  {/* Features Grid - Apenas Suporte e Pagamento Seguro */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div
-                      className="flex items-center space-x-3 p-4 rounded-2xl border"
-                      style={{
-                        backgroundColor: `${palette.gold}15`,
-                        borderColor: `${palette.gold}40`,
-                      }}
-                    >
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: palette.gold }}
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          style={{ color: palette.pale }}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p
-                          className="font-semibold"
-                          style={{ color: palette.navy }}
-                        >
-                          Suporte 24/7
-                        </p>
-                        <p
-                          className="text-sm"
-                          style={{ color: `${palette.navy}99` }}
-                        >
-                          Estamos aqui por você
-                        </p>
-                      </div>
-                    </div>
-
-                    <div
-                      className="flex items-center space-x-3 p-4 rounded-2xl border"
-                      style={{
-                        backgroundColor: `${palette.gold}15`,
-                        borderColor: `${palette.gold}40`,
-                      }}
-                    >
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: palette.gold }}
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          style={{ color: palette.pale }}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p
-                          className="font-semibold"
-                          style={{ color: palette.navy }}
-                        >
-                          Pagamento seguro
-                        </p>
-                        <p
-                          className="text-sm"
-                          style={{ color: `${palette.navy}99` }}
-                        >
-                          Dados protegidos
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price and Booking Section - Sem avaliações */}
-                  <div
-                    className="rounded-3xl p-8 text-white"
-                    style={{ backgroundColor: palette.navy }}
-                  >
-                    <div className="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-                      <div className="text-center md:text-left">
-                        <p
-                          style={{ color: palette.subtle }}
-                          className="text-sm mb-1"
-                        >
-                          A partir de
-                        </p>
-                        <div
-                          className="text-4xl md:text-5xl font-bold mb-2"
-                          style={{ color: palette.gold }}
-                        >
-                          {selectedCard.price}
-                        </div>
-                        <p style={{ color: palette.subtle }}>por pessoa</p>
-                      </div>
-
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={handleWhatsAppClick}
-                        disabled={isLoading}
-                        className="font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed min-w-[250px] justify-center"
+                {images.length > 1 && (
+                  <div className="flex shrink-0 gap-2 overflow-x-auto p-3 sm:gap-3 sm:p-4">
+                    {images.map((img, index) => (
+                      <button
+                        key={`${img}-${index}`}
+                        type="button"
+                        aria-label={`Exibir imagem ${index + 1}`}
+                        aria-pressed={selectedImageIndex === index}
+                        onClick={() => setSelectedImageIndex(index)}
+                        className={`h-[64px] w-[84px] shrink-0 overflow-hidden border-2 transition-opacity sm:h-[74px] sm:w-[96px] ${selectedImageIndex === index ? "opacity-100" : "border-transparent opacity-55 hover:opacity-90"}`}
                         style={{
-                          backgroundColor: palette.gold,
-                          color: palette.pale,
+                          borderColor:
+                            selectedImageIndex === index
+                              ? palette.gold
+                              : "transparent",
                         }}
                       >
-                        {isLoading ? (
-                          <div className="flex items-center space-x-2">
-                            <svg
-                              className="animate-spin w-5 h-5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              ></circle>
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              ></path>
-                            </svg>
-                            <span>Abrindo WhatsApp...</span>
-                          </div>
-                        ) : (
-                          <>
-                            <svg
-                              className="w-6 h-6"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.388" />
-                            </svg>
-                            <span>Reservar via WhatsApp</span>
-                          </>
-                        )}
-                      </motion.button>
-                    </div>
+                        <img
+                          src={img}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </button>
+                    ))}
                   </div>
+                )}
+              </div>
+
+              {/* Informações sem badges de disponibilidade ou garantias não verificadas. */}
+              <div
+                className="flex flex-col overflow-y-visible lg:max-h-[88vh] lg:overflow-y-auto"
+                style={{ backgroundColor: palette.pale }}
+              >
+                <div className="flex-1 px-6 pb-8 pt-10 sm:px-10 sm:pt-12 lg:px-12 lg:pt-16">
+                  <div className="mb-6 flex items-center gap-3">
+                    <span
+                      className="h-px w-7"
+                      style={{ backgroundColor: palette.gold }}
+                    />
+                    <span
+                      className="text-[11px] font-semibold uppercase tracking-[0.22em]"
+                      style={{ color: palette.gold }}
+                    >
+                      Conheça este destino
+                    </span>
+                  </div>
+                  <h2
+                    id="destination-dialog-title"
+                    className="font-serif text-[clamp(2.5rem,4vw,4rem)] font-normal leading-[1.04] tracking-[-0.03em]"
+                    style={{ color: palette.navy }}
+                  >
+                    {selectedCard.title}
+                  </h2>
+                  <div
+                    className="mt-5 flex items-center gap-2 text-sm"
+                    style={{ color: `${palette.navy}B0` }}
+                  >
+                    <PinIcon /> {selectedCard.location}
+                  </div>
+                  <div
+                    className="my-8 h-px w-full"
+                    style={{ backgroundColor: `${palette.navy}23` }}
+                  />
+
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+                    style={{ color: palette.gold }}
+                  >
+                    A experiência
+                  </p>
+                  <p
+                    className="mt-4 whitespace-pre-line text-[15px] leading-[1.9]"
+                    style={{ color: `${palette.navy}C9` }}
+                  >
+                    {selectedCard.description}
+                  </p>
+                </div>
+                <div
+                  className="border-t px-6 py-7 sm:px-10 lg:px-12"
+                  style={{
+                    borderColor: `${palette.navy}1F`,
+                    backgroundColor: "white",
+                  }}
+                >
+                  <div className="mb-5 flex items-end justify-between gap-4">
+                    <div>
+                      <p
+                        className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em]"
+                        style={{ color: `${palette.navy}9C` }}
+                      >
+                        Valor a partir de
+                      </p>
+                      <p
+                        className="text-3xl font-semibold tracking-tight"
+                        style={{ color: palette.navy }}
+                      >
+                        {selectedCard.price}
+                      </p>
+                    </div>
+                    <span
+                      className="mb-1 text-xs"
+                      style={{ color: `${palette.navy}99` }}
+                    >
+                      Consulte condições
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={contactViaWhatsApp}
+                    className="group flex w-full items-center justify-between px-5 py-4 text-sm font-semibold transition-colors hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    style={{
+                      backgroundColor: palette.gold,
+                      color: "white",
+                      outlineColor: palette.navy,
+                    }}
+                  >
+                    Solicitar informações pelo WhatsApp
+                    <ArrowIcon size={20} />
+                  </button>
+                  <p
+                    className="mt-3 text-center text-[11px]"
+                    style={{ color: `${palette.navy}85` }}
+                  >
+                    Atendimento personalizado para planejar sua viagem.
+                  </p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 };
 

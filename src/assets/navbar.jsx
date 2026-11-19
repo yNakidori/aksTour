@@ -1,156 +1,166 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import logo from "../assets/akslogo.png";
 import "./navbar.css";
 
-const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+const navigation = [
+  { label: "Início", to: "/", end: true },
+  { label: "Serviços", to: "/services" },
+  { label: "Sobre nós", to: "/about" },
+  { label: "Contato", to: "/contact" },
+];
+
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const dropdownRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const toggleRef = useRef(null);
+  const location = useLocation();
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  useEffect(() => {
+    const updateScroll = () => setIsScrolled(window.scrollY > 24);
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    return () => window.removeEventListener("scroll", updateScroll);
   }, []);
 
-  // const handleDropdownClick = () => {
-  //   setIsDropdownOpen((s) => !s);
-  // };
-
-  // Close dropdown on outside click or Esc
   useEffect(() => {
-    function onDocClick(e) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target) &&
-        isDropdownOpen
-      ) {
-        setIsDropdownOpen(false);
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
       }
-    }
-
-    function onKey(e) {
-      if (e.key === "Escape" && isDropdownOpen) setIsDropdownOpen(false);
-    }
-
-    document.addEventListener("click", onDocClick);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("click", onDocClick);
-      document.removeEventListener("keydown", onKey);
     };
-  }, [isDropdownOpen]);
+    const onPointerDown = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 900) setMenuOpen(false);
+    };
 
-  // const isMobileDevice = () =>
-  //   window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [menuOpen]);
 
   return (
-    <nav
-      style={{ backgroundColor: "rgba(16,42,67,0.85)" }}
-      className={`navbar fixed top-0 left-0 right-0 z-50 backdrop-blur-md shadow-lg rounded-b-2xl transition-all duration-300 ${
-        isScrolled ? "scrolled" : ""
-      }`}
+    <header
+      ref={navRef}
+      className={`aks-header${isScrolled ? " aks-header--scrolled" : ""}${menuOpen ? " aks-header--open" : ""}`}
     >
-      <div className="navbar-container">
-        <img src={logo} alt="Logo" className="logo" />
+      <div className="aks-header__hairline" aria-hidden="true" />
+      <nav className="aks-header__inner" aria-label="Navegação principal">
+        <Link
+          className="aks-header__brand"
+          to="/"
+          aria-label="AKS Tur — página inicial"
+        >
+          <img src={logo} alt="AKS Tur" className="aks-header__logo" />
+        </Link>
+
+        <div className="aks-header__desktop">
+          <ul className="aks-header__links">
+            {navigation.map(({ label, to, end }) => (
+              <li key={to}>
+                <NavLink
+                  end={end}
+                  to={to}
+                  className={({ isActive }) =>
+                    `aks-header__link${isActive ? " aks-header__link--active" : ""}`
+                  }
+                >
+                  {label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <span className="aks-header__separator" aria-hidden="true" />
+          <Link className="aks-header__cta" to="/contact">
+            Planeje sua viagem
+            <svg
+              viewBox="0 0 24 24"
+              width="17"
+              height="17"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              aria-hidden="true"
+            >
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+        </div>
 
         <button
-          className="mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          ref={toggleRef}
+          className="aks-header__toggle"
+          type="button"
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
+          aria-controls="aks-mobile-nav"
+          onClick={() => setMenuOpen((open) => !open)}
         >
-          {isMobileMenuOpen ? "✕" : "☰"}
+          <span className="aks-header__toggle-line" />
+          <span className="aks-header__toggle-line" />
         </button>
+      </nav>
 
-        <ul className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-
-          <li>
-            <Link to="/services">Serviços</Link>
-          </li>
-
-          <li>
-            <Link to="/about">Sobre</Link>
-          </li>
-
-          <li>
-            <Link to="/contact">Contato</Link>
-          </li>
-
-          {/* <li
-            className={`dropdown ${isDropdownOpen ? "open" : ""}`}
-            ref={dropdownRef}
-            onMouseEnter={() => !isMobileDevice() && setIsDropdownOpen(true)}
-            onMouseLeave={() => !isMobileDevice() && setIsDropdownOpen(false)}
+      <div
+        id="aks-mobile-nav"
+        className="aks-header__mobile"
+        hidden={!menuOpen}
+      >
+        <div className="aks-header__mobile-inner">
+          <p className="aks-header__mobile-label">Explore a AKS Tur</p>
+          <ul>
+            {navigation.map(({ label, to, end }, index) => (
+              <li key={to}>
+                <NavLink
+                  to={to}
+                  end={end}
+                  className={({ isActive }) =>
+                    `aks-header__mobile-link${isActive ? " aks-header__mobile-link--active" : ""}`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span className="aks-header__mobile-index">0{index + 1}</span>
+                  <span>{label}</span>
+                  <span className="aks-header__mobile-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/contact"
+            className="aks-header__mobile-cta"
+            onClick={() => setMenuOpen(false)}
           >
-            <button
-              ref={dropdownButtonRef}
-              aria-haspopup="true"
-              aria-expanded={isDropdownOpen}
-              className="dropdown-toggle"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDropdownClick();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleDropdownClick();
-                }
-              }}
-            >
-              Destinos ▾
-            </button>
-
-            <ul className="dropdown-menu" role="menu" aria-label="Destinos">
-              <li role="none">
-                <Link
-                  role="menuitem"
-                  to="/destinys/nacionais"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Nacionais
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  role="menuitem"
-                  to="/destinys/internacionais"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Internacionais
-                </Link>
-              </li>
-            </ul>
-          </li> */}
-
-          {/* <li>
-            <Link to="/events">Ingressos</Link>
-          </li>
-          <li>
-            <Link to="/cruise">Cruzeiros</Link>
-          </li>
-          <li>
-            <Link to="/bus">Rodoviário</Link>
-          </li> */}
-
-          {/* <li>
-            <Link to="/social">Social</Link>
-          </li> */}
-        </ul>
+            Planeje sua viagem <span aria-hidden="true">→</span>
+          </Link>
+          <p className="aks-header__mobile-footer">
+            Sua próxima experiência começa aqui.
+          </p>
+        </div>
       </div>
-    </nav>
+    </header>
   );
-};
-
-export default Navbar;
+}

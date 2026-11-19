@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Flag,
   visas,
@@ -14,134 +15,239 @@ const palette = {
   subtle: "#E6F0EC",
 };
 
-function ServiceCard({ item }) {
+function ArrowIcon({ diagonal = false, className = "" }) {
+  return diagonal ? (
+    <svg
+      className={className}
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 19 19 5M8 5h11v11" />
+    </svg>
+  ) : (
+    <svg
+      className={className}
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 12h16m-6-6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function ServiceRow({ item, index }) {
   return (
     <button
+      type="button"
       onClick={() => openWhatsApp(item)}
-      className="group text-left rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2"
-      style={{
-        backgroundColor: "white",
-        borderColor: `${palette.navy}12`,
-        boxShadow: "0 6px 24px rgba(14,44,69,0.05)",
-      }}
+      className="group relative grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 border-b px-0 py-6 text-left outline-none transition-colors duration-300 hover:bg-[#0E2C45]/[0.025] focus-visible:bg-[#0E2C45]/[0.04] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#B78E46] sm:gap-6 sm:px-4 sm:py-7"
+      style={{ borderColor: `${palette.navy}17` }}
+      aria-label={`Consultar ${displayName(item)} pelo WhatsApp`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center text-xl border transition-transform duration-300 group-hover:scale-105"
-          style={{
-            backgroundColor: `${palette.gold}12`,
-            borderColor: `${palette.gold}35`,
-          }}
-        >
-          <Flag code={item.code} symbol={item.symbol} size={16} />
-        </div>
+      <span className="pointer-events-none absolute bottom-[-1px] left-0 h-px w-0 bg-[#B78E46] transition-all duration-500 group-hover:w-full" />
 
-        {item.badge && (
-          <span
-            className="rounded-full px-2.5 py-1 text-[11px] font-semibold"
-            style={{
-              backgroundColor: `${palette.gold}22`,
-              color: palette.gold,
-            }}
-          >
-            {item.badge}
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-[#0E2C45]/10 bg-white sm:h-14 sm:w-14">
+        <Flag code={item.code} symbol={item.symbol} size={21} />
+      </span>
+
+      <span className="block min-w-0">
+        <span className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B78E46]">
+            Serviço {String(index + 1).padStart(2, "0")}
+          </span>
+          {item.badge && (
+            <span className="border-l border-[#B78E46]/40 pl-3 text-[10px] font-medium uppercase tracking-[0.1em] text-[#0E2C45]/65">
+              {item.badge}
+            </span>
+          )}
+        </span>
+        <span className="block text-[18px] font-semibold leading-snug tracking-[-0.025em] text-[#0E2C45] transition-colors duration-300 group-hover:text-[#B78E46] sm:text-[21px]">
+          {displayName(item)}
+        </span>
+        {item.summary && (
+          <span className="mt-2 block max-w-xl text-[13px] leading-[1.7] text-[#0E2C45]/65 sm:text-sm">
+            {item.summary}
           </span>
         )}
-      </div>
+      </span>
 
-      <h3 className="font-bold mt-5 mb-2" style={{ color: palette.navy }}>
-        {displayName(item)}
-      </h3>
-
-      <p
-        className="text-sm leading-relaxed"
-        style={{ color: `${palette.navy}88` }}
-      >
-        {item.summary}
-      </p>
-
-      <span
-        className="inline-block text-xs font-bold mt-4"
-        style={{ color: palette.gold }}
-      >
-        Saiba mais →
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#0E2C45]/15 text-[#0E2C45] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#B78E46] group-hover:bg-[#B78E46] group-hover:text-white sm:h-11 sm:w-11">
+        <ArrowIcon diagonal />
       </span>
     </button>
   );
 }
 
-function Group({ title, description, items }) {
+function ServiceGroup({ number, eyebrow, title, description, items }) {
+  if (!items?.length) return null;
+
   return (
-    <div>
-      <h3 className="text-lg font-bold" style={{ color: palette.navy }}>
-        {title}
-      </h3>
-      {description && (
-        <p
-          className="text-sm mt-1 mb-4 max-w-xl"
-          style={{ color: `${palette.navy}88` }}
-        >
-          {description}
-        </p>
-      )}
-      <div className="grid sm:grid-cols-2 gap-4 mt-4">
-        {items.map((item) => (
-          <ServiceCard key={item.id} item={item} />
+    <section
+      aria-labelledby={`travel-service-group-${number}`}
+      className="scroll-mt-28"
+    >
+      <div className="flex items-start gap-4 border-b border-[#0E2C45]/25 pb-6 sm:gap-6">
+        <span className="pt-1 font-serif text-[27px] italic leading-none text-[#B78E46] sm:text-[32px]">
+          {number}
+        </span>
+        <div>
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#B78E46]">
+            {eyebrow}
+          </p>
+          <h3
+            id={`travel-service-group-${number}`}
+            className="font-serif text-[27px] font-normal leading-tight tracking-[-0.03em] text-[#0E2C45] sm:text-[35px]"
+          >
+            {title}
+          </h3>
+          {description && (
+            <p className="mt-3 max-w-xl text-sm leading-7 text-[#0E2C45]/65">
+              {description}
+            </p>
+          )}
+        </div>
+      </div>
+      <div>
+        {items.map((item, index) => (
+          <ServiceRow
+            key={item.id ?? `${number}-${index}`}
+            item={item}
+            index={index}
+          />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
 export default function ServicesSection() {
+  const [activeTab, setActiveTab] = useState("all");
+
+  const groups = [
+    {
+      key: "documents",
+      number: "01",
+      eyebrow: "Documentação internacional",
+      title: "Vistos & passaportes",
+      description:
+        "Orientação para solicitações, renovações e organização documental.",
+      items: [...visas, ...passport],
+    },
+    {
+      key: "authorizations",
+      number: "02",
+      eyebrow: "Requisitos de entrada",
+      title: "Autorizações eletrônicas",
+      description:
+        "Não são vistos: são autorizações solicitadas online e vinculadas ao passaporte. As regras variam conforme o destino.",
+      items: authorizations,
+    },
+  ];
+
+  const visibleGroups =
+    activeTab === "all"
+      ? groups
+      : groups.filter((group) => group.key === activeTab);
+
   return (
     <section
       id="visa-passports"
-      className="py-16 md:py-20 px-6"
-      style={{ backgroundColor: palette.pale }}
+      className="relative isolate overflow-hidden bg-[#F6FBF8] py-20 sm:py-24 lg:py-28"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-[0.8fr_1.7fr] gap-10 lg:gap-16 items-start">
-          <div className="lg:sticky lg:top-24">
-            <span
-              className="text-sm font-semibold uppercase tracking-widest"
-              style={{ color: palette.gold }}
-            >
-              Vistos & Passaportes
-            </span>
-            <h2
-              className="text-3xl md:text-4xl font-bold mt-3 leading-tight"
-              style={{ color: palette.navy }}
-            >
-              Encontre o serviço que você precisa
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#0E2C45]/10" />
+      <div className="pointer-events-none absolute -left-28 top-44 h-96 w-96 rounded-full border border-[#B78E46]/10" />
+      <div className="pointer-events-none absolute -left-16 top-56 h-72 w-72 rounded-full border border-[#B78E46]/10" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] lg:gap-16 xl:gap-24">
+          <div className="lg:sticky lg:top-28">
+            <div className="mb-8 flex items-center gap-3">
+              <span className="h-px w-10 bg-[#B78E46]" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#B78E46]">
+                Assessoria de viagem
+              </span>
+            </div>
+
+            <h2 className="max-w-lg font-serif text-[clamp(2.7rem,4.3vw,4.6rem)] font-normal leading-[1.08] tracking-[-0.045em] text-[#0E2C45]">
+              O mundo começa com a{" "}
+              <span className="italic text-[#B78E46]">documentação certa.</span>
             </h2>
-            <p
-              className="mt-4 leading-relaxed"
-              style={{ color: `${palette.navy}99` }}
-            >
-              Da renovação à primeira solicitação, cuidamos da organização dos
-              documentos e orientamos você em cada etapa.
+            <p className="mt-7 max-w-md text-[15px] leading-8 text-[#0E2C45]/70">
+              Viajar deve ser sobre descobrir novos lugares, não sobre enfrentar
+              burocracias. Ajudamos você a entender os requisitos e organizar
+              cada etapa da sua solicitação.
             </p>
 
             <button
+              type="button"
               onClick={() => openWhatsApp()}
-              className="mt-7 px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-90"
-              style={{ backgroundColor: palette.gold, color: palette.navy }}
+              className="group mt-9 inline-flex min-h-14 items-center gap-6 bg-[#0E2C45] px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.13em] text-white transition-colors duration-300 hover:bg-[#B78E46] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B78E46]"
             >
-              Consultar meu caso
+              Falar com um especialista
+              <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
             </button>
+
+            <div className="mt-12 flex max-w-sm items-start gap-4 border-t border-[#0E2C45]/15 pt-6">
+              <span className="font-serif text-3xl italic text-[#B78E46]">
+                “
+              </span>
+              <p className="text-xs leading-6 text-[#0E2C45]/60">
+                Atendimento personalizado para você planejar sua próxima viagem
+                com mais tranquilidade.
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-12">
-            <Group
-              title="Vistos e passaporte"
-              items={[...visas, ...passport]}
-            />
-            <Group
-              title="Autorizações eletrônicas de viagem"
-              description="Não são vistos: são autorizações pedidas online, ligadas ao passaporte. Cada país usa um nome diferente."
-              items={authorizations}
-            />
+          <div>
+            <div
+              className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-[#0E2C45]/15 pb-5"
+              role="group"
+              aria-label="Filtrar serviços de viagem"
+            >
+              {[
+                { key: "all", label: "Todos os serviços" },
+                { key: "documents", label: "Vistos e passaportes" },
+                { key: "authorizations", label: "Autorizações" },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  aria-pressed={activeTab === tab.key}
+                  className={`relative pb-1 text-[12px] font-semibold tracking-[0.01em] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B78E46] ${activeTab === tab.key ? "text-[#0E2C45]" : "text-[#0E2C45]/50 hover:text-[#0E2C45]"}`}
+                >
+                  {tab.label}
+                  <span
+                    className={`absolute -bottom-[21px] left-0 h-[2px] bg-[#B78E46] transition-all duration-200 ${activeTab === tab.key ? "w-full" : "w-0"}`}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-14">
+              {visibleGroups.map((group) => (
+                <ServiceGroup key={group.key} {...group} />
+              ))}
+            </div>
+
+            <p className="mt-8 text-xs leading-6 text-[#0E2C45]/55">
+              Os requisitos e prazos podem variar conforme o país e o perfil do
+              viajante. Consulte nossa equipe para orientações sobre o seu caso.
+            </p>
           </div>
         </div>
       </div>
